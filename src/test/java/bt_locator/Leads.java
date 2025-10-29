@@ -79,7 +79,7 @@ public class Leads {
     public String reqStatus = "//label[@for='status']//small[normalize-space()='*']";
     public String dropdownStatus = "//button[@data-id='status']";
     public String inputSearchOfStatus = "//div[@app-field-wrapper='status']//input[@type='search']";
-    public String dropdownListStatus = "//div[@app-field-wrapper='status']//a[@id='bs-select-5-1']";
+    public String dropdownListStatus = "//div[@app-field-wrapper='status']//span[normalize-space()='Active']";
     public String buttonAddStatus = "//div[@app-field-wrapper='status']//div[@class= 'input-group-btn']";
     public String inputAddStatus = "//input[@id='new_status_name']";
 
@@ -87,18 +87,19 @@ public class Leads {
     public String reqSource = "//label[@for='source']//small[normalize-space()='*']";
     public String dropdownSource = "//button[@data-id='source']";
     public String inputSearchOfSource = "//div[@app-field-wrapper='source']//input[@type='search']";
-    public String dropdownListSource = "//div[@app-field-wrapper='source']//a[@id='bs-select-6-1']";
+    public String dropdownListSource = "//div[@app-field-wrapper='source']//span[normalize-space()='Facebook']";
     public String buttonAddSource = "//div[@app-field-wrapper='source']//div[@class= 'input-group-btn']";
     public String inputAddSource = "//input[@id='new_source_name']";
 
     public String labelAssigned = "//label[@for='assigned']";
     public String dropdownAssigned = "//button[@data-id='assigned']";
     public String inputSearchOfAssigned = "//div[@app-field-wrapper='assigned']//input[@type='search']";
-    public String dropdownListAssigned = "//div[@app-field-wrapper='assigned']//a[@id='bs-select-7-2']";
+    public String dropdownListAssigned = "//div[@app-field-wrapper='assigned']//span[normalize-space()='Admin Example']";
 
     public String labelTags = "//label[@for='tags']";
     public String inputAddTags = "//div[@id='inputTagsWrapper']//input[@placeholder='Tag']";
     public String dropdownTags = "//div[@id='inputTagsWrapper']//ul[@id='ui-id-2']";
+    public String dropdownListTags = "//div[@id='inputTagsWrapper']//div[normalize-space()='hieu']";
 
     public String labelName = "//div[@id ='tab_lead_profile']//label[@for='name']";
     public String reqName = "//div[@id ='tab_lead_profile']//label[@for='name']//small[normalize-space()='*']";
@@ -125,7 +126,7 @@ public class Leads {
     public String labelCountry = "//label[@for='country']";
     public String dropdownCountry = "//button[@data-id='country']";
     public String inputSearchOfCountry = "//div[@app-field-wrapper='country']//input[@type='search']";
-    public String dropdownListCountry = "//div[@id='bs-select-8']//a[@id='bs-select-8-2']";
+    public String dropdownListCountry = "//div[starts-with(@id,'bs-select-8')]//span[normalize-space()='Aland Islands']";
 
     public String labelPhone = "//label[@for='phonenumber']";
     public String inputPhone = "//input[@id='phonenumber']";
@@ -140,7 +141,7 @@ public class Leads {
     public String labelDefaultLanguage = "//label[@for='default_language']";
     public String dropdownDefaultLanguage = "//button[@data-id='default_language']";
     public String inputSearchOfDefaultLanguage = "//div[contains(@class,'bs3 dropup open')]//input[@type='search']";
-    public String dropdownListDefaultLanguage = "//div[@id='bs-select-9']//a[@id='bs-select-9-0']";
+    public String dropdownListDefaultLanguage = "//div[starts-with(@id,'bs-select-9')]//span[normalize-space()='System Default']";
 
     public String labelCompany = "//label[@for='company']";
     public String inputCompany = "//textarea[@id='company']";
