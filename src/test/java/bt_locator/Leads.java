@@ -79,6 +79,7 @@ public class Leads {
     public String reqStatus = "//label[@for='status']//small[normalize-space()='*']";
     public String dropdownStatus = "//button[@data-id='status']";
     public String inputSearchOfStatus = "//div[@app-field-wrapper='status']//input[@type='search']";
+    public String dropdownListStatus = "//div[@app-field-wrapper='status']//a[@id='bs-select-5-1']";
     public String buttonAddStatus = "//div[@app-field-wrapper='status']//div[@class= 'input-group-btn']";
     public String inputAddStatus = "//input[@id='new_status_name']";
 
@@ -86,12 +87,14 @@ public class Leads {
     public String reqSource = "//label[@for='source']//small[normalize-space()='*']";
     public String dropdownSource = "//button[@data-id='source']";
     public String inputSearchOfSource = "//div[@app-field-wrapper='source']//input[@type='search']";
+    public String dropdownListSource = "//div[@app-field-wrapper='source']//a[@id='bs-select-6-1']";
     public String buttonAddSource = "//div[@app-field-wrapper='source']//div[@class= 'input-group-btn']";
     public String inputAddSource = "//input[@id='new_source_name']";
 
     public String labelAssigned = "//label[@for='assigned']";
     public String dropdownAssigned = "//button[@data-id='assigned']";
     public String inputSearchOfAssigned = "//div[@app-field-wrapper='assigned']//input[@type='search']";
+    public String dropdownListAssigned = "//div[@app-field-wrapper='assigned']//a[@id='bs-select-7-2']";
 
     public String labelTags = "//label[@for='tags']";
     public String inputAddTags = "//div[@id='inputTagsWrapper']//input[@placeholder='Tag']";
@@ -105,49 +108,51 @@ public class Leads {
     public String inputAddress = "//textarea[@id='address']";
 
     public String labelPosition = "//label[@for='title']";
-    public String inputlPosition = "//input[@id='title']";
+    public String inputPosition = "//input[@id='title']";
 
     public String labelCity = "//label[@for='city']";
-    public String inputlCity = "//input[@id='city']";
+    public String inputCity = "//input[@id='city']";
 
     public String labelEmailAddress = "//label[@for='email']";
-    public String inputlEmailAddress = "//input[@id='email']";
+    public String inputEmailAddress = "//input[@id='email']";
 
     public String labelState = "//label[@for='state']";
-    public String inputlState = "//input[@id='state']";
+    public String inputState = "//input[@id='state']";
 
     public String labelWebsite = "//label[@for='website']";
-    public String inputlWebsite = "//input[@id='website']";
+    public String inputWebsite = "//input[@id='website']";
 
     public String labelCountry = "//label[@for='country']";
-    public String inputlCountry = "//button[@data-id='country']";
+    public String dropdownCountry = "//button[@data-id='country']";
     public String inputSearchOfCountry = "//div[@app-field-wrapper='country']//input[@type='search']";
+    public String dropdownListCountry = "//div[@id='bs-select-8']//a[@id='bs-select-8-2']";
 
     public String labelPhone = "//label[@for='phonenumber']";
-    public String inputlPhone = "//input[@id='phonenumber']";
+    public String inputPhone = "//input[@id='phonenumber']";
 
     public String labelZipCode = "//label[@for='zip']";
-    public String inputlZipCode = "//input[@id='zip']";
+    public String inputZipCode = "//input[@id='zip']";
 
     public String labelLeadValue = "//label[@for='lead_value']";
-    public String inputlLeadValue = "//input[@name='lead_value']";
+    public String inputLeadValue = "//input[@name='lead_value']";
     public String iconLeadValue = "/html/body/div[11]/div/div/div[2]/div/div/div[2]/div/div/form/div[1]/div[3]/div[7]/div[6]/div/div";
 
     public String labelDefaultLanguage = "//label[@for='default_language']";
-    public String inputlDefaultLanguage = "//button[@data-id='default_language']";
+    public String dropdownDefaultLanguage = "//button[@data-id='default_language']";
     public String inputSearchOfDefaultLanguage = "//div[contains(@class,'bs3 dropup open')]//input[@type='search']";
+    public String dropdownListDefaultLanguage = "//div[@id='bs-select-9']//a[@id='bs-select-9-0']";
 
     public String labelCompany = "//label[@for='company']";
-    public String inputlCompany = "//textarea[@id='company']";
+    public String inputCompany = "//textarea[@id='company']";
 
     public String labelDescription = "//label[@for='description']";
-    public String inputlDescription = "//input[@id='description']";
+    public String inputDescription = "//input[@id='description']";
 
     public String labelPublic = "//label[@for='lead_public']";
     public String checkboxPublic = "//input[@id='lead_public']";
 
     public String labelDateContacted = "//label[@for='custom_contact_date']";
-    public String inputlDateContacted = "//input[@id='custom_contact_date']";
+    public String inputDateContacted = "//input[@id='custom_contact_date']";
     public String calendarDateContacted = "//div[@app-field-wrapper='custom_contact_date']//i[contains(@class,'fa-calendar')]";
 
     public String labelContactedToday= "//label[@for='contacted_today']";
