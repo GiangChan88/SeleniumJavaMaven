@@ -1,6 +1,6 @@
 package bt_locator;
 
-public class Leads {
+public class LocatorsCRM {
     public String url = "https://crm.anhtester.com/admin/authentication";
 
     //Locators Login
@@ -46,11 +46,14 @@ public class Leads {
 
     //button View, Edit, Delete
     public String linkView = "//td[./a[normalize-space()='TestCTT']]//a[normalize-space()='View']";
+    //public String linkView = "//td[./a[normalize-space()='TestCTT']]//a[@href='https://crm.anhtester.com/admin/leads/index/2']";
     public String linkEdit = "//td[./a[normalize-space()='TestCTT']]//a[normalize-space()='Edit']";
+    //public String linkEdit = "//td[./a[normalize-space()='TestCTT']]//a[@href='https://crm.anhtester.com/admin/leads/index/2?edit=true']";
     public String linkDelete = "//td[./a[normalize-space()='TestCTT']]//a[normalize-space()='Delete']";
+    //public String linkDelete = "//td[./a[normalize-space()='TestCTT']]//a[@href = 'https://crm.anhtester.com/admin/leads/delete/2']";
 
     public String buttonPrevious = "//div[@id= 'leads_paginate']//a[text()='Previous']";
-    public String buttonNumber = "/html/body/div[3]/div/div/div/div[2]/div/div/div/div/div[2]/div/div/div[5]/div[2]/div[3]/ul/li[2]/a";
+    public String buttonNumber = "//div[@id='leads_paginate']//li[@class='paginate_button active']";
     public String buttonNext = "//div[@id= 'leads_paginate']//a[text()='Next']";
     public String dropdownJumpLead = "//select[@id= 'dt-page-jump-leads']";
 
@@ -58,21 +61,23 @@ public class Leads {
     //driver.findElement(By.xpath("//a[@data-title='Leads Summary']")).click();
     public String titleLeadsSummary = "//h4[normalize-space()='Leads Summary']";
 
-    public String numberValueActive = "/html/body/div[3]/div/div/div/div[1]/div[3]/div/div[1]/span[1]";
     public String stringValueActive = "//div[contains(@class,'leads-overview')]//span[normalize-space() = 'Active']";
+    public String numberValueActive = "//div[contains(@class,'leads-overview')]//span[normalize-space() = 'Active']/preceding-sibling::span";
 
-    public String numberValuejjjj = "/html/body/div[3]/div/div/div/div[1]/div[3]/div/div[2]/span[1]";
     public String stringValuejjjj = "//div[contains(@class,'leads-overview')]//span[normalize-space() = 'jjjj']";
+    public String numberValuejjjj = "//div[contains(@class,'leads-overview')]//span[normalize-space() = 'jjjj']/preceding-sibling::span";
 
-    public String numberValueCustomer = "/html/body/div[3]/div/div/div/div[1]/div[3]/div/div[2]/span[1]";
     public String stringValueCustomer = "//div[contains(@class,'leads-overview')]//span[normalize-space() = 'Customer']";
+    public String numberValueCustomer = "//div[contains(@class,'leads-overview')]//span[normalize-space() = 'Customer']/preceding-sibling::span";
 
-    public String numberValueLostLead = "/html/body/div[3]/div/div/div/div[1]/div[3]/div/div[4]/span[1]/span";
     public String stringValueLostLead = "//div[contains(@class,'leads-overview')]//span[normalize-space() = 'Lost Leads']";
+    public String numberValueLostLead = "//div[contains(@class,'leads-overview')]//span[normalize-space() = 'Lost Leads']//preceding-sibling::span";
 
 
     //ADD NEW LEAD
+    public String btnAddLead = "//a[normalize-space()='New Lead']";
     public String titleAddNewLead = "//h4[normalize-space() ='Add new lead']";
+    public String iconCloseAddNewLead = "//div[@id='leads_bulk_actions']/descendant::button[@class='close']";
     //public String reqAll = "//div[@id ='tab_lead_profile']//small[normalize-space()='*']";
 
     public String labelStatus = "//label[@for='status']";
@@ -136,7 +141,7 @@ public class Leads {
 
     public String labelLeadValue = "//label[@for='lead_value']";
     public String inputLeadValue = "//input[@name='lead_value']";
-    public String iconLeadValue = "/html/body/div[11]/div/div/div[2]/div/div/div[2]/div/div/form/div[1]/div[3]/div[7]/div[6]/div/div";
+    public String iconLeadValue = "//input[@name='lead_value']/following-sibling::div";
 
     public String labelDefaultLanguage = "//label[@for='default_language']";
     public String dropdownDefaultLanguage = "//button[@data-id='default_language']";
