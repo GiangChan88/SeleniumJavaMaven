@@ -5,46 +5,46 @@ public class LocatorsTasks {
     public String url = "https://crm.anhtester.com/admin/authentication";
 
     //Locators Login
-    public String headerLogin = "//h1[normalize-space()='Login']";
-    public String inputEmail = "//input[@id='email']";
-    public String inputPassword = "//input[@id='password']";
-    public String buttonLogin = "//button[@type='submit']";
-    public String checkboxRememberMe = "//input[@id = 'remember']";
-    public String linkForgotPassword = "//a[normalize-space()='Forgot Password?']";
-    public String alertErrorMessage = "//div[contains(@class, 'alert-danger')]";
-    public String alertErrorEmailRequired = "//div[normalize-space() = 'The Email Address field is required.']";
-    public String alertErrorPasswordRequired = "//div[normalize-space() = 'The Password field is required.']";
+    public static String headerLogin = "//h1[normalize-space()='Login']";
+    public static String inputEmail = "//input[@id='email']";
+    public static String inputPassword = "//input[@id='password']";
+    public static String buttonLogin = "//button[@type='submit']";
+    public static String checkboxRememberMe = "//input[@id = 'remember']";
+    public static String linkForgotPassword = "//a[normalize-space()='Forgot Password?']";
+    public static String alertErrorMessage = "//div[contains(@class, 'alert-danger')]";
+    public static String alertErrorEmailRequired = "//div[normalize-space() = 'The Email Address field is required.']";
+    public static String alertErrorPasswordRequired = "//div[normalize-space() = 'The Password field is required.']";
 
     //menu Dashboard
     public static String menuDashboard = "//ul[@id='side-menu']//span[@class = 'menu-text' and normalize-space() = 'Dashboard']";
 
     //locators menu tasks
-    public String menuTasks = "//span[normalize-space()='Tasks']";
-    public String btnAddTasks = "//a[normalize-space() = 'New Task']";
+    public static String menuTasks = "//span[normalize-space()='Tasks']";
+    public static String btnAddTasks = "//a[normalize-space() = 'New Task']";
 
     //locators Add New Tasks
-    public String titleAddNewTask = "//h4[@id='myModalLabel']";
-    public String iconCloseAddNewTask = "//h4[@id='myModalLabel']/preceding-sibling::button";
+    public static String titleAddNewTask = "//h4[@id='myModalLabel']";
+    public static String iconCloseAddNewTask = "//h4[@id='myModalLabel']/preceding-sibling::button";
 
-    public String checkboxPublic = "//input[@id='task_is_public']";
-    public String checkboxBillsble = "//input[@id='task_is_billable']";
-    public String linkAttachFile = "//a[normalize-space()='Attach Files']";
+    public static String checkboxPublic = "//input[@id='task_is_public']";
+    public static String checkboxBillsble = "//input[@id='task_is_billable']";
+    public static String linkAttachFile = "//a[normalize-space()='Attach Files']";
 
-    public String inputFileAttachment = "//input[@type='file']";
-    public String btnAddMoreAttachment = "//button[contains(@class,'add_more_attachments')]";
-    public String btnRemoveAttachmemt = "//button[contains(@class,'remove_attachment')]";
+    public static String inputFileAttachment = "//input[@type='file']";
+    public static String btnAddMoreAttachment = "//button[contains(@class,'add_more_attachments')]";
+    public static String btnRemoveAttachmemt = "//button[contains(@class,'remove_attachment')]";
 
-    public String inputSubject = "//input[@id='name']";
+    public static String inputSubject = "//input[@id='name']";
 
-    public String inputHourlyRate = "//input[@id='hourly_rate']";
+    public static String inputHourlyRate = "//input[@id='hourly_rate']";
 
-    public String inputStartDate = "//input[@id='startdate']";
-    public String iconStartDate = "//input[@id='startdate']/following-sibling::div/i";
+    public static String inputStartDate = "//input[@id='startdate']";
+    public static String iconStartDate = "//input[@id='startdate']/following-sibling::div/i";
 
-    public String inputDuaDate = "//input[@id='duedate']";
-    public String iconDuaDate = "//input[@id='duedate']/following-sibling::div/i";
+    public static String inputDuaDate = "//input[@id='duedate']";
+    public static String iconDuaDate = "//input[@id='duedate']/following-sibling::div/i";
 
-    public String dropdownPriority = "//button[@data-id='priority']";
+    public static String dropdownPriority = "//button[@data-id='priority']";
     public static String dropdownListPriority(String value){
         String xpathListPriority = "//button[@data-id='priority']/following-sibling::div//span[@class='text' and normalize-space()='"+value+"']";
         return xpathListPriority;
@@ -91,16 +91,10 @@ public class LocatorsTasks {
         return xpathListTag;
     }
 
-    public String textareaTaskDescription = "//iframe[@id='description_ifr']";
+    public static String textareaTaskDescription = "//iframe[@id='description_ifr']";
 
-    public String btnClose = "//form[@id='task-form']//button[normalize-space()='Close']";
-    public String btnSave = "//button[normalize-space()='Save']";
-
-
-
-
-
-
+    public static String btnClose = "//form[@id='task-form']//button[normalize-space()='Close']";
+    public static String btnSave = "//button[normalize-space()='Save']";
 
 
 }
