@@ -123,15 +123,14 @@ public class AddNewLeads extends BaseTest {
     }
 
     public static void dropdownSearch(
-            String valueNowDropdown,
             String dropdownXpath,
             String inputSearchXpath,
             String keySearch,
             String xpathGetValue) throws InterruptedException {
 
         //Kiểm tra giá trị mặc định
-        WebElement selected = driver.findElement(By.xpath(valueNowDropdown)); //truyền LocatorsLead.valueNowCountry
-        String currentValue = selected.getText();
+        WebElement selected = driver.findElement(By.xpath(dropdownXpath)); //truyền LocatorsLead.valueNowCountry
+        String currentValue = selected.getAttribute("title");
         System.out.println("Giá trị mặc định là: " + currentValue);
 
         driver.findElement(By.xpath(dropdownXpath)).click(); //truyền LocatorsLead.dropdownCountry
@@ -144,8 +143,8 @@ public class AddNewLeads extends BaseTest {
         Thread.sleep(500);
 
         //Kiểm tra giá trị sau khi chọn
-        WebElement selectedNew = driver.findElement(By.xpath(valueNowDropdown));
-        String newValue = selectedNew.getText();
+        WebElement selectedNew = driver.findElement(By.xpath(dropdownXpath));
+        String newValue = selectedNew.getAttribute("title");
         System.out.println("Giá trị mới là: " + newValue);
     }
 
@@ -154,7 +153,6 @@ public class AddNewLeads extends BaseTest {
         //dropdown Status
         //dropdownStatus("Active", "Active");
         dropdownSearch(
-                LocatorsLeads.valueNowStatus,
                 LocatorsLeads.dropdownStatus,
                 LocatorsLeads.inputSearchOfStatus,
                 "Active",
@@ -163,7 +161,6 @@ public class AddNewLeads extends BaseTest {
         //dropdown Source
         //dropdownSource("Face","Facebook");
         dropdownSearch(
-                LocatorsLeads.valueNowSource,
                 LocatorsLeads.dropdownSource,
                 LocatorsLeads.inputSearchOfSource,
                 "Face",
@@ -172,7 +169,6 @@ public class AddNewLeads extends BaseTest {
         //dropdownAssigned
         //dropdownAssigned("Admin Anh", "Admin Anh Tester");
         dropdownSearch(
-                LocatorsLeads.valueNowAssigned,
                 LocatorsLeads.dropdownAssigned,
                 LocatorsLeads.inputSearchOfAssigned,
                 "Admin Anh",
@@ -196,7 +192,6 @@ public class AddNewLeads extends BaseTest {
         //dropdown Country
         //dropdownCountry("Angola","Angola");
         dropdownSearch(
-                LocatorsLeads.valueNowCountry,
                 LocatorsLeads.dropdownCountry,
                 LocatorsLeads.inputSearchOfCountry,
                 "Angola",
@@ -216,7 +211,6 @@ public class AddNewLeads extends BaseTest {
         //dropdown Language
         //dropdownLanguage("Eng", "English");
         dropdownSearch(
-                LocatorsLeads.valueNowLanguage,
                 LocatorsLeads.dropdownLanguage,
                 LocatorsLeads.inputSearchOfLanguage,
                 "Eng",

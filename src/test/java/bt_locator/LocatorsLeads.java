@@ -81,7 +81,6 @@ public class LocatorsLeads {
     //public static String iconCloseAddNewLead = "//div[@id='leads_bulk_actions']/descendant::button[@class='close']";
     public static String iconCloseAddNewLead = "//h4[@id='myModalLabel']/preceding-sibling::button[@class='close']";
 
-    public static String valueNowStatus = "//button[@data-id='status']//div";
     public static String dropdownStatus = "//button[@data-id='status']";
     public static String inputSearchOfStatus = "//button[@data-id='status']/following-sibling::div//input[@type='search']";
 
@@ -94,7 +93,6 @@ public class LocatorsLeads {
     public static String inputAddStatus = "//input[@id='new_status_name']";
 
 
-    public static String valueNowSource = "//button[@data-id='source']//div";
     public static String dropdownSource = "//button[@data-id='source']";
     public static String inputSearchOfSource = "//div[@app-field-wrapper='source']//input[@type='search']";
 
@@ -106,7 +104,6 @@ public class LocatorsLeads {
     public static String buttonAddSource = "//div[@app-field-wrapper='source']//div[@class= 'input-group-btn']";
     public static String inputAddSource = "//input[@id='new_source_name']";
 
-    public static String valueNowAssigned = "//button[@data-id='assigned']//div";
     public static String dropdownAssigned = "//button[@data-id='assigned']";
     public static String inputSearchOfAssigned = "//div[@app-field-wrapper='assigned']//input[@type='search']";
 
@@ -132,7 +129,6 @@ public class LocatorsLeads {
     ;
     public static String inputWebsite = "//input[@id='website']";
 
-    public static String valueNowCountry = "//button[@data-id='country']//div";
     public static String dropdownCountry = "//button[@data-id='country']";
     public static String inputSearchOfCountry = "//div[@app-field-wrapper='country']//input[@type='search']";
 
@@ -146,7 +142,6 @@ public class LocatorsLeads {
     public static String inputLeadValue = "//input[@name='lead_value']";
     public static String iconLeadValue = "//input[@name='lead_value']/following-sibling::div";
 
-    public static String valueNowLanguage = "//button[@data-id='default_language']//div";
     public static String dropdownLanguage = "//button[@data-id='default_language']";
     public static String inputSearchOfLanguage = "//button[@data-id='default_language']/following-sibling::div//input[@type='search']";
 
