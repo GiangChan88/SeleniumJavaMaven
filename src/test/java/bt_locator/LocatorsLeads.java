@@ -112,7 +112,8 @@ public class LocatorsLeads {
         return xpathListAssignes;
     }
 
-    public static String inputAddTags = "//div[@id='inputTagsWrapper']//input[@placeholder='Tag']";
+    public static String inputAddTags = "//div[@id='inputTagsWrapper']/ul/li[@class='tagit-new']/input";
+    public static String inputEditTags = "//div[@id='inputTagsWrapper']/input[@id='tags']";
     public static String dropdownTags = "//div[@id='inputTagsWrapper']//ul[@id='ui-id-2']";
 
     public static String getValueTags(String value) {
@@ -154,6 +155,7 @@ public class LocatorsLeads {
     public static String inputDescription = "//textarea[@id='description']";
     public static String inputDateContacted = "//input[@id='custom_contact_date']";
     public static String calendarDateContacted = "//div[@app-field-wrapper='custom_contact_date']//i[contains(@class,'fa-calendar')]";
+    public static String inputLastContact = "//input[@id='lastcontact']";
     public static String labelPublic = "//label[@for='lead_public']";
     public static String checkboxPublic = "//input[@id='lead_public']";
     public static String labelContactedToday = "//label[@for='contacted_today']";

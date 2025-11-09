@@ -30,14 +30,12 @@ public class LocatorsTasks {
     public static String inputDuaDate = "//input[@id='duedate']";
     public static String iconDuaDate = "//input[@id='duedate']/following-sibling::div/i";
 
-    public static String valueNowPriority = "//button[@data-id='priority']//div";
     public static String dropdownPriority = "//button[@data-id='priority']";
     public static String getValuePriority(String value){
         String xpathListPriority = "//button[@data-id='priority']/following-sibling::div//span[@class='text' and normalize-space()='"+value+"']";
         return xpathListPriority;
     }
 
-    public static String valueNowRepeatEvery = "//button[@data-id='repeat_every']//div";
     public static String dropdownRepeatEvery = "//button[@data-id='repeat_every']";
     public static String getValueRepeatEvery(String value){
         String xpathListRepeatEvery = "//button[@data-id='repeat_every']/following-sibling::div//span[@class='text' and normalize-space()='"+value+"']";
@@ -49,14 +47,12 @@ public class LocatorsTasks {
     public static String checkboxInfinity = "//input[@id='unlimited_cycles']";
     public static String labelCheckboxInfinity = "//label[@for='unlimited_cycles' and normalize-space()='Infinity']";
 
-    public static String valueNowRelatedTo = "//button[@data-id='rel_type']//div";
     public static String dropdownRelatedTo = "//button[@data-id='rel_type']";
     public static String getValueRelatedTo(String value){
         String xpathListRelatedTo = "//button[@data-id='rel_type']/following-sibling::div//span[@class='text' and normalize-space()='"+value+"']";
         return xpathListRelatedTo;
     }
 
-    public static String valueNowForRelatedTo = "//button[@data-id='rel_id']//div";
     public static String dropdownForRelatedTo = "//button[@data-id='rel_id']";
     public static String inputSearchOfForRelatedTo = "//button[@data-id='rel_id']/following-sibling::div//input[@type='search']";
     public static String getValueForRelatedTo(String value){
@@ -64,29 +60,29 @@ public class LocatorsTasks {
         return xpathListForRelatedTo;
     }
 
-    public static String valueNowAssignees = "//button[@data-id='assignees']//div";
     public static String dropdownAssignees = "//button[@data-id='assignees']";
     public static String inputSearchOffAssignees = "//button[@data-id='assignees']/following-sibling::div//input[@type='search']";
     public static String getValueAssignees(String value){
         String xpathListAssignees = "//button[@data-id='assignees']/following-sibling::div//span[@class='text' and normalize-space()='"+value+"']";
-        return value;
+        return xpathListAssignees;
     }
 
-    public static String valueNowFollowers = "//button[@data-id='followers[]']//div";
     public static String dropdownFollowers = "//button[@data-id='followers[]']";
     public static String inputSearchOffFollowers = "//button[@data-id='followers[]']/following-sibling::div//input[@type='search']";
     public static String getValueFollowers(String value){
-        String xpathListFollowers = "/button[@data-id='followers[]']/following-sibling::div//span[@class='text' and normalize-space()='"+value+"']";
+        String xpathListFollowers = "//button[@data-id='followers[]']/following-sibling::div//span[@class='text' and normalize-space()='"+value+"']";
         return xpathListFollowers;
     }
 
 
-    public String inputAddTags = "//div[@id='inputTagsWrapper']//input[@placeholder='Tag']";
+    public static String inputAddTags = "//div[@id='inputTagsWrapper']//input[@placeholder='Tag']";
    // public String dropdownTags = "//div[@id='inputTagsWrapper']//ul[@id='ui-id-2']";
     public static String getValueTags(String value){
         String xpathListTag = "//div[@id='inputTagsWrapper']//div[normalize-space()='" + value + "']";
         return xpathListTag;
     }
+
+    public static String labelTags = "//label[@for='tags']";
 
     public static String textareaTaskDescription = "//iframe[@id='description_ifr']";
 
@@ -94,5 +90,6 @@ public class LocatorsTasks {
     //public static String btnClose = "//h4[@id='myModalLabel']/parent::div/following-sibling::div[@class='modal-footer']/button[normalize-space()='Close']";
     public static String btnSave = "//button[normalize-space()='Save']";
 
+    public static String headerEdit = "//div[@id='task-modal']//div[contains(@class,'modal-header')]//h4";
 
 }

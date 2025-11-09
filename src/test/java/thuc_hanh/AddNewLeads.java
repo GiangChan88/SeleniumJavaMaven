@@ -6,68 +6,10 @@ import common.BaseTest;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 
 public class AddNewLeads extends BaseTest {
-//    public static void dropdownStatus(String keySearch, String exactValue) throws InterruptedException {
-//        //dropdown Status
-//        WebElement selectedStatus = driver.findElement(By.xpath("//button[@data-id='status']//div"));
-//        String currentValueStatus = selectedStatus.getText();
-//        System.out.println("Giá trị mặc định Status là: " + currentValueStatus);
-//        driver.findElement(By.xpath(LocatorsLeads.dropdownStatus)).click();
-//        Thread.sleep(500);
-//        driver.findElement(By.xpath(LocatorsLeads.inputSearchOfStatus)).sendKeys(keySearch);
-//        Thread.sleep(500);
-//        driver.findElement(By.xpath(LocatorsLeads.getValueStatus(exactValue))).click();
-//        WebElement selectedStatusNew = driver.findElement(By.xpath("//button[@data-id='status']//div"));
-//        String currentValueStatusNew = selectedStatusNew.getText();
-//        System.out.println("Giá trị Status mới là: " + currentValueStatusNew);
-//    }
-//
-//    public static void dropdownSource(String keySearch, String exactValue) throws InterruptedException {
-//        //dropdown Source
-//        WebElement selectedSource = driver.findElement(By.xpath("//button[@data-id='source']//div"));
-//        String currentValueSource = selectedSource.getText();
-//        System.out.println("Giá trị mặc định Source là: " + currentValueSource);
-//        driver.findElement(By.xpath(LocatorsLeads.dropdownSource)).click();
-//        Thread.sleep(500);
-//        driver.findElement(By.xpath(LocatorsLeads.inputSearchOfSource)).sendKeys(keySearch);
-//        Thread.sleep(500);
-//        driver.findElement(By.xpath(LocatorsLeads.getValueSource(exactValue))).click();
-//        WebElement selectedSourceNew = driver.findElement(By.xpath("//button[@data-id='source']//div"));
-//        String currentValueSourceNew = selectedSourceNew.getText();
-//        System.out.println("Giá trị Source mới là: " + currentValueSourceNew);
-//    }
-//
-//    public static void dropdownAssigned(String keySearch, String exactValue) throws InterruptedException {
-//        //dropdown Assigned
-//        WebElement selectedAssigned = driver.findElement(By.xpath("//button[@data-id='assigned']//div"));
-//        String currentValueAssigned = selectedAssigned.getText();
-//        System.out.println("Giá trị mặc định Assigned là: " + currentValueAssigned);
-//        driver.findElement(By.xpath(LocatorsLeads.dropdownAssigned)).click();
-//        Thread.sleep(500);
-//        driver.findElement(By.xpath(LocatorsLeads.inputSearchOfAssigned)).sendKeys(keySearch);
-//        Thread.sleep(500);
-//        driver.findElement(By.xpath(LocatorsLeads.getValueAssigned(exactValue))).click();
-//        WebElement selectedAssignedNew = driver.findElement(By.xpath("//button[@data-id='assigned']//div"));
-//        String currentValueAssignedNew = selectedAssignedNew.getText();
-//        System.out.println("Giá trị Assigned mới là: " + currentValueAssignedNew);
-//    }
-//
-//    public static void dropdownCountry(String keySearch, String exactValue) throws InterruptedException {
-//        //dropdown Country
-//        WebElement selectedCountry = driver.findElement(By.xpath("//button[@data-id='country']//div"));
-//        String currentValueCountry = selectedCountry.getText();
-//        System.out.println("Giá trị mặc định Country là: " + currentValueCountry);
-//        driver.findElement(By.xpath(LocatorsLeads.dropdownCountry)).click();
-//        Thread.sleep(500);
-//        driver.findElement(By.xpath(LocatorsLeads.inputSearchOfCountry)).sendKeys(keySearch);
-//        Thread.sleep(500);
-//        driver.findElement(By.xpath(LocatorsLeads.getValueCountry(exactValue))).click();
-//        WebElement selectedCountryNew = driver.findElement(By.xpath("//button[@data-id='country']//div"));
-//        String currentValueCountryNew = selectedCountryNew.getText();
-//        System.out.println("Giá trị Country mới là: " + currentValueCountryNew);
-//    }
-//
+
 //    public static void dropdownLanguage(String keySearch, String exactValue) throws InterruptedException {
 //        //dropdown Language
 //        WebElement selectedLanguage = driver.findElement(By.xpath("//button[@data-id='default_language']//div"));
@@ -91,7 +33,7 @@ public class AddNewLeads extends BaseTest {
         Thread.sleep(500);
 
         if (!isSelectedPublic) {
-            driver.findElement(By.xpath(LocatorsLeads.labelPublic)).click();
+            driver.findElement(By.xpath(LocatorsLeads.checkboxPublic)).click();
             System.out.println("Checkbox public đã được chọn");
         }
     }
@@ -151,7 +93,6 @@ public class AddNewLeads extends BaseTest {
     //add Lead
     public static void addNewLead(String leadName) throws InterruptedException {
         //dropdown Status
-        //dropdownStatus("Active", "Active");
         dropdownSearch(
                 LocatorsLeads.dropdownStatus,
                 LocatorsLeads.inputSearchOfStatus,
@@ -159,7 +100,6 @@ public class AddNewLeads extends BaseTest {
                 LocatorsLeads.getValueStatus("Active")
         );
         //dropdown Source
-        //dropdownSource("Face","Facebook");
         dropdownSearch(
                 LocatorsLeads.dropdownSource,
                 LocatorsLeads.inputSearchOfSource,
@@ -167,7 +107,6 @@ public class AddNewLeads extends BaseTest {
                 LocatorsLeads.getValueSource("Facebook")
         );
         //dropdownAssigned
-        //dropdownAssigned("Admin Anh", "Admin Anh Tester");
         dropdownSearch(
                 LocatorsLeads.dropdownAssigned,
                 LocatorsLeads.inputSearchOfAssigned,
@@ -176,7 +115,7 @@ public class AddNewLeads extends BaseTest {
         );
 
         //Tags
-        driver.findElement(By.xpath(LocatorsLeads.inputAddTags)).sendKeys("GiangNTH");
+        driver.findElement(By.xpath(LocatorsLeads.inputAddTags)).sendKeys("Giang12345");
         //click ra input name để input tag nhận giá trị mới
         driver.findElement(By.xpath(LocatorsLeads.inputName)).click();
 
@@ -185,12 +124,11 @@ public class AddNewLeads extends BaseTest {
         driver.findElement(By.xpath(LocatorsLeads.inputAddress)).sendKeys("230 Mễ Trì, Hà Nội");
         driver.findElement(By.xpath(LocatorsLeads.inputPosition)).sendKeys("Mễ Trì");
         driver.findElement(By.xpath(LocatorsLeads.inputCity)).sendKeys("Hà Nội");
-        driver.findElement(By.xpath(LocatorsLeads.inputEmailAddress)).sendKeys("giang12345@gmail.com");
+        driver.findElement(By.xpath(LocatorsLeads.inputEmailAddress)).sendKeys("giang234@gmail.com");
         driver.findElement(By.xpath(LocatorsLeads.inputState)).sendKeys("123");
         driver.findElement(By.xpath(LocatorsLeads.inputWebsite)).sendKeys("https://8080:21");
 
         //dropdown Country
-        //dropdownCountry("Angola","Angola");
         dropdownSearch(
                 LocatorsLeads.dropdownCountry,
                 LocatorsLeads.inputSearchOfCountry,
@@ -230,7 +168,7 @@ public class AddNewLeads extends BaseTest {
     }
 
     //chi tiết lead vừa add
-    public static void detailAdd(String leadName) {
+    public static void detailAddCheck(String leadName) {
         String text = driver.findElement(By.xpath("//div[@id='leadViewWrapper']//dd[contains(@class,'lead-name')]")).getText();
         if (text.equalsIgnoreCase(leadName)) {
             System.out.println("Add correct");
@@ -239,14 +177,84 @@ public class AddNewLeads extends BaseTest {
     }
 
     //search Lead vừa mới add
-//    public static void searchLead(String leadName) throws InterruptedException {
-//        driver.findElement(By.xpath(LocatorsLeads.inputSearch)).clear();
-//        driver.findElement(By.xpath(LocatorsLeads.inputSearch)).sendKeys(leadName);
-//        Thread.sleep(2000);
-//
-//        String firstRowLead = driver.findElement(By.xpath(LocatorsLeads.firstRowItem)).getText();
-//        System.out.println("First row lead: "+firstRowLead);
-//    }
+    public static void searchLead(String leadName) throws InterruptedException {
+        driver.findElement(By.xpath(LocatorsLeads.inputSearch)).clear();
+        driver.findElement(By.xpath(LocatorsLeads.inputSearch)).sendKeys(leadName);
+        Thread.sleep(2000);
+
+        String firstRowLead = driver.findElement(By.xpath(LocatorsLeads.firstRowItem)).getText();
+        System.out.println("First row lead: " + firstRowLead);
+    }
+
+    //Hàm so sánh giá trị đã thêm mới trong màn edit
+    public static void verifyElementValue(String expectedValue, String xpathActual, String attributeActual){
+        String expected = expectedValue;
+        String actual = driver.findElement(By.xpath(xpathActual)).getAttribute(attributeActual);
+        if (actual.trim().equalsIgnoreCase(expected.trim())) {
+            System.out.println("Giá trị hiển thị đúng: " + actual);
+        } else {
+            System.out.println("FAIL: Giá trị mong muốn là: " + expected + " nhưng giá trị thực tế là: " + actual);
+        }
+    }
+
+    public static void editLead(String leadName) throws InterruptedException {
+        searchLead("Giang 01");
+        WebElement firstRow = driver.findElement(By.xpath(LocatorsLeads.firstRowItem));
+        // B2: Hover chuột vào dòng đầu tiên
+        Actions actions = new Actions(driver);
+        actions.moveToElement(firstRow).perform();
+        Thread.sleep(3000);
+        driver.findElement(By.xpath(LocatorsLeads.buttonEdit(leadName))).click();
+
+        //Kiểm tra dropdown Status
+        verifyElementValue("Active", LocatorsLeads.dropdownStatus, "title");
+        //Kiểm tra dropdown Source
+        verifyElementValue("Facebook", LocatorsLeads.dropdownSource, "title");
+        //Kiểm tra dropdown Assigned
+        verifyElementValue("Admin Anh Tester", LocatorsLeads.dropdownAssigned, "title");
+        //Kiểm tra input Tags
+        verifyElementValue("Giang12345", LocatorsLeads.inputEditTags, "value");
+        //Kiểm tra input Name
+        verifyElementValue("Giang 01", LocatorsLeads.inputName, "value");
+        //Kiểm tra input Address
+        verifyElementValue("230 Mễ Trì, Hà Nội", LocatorsLeads.inputAddress, "value");
+        //Kiểm tra input Position
+        verifyElementValue("Mễ Trì", LocatorsLeads.inputPosition, "value");
+        //Kiểm tra input City
+        verifyElementValue("Hà Nội", LocatorsLeads.inputCity, "value");
+        //Kiểm tra input Email Address
+        verifyElementValue("giang234@gmail.com", LocatorsLeads.inputEmailAddress, "value");
+        //Kiểm tra input State
+        verifyElementValue("123", LocatorsLeads.inputState, "value");
+        //Kiểm tra input Website
+        verifyElementValue("https://8080:21", LocatorsLeads.inputWebsite, "value");
+        //Kiểm tra dropdown Country
+        verifyElementValue("Angola", LocatorsLeads.dropdownCountry, "title");
+        //Kiểm tra input Phone
+        verifyElementValue("0772627627", LocatorsLeads.inputPhone, "value");
+        //Kiểm tra input Zip Code
+        verifyElementValue("7789", LocatorsLeads.inputZipCode, "value");
+        //Kiểm tra input Lead value
+        verifyElementValue("100000.00", LocatorsLeads.inputLeadValue, "value");
+        //Kiểm tra dropdown Default Language
+        verifyElementValue("English", LocatorsLeads.dropdownLanguage, "title");
+        //Kiểm tra input Company
+        verifyElementValue("ND", LocatorsLeads.inputCompany, "value");
+        //Kiểm tra input Description
+        verifyElementValue("không", LocatorsLeads.inputDescription, "value");
+        //Kiểm tra input Date Contacted
+        verifyElementValue("05-11-2025 00:00:00", LocatorsLeads.inputLastContact, "value"); //hệ thống bug
+        //Kiểm tra checkbox public
+        boolean expectedCheckboxPublic = true;
+        boolean actualCheckboxPublic = driver.findElement(By.xpath(LocatorsLeads.checkboxPublic)).isSelected();
+        if (actualCheckboxPublic == expectedCheckboxPublic){
+            System.out.println("Checkbox public hiển thị đúng: "+actualCheckboxPublic);
+        }else {
+            System.out.println("FAIL: Kết quả mong muốn là: " +expectedCheckboxPublic +" nhưng kết quả thực tế là: "+actualCheckboxPublic);
+        }
+
+    }
+
 
     public static void main(String[] args) throws InterruptedException {
         createDriver();
@@ -258,14 +266,14 @@ public class AddNewLeads extends BaseTest {
         driver.findElement(By.xpath(LocatorsLeads.btnAddLead)).click();
         Thread.sleep(1000);
 
-        addNewLead("GiangTest 02");
+        addNewLead("Giang 01");
         Thread.sleep(1000);
 
-        detailAdd("GiangTest 02");
+        detailAddCheck("Giang 01");
         Thread.sleep(1000);
 
-//        searchLead("GiangTest 02");
-//        Thread.sleep(2000);
+        editLead("Giang 01");
+        Thread.sleep(2000);
 
         closeDriver();
     }
