@@ -5,7 +5,7 @@ import common.BaseTest;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
-public class AddNewTask extends BaseTest {
+public class BTTasks extends BaseTest {
     public static void handleCheckbox(String xpathInput) throws InterruptedException {
         //kiểm tra giá trị mặc định
         boolean isSelectedCheckbox = driver.findElement(By.xpath(xpathInput)).isSelected();

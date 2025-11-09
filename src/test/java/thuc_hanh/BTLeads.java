@@ -8,7 +8,7 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 
-public class AddNewLeads extends BaseTest {
+public class BTLeads extends BaseTest {
 
 //    public static void dropdownLanguage(String keySearch, String exactValue) throws InterruptedException {
 //        //dropdown Language
