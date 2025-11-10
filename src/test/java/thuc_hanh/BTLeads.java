@@ -124,7 +124,7 @@ public class BTLeads extends BaseTest {
         driver.findElement(By.xpath(LocatorsLeads.inputAddress)).sendKeys("230 Mễ Trì, Hà Nội");
         driver.findElement(By.xpath(LocatorsLeads.inputPosition)).sendKeys("Mễ Trì");
         driver.findElement(By.xpath(LocatorsLeads.inputCity)).sendKeys("Hà Nội");
-        driver.findElement(By.xpath(LocatorsLeads.inputEmailAddress)).sendKeys("giang234@gmail.com");
+        driver.findElement(By.xpath(LocatorsLeads.inputEmailAddress)).sendKeys("giang23456@gmail.com");
         driver.findElement(By.xpath(LocatorsLeads.inputState)).sendKeys("123");
         driver.findElement(By.xpath(LocatorsLeads.inputWebsite)).sendKeys("https://8080:21");
 
@@ -198,7 +198,7 @@ public class BTLeads extends BaseTest {
     }
 
     public static void editLead(String leadName) throws InterruptedException {
-        searchLead("Giang 01");
+        searchLead(leadName);
         WebElement firstRow = driver.findElement(By.xpath(LocatorsLeads.firstRowItem));
         // B2: Hover chuột vào dòng đầu tiên
         Actions actions = new Actions(driver);
@@ -215,7 +215,7 @@ public class BTLeads extends BaseTest {
         //Kiểm tra input Tags
         verifyElementValue("Giang12345", LocatorsLeads.inputEditTags, "value");
         //Kiểm tra input Name
-        verifyElementValue("Giang 01", LocatorsLeads.inputName, "value");
+        verifyElementValue("GiangTest02", LocatorsLeads.inputName, "value");
         //Kiểm tra input Address
         verifyElementValue("230 Mễ Trì, Hà Nội", LocatorsLeads.inputAddress, "value");
         //Kiểm tra input Position
@@ -223,7 +223,7 @@ public class BTLeads extends BaseTest {
         //Kiểm tra input City
         verifyElementValue("Hà Nội", LocatorsLeads.inputCity, "value");
         //Kiểm tra input Email Address
-        verifyElementValue("giang234@gmail.com", LocatorsLeads.inputEmailAddress, "value");
+        verifyElementValue("giang23456@gmail.com", LocatorsLeads.inputEmailAddress, "value");
         //Kiểm tra input State
         verifyElementValue("123", LocatorsLeads.inputState, "value");
         //Kiểm tra input Website
@@ -266,13 +266,13 @@ public class BTLeads extends BaseTest {
         driver.findElement(By.xpath(LocatorsLeads.btnAddLead)).click();
         Thread.sleep(1000);
 
-        addNewLead("Giang 01");
+        addNewLead("GiangTest03");
         Thread.sleep(1000);
 
-        detailAddCheck("Giang 01");
+        detailAddCheck("GiangTest03");
         Thread.sleep(1000);
 
-        editLead("Giang 01");
+        editLead("GiangTest03");
         Thread.sleep(2000);
 
         closeDriver();
