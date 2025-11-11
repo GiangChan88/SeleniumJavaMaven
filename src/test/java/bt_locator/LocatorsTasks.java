@@ -5,6 +5,7 @@ public class LocatorsTasks {
     //locators menu tasks
     public static String menuTasks = "//span[normalize-space()='Tasks']";
     public static String btnAddTasks = "//a[normalize-space() = 'New Task']";
+    public static String headerTasksSummary = "//h4//span[normalize-space()='Tasks Summary']";
 
     //locators Add New Tasks
     public static String titleAddNewTask = "//h4[@id='myModalLabel']";
@@ -31,15 +32,33 @@ public class LocatorsTasks {
     public static String iconDuaDate = "//input[@id='duedate']/following-sibling::div/i";
 
     public static String dropdownPriority = "//button[@data-id='priority']";
-    public static String getValuePriority(String value){
-        String xpathListPriority = "//button[@data-id='priority']/following-sibling::div//span[@class='text' and normalize-space()='"+value+"']";
+
+    public static String getValuePriority(String value) {
+        String xpathListPriority = "//button[@data-id='priority']/following-sibling::div//span[@class='text' and normalize-space()='" + value + "']";
         return xpathListPriority;
     }
 
     public static String dropdownRepeatEvery = "//button[@data-id='repeat_every']";
-    public static String getValueRepeatEvery(String value){
-        String xpathListRepeatEvery = "//button[@data-id='repeat_every']/following-sibling::div//span[@class='text' and normalize-space()='"+value+"']";
+
+    public static String getValueRepeatEvery(String value) {
+        String xpathListRepeatEvery = "//button[@data-id='repeat_every']/following-sibling::div//span[@class='text' and normalize-space()='" + value + "']";
         return xpathListRepeatEvery;
+    }
+
+    public static String repeatEveryCustom = "//div[@class='recurring_custom']//input[@id='repeat_every_custom']";
+    public static String dropdownRepeatEveryCustom = "//div[@class='recurring_custom']//button[@data-id='repeat_type_custom']";
+
+    public static String getRepeatEveryCustom(String value) {
+        String xpath = "//button[@data-id='repeat_type_custom']/following-sibling::div//span[contains(normalize-space(),'" + value + "')]";
+        return xpath;
+    }
+
+    public static String dropdownTypeRelatedTo = "//button[@data-id='rel_id']";
+    public static String inputSearchTypeRelatedTo = "//button[@data-id='rel_id']/following-sibling::div/descendant::input[@type='search']";
+
+    public static String getValueTypeRelatedTo(String value) {
+        String xpath = "//button[@data-id='rel_id']/following-sibling::div/descendant::span[contains(normalize-space(),'" + value + "')]";
+        return xpath;
     }
 
     //TotalCycles of RepeatEvery
@@ -48,36 +67,41 @@ public class LocatorsTasks {
     public static String labelCheckboxInfinity = "//label[@for='unlimited_cycles' and normalize-space()='Infinity']";
 
     public static String dropdownRelatedTo = "//button[@data-id='rel_type']";
-    public static String getValueRelatedTo(String value){
-        String xpathListRelatedTo = "//button[@data-id='rel_type']/following-sibling::div//span[@class='text' and normalize-space()='"+value+"']";
+
+    public static String getValueRelatedTo(String value) {
+        String xpathListRelatedTo = "//button[@data-id='rel_type']/following-sibling::div//span[@class='text' and normalize-space()='" + value + "']";
         return xpathListRelatedTo;
     }
 
     public static String dropdownForRelatedTo = "//button[@data-id='rel_id']";
     public static String inputSearchOfForRelatedTo = "//button[@data-id='rel_id']/following-sibling::div//input[@type='search']";
-    public static String getValueForRelatedTo(String value){
-        String xpathListForRelatedTo = "//button[@data-id='rel_id']/following-sibling::div//span[@class = 'text' and normalize-space()='"+value+"']";
+
+    public static String getValueForRelatedTo(String value) {
+        String xpathListForRelatedTo = "//button[@data-id='rel_id']/following-sibling::div//span[@class = 'text' and normalize-space()='" + value + "']";
         return xpathListForRelatedTo;
     }
 
     public static String dropdownAssignees = "//button[@data-id='assignees']";
     public static String inputSearchOffAssignees = "//button[@data-id='assignees']/following-sibling::div//input[@type='search']";
-    public static String getValueAssignees(String value){
-        String xpathListAssignees = "//button[@data-id='assignees']/following-sibling::div//span[@class='text' and normalize-space()='"+value+"']";
+
+    public static String getValueAssignees(String value) {
+        String xpathListAssignees = "//button[@data-id='assignees']/following-sibling::div//span[@class='text' and normalize-space()='" + value + "']";
         return xpathListAssignees;
     }
 
     public static String dropdownFollowers = "//button[@data-id='followers[]']";
     public static String inputSearchOffFollowers = "//button[@data-id='followers[]']/following-sibling::div//input[@type='search']";
-    public static String getValueFollowers(String value){
-        String xpathListFollowers = "//button[@data-id='followers[]']/following-sibling::div//span[@class='text' and normalize-space()='"+value+"']";
+
+    public static String getValueFollowers(String value) {
+        String xpathListFollowers = "//button[@data-id='followers[]']/following-sibling::div//span[@class='text' and normalize-space()='" + value + "']";
         return xpathListFollowers;
     }
 
 
     public static String inputAddTags = "//div[@id='inputTagsWrapper']//input[@placeholder='Tag']";
-   // public String dropdownTags = "//div[@id='inputTagsWrapper']//ul[@id='ui-id-2']";
-    public static String getValueTags(String value){
+
+    // public String dropdownTags = "//div[@id='inputTagsWrapper']//ul[@id='ui-id-2']";
+    public static String getValueTags(String value) {
         String xpathListTag = "//div[@id='inputTagsWrapper']//div[normalize-space()='" + value + "']";
         return xpathListTag;
     }

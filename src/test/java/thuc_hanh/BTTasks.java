@@ -1,234 +1,139 @@
 package thuc_hanh;
 
+import bt_locator.LocatorsLeads;
 import bt_locator.LocatorsTasks;
 import common.BaseTest;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
 public class BTTasks extends BaseTest {
-    public static void handleCheckbox(String xpathInput) throws InterruptedException {
-        //kiểm tra giá trị mặc định
-        boolean isSelectedCheckbox = driver.findElement(By.xpath(xpathInput)).isSelected();
-        System.out.println("Checkbox được chọn: "+isSelectedCheckbox);
-        Thread.sleep(500);
-
-        if(!isSelectedCheckbox){
-            driver.findElement(By.xpath(xpathInput)).click();
-            System.out.println("Checkbox đã được chọn");
+    public static void verifyDisplay(String field, String messageTrue, String messageFalse) {
+        boolean check = driver.findElement(By.xpath(field)).isDisplayed();
+        if (check) {
+            System.out.println(messageTrue);
+        } else {
+            System.out.println(messageFalse);
         }
     }
 
-    public static void chkDisplayAttachfile() throws InterruptedException {
-        WebElement attachfile = driver.findElement(By.xpath(LocatorsTasks.linkAttachFile));
-        //Kểm tra giá trị mặc định
-        boolean chkDisplay = driver.findElement(By.xpath(LocatorsTasks.inputFileAttachment)).isDisplayed();
-        System.out.println("Trạng thái ban đầu của input Attachment: "+chkDisplay);
+    public static void addNewTask(String taskName, String hourlyRate, String startDate, String duaDate, String priority, String repeatEvery, String totalCycles,
+                                  String relatedTo, String valueRelatedTo, String assignees, String followers, String followers2, String tags) throws InterruptedException {
+        //click menu Lead
+        driver.findElement(By.xpath(LocatorsTasks.menuTasks)).click();
+        Thread.sleep(2000);
+        verifyDisplay(LocatorsTasks.headerTasksSummary, "Đã tới trang Tasks", "FAILED!!! Không truy cập được vào trang Tasks");
 
-        //click element Attachfile
-        attachfile.click();
-        Thread.sleep(500);
+        //click button New Lead
+        driver.findElement(By.xpath(LocatorsTasks.btnAddTasks)).click();
+        Thread.sleep(1000);
+        verifyDisplay(LocatorsTasks.titleAddNewTask, "Mở pop-up Add new Tasks thành công", "FAILED!!! Không mở được pop-up Add new Tasks");
 
-        //Kiểm tra sau khi click lần 1 element Attachfile
-        boolean chkDisplayFirstClick = driver.findElement(By.xpath(LocatorsTasks.inputFileAttachment)).isDisplayed();
-        System.out.println("Trạng thái sau click lần 1 của input Attachment: "+chkDisplayFirstClick);
-
-        attachfile.click();
-        Thread.sleep(500);
-        //Kiểm tra sau khi click lần 2 element Attachfile
-        boolean chkDisplaySecondClick = driver.findElement(By.xpath(LocatorsTasks.inputFileAttachment)).isDisplayed();
-        System.out.println("Trạng thái sau click lần 2 của input Attachment: "+chkDisplaySecondClick);
-
-    }
-
-    public static void dropdownNoSearch(
-            String xpathDropdown,
-            String xpathGetValue) throws InterruptedException {
-        //Kiểm tra giá mặc định
-        WebElement selected = driver.findElement(By.xpath(xpathDropdown)); //LocatorsTasks.dropdown
-        String currentValue = selected.getAttribute("title");
-        System.out.println("Giá trị mặc định là: "+currentValue);
-
-        driver.findElement(By.xpath(xpathDropdown)).click();
-        Thread.sleep(500);
-
-        driver.findElement(By.xpath(xpathGetValue)).click();
-        Thread.sleep(500);
-
-        //Kiểm tra giá mặc định
-        WebElement selectedNew = driver.findElement(By.xpath(xpathDropdown)); //LocatorsTasks.dropdown
-        String newValue = selectedNew.getAttribute("title");
-        System.out.println("Giá trị mới là: "+newValue);
-    }
-
-    //Thiếu kiểm tra cho chọn nhiều và chọn nhiều (chọn nhiều là click ->
-        // sendkey, tìm -> chọn giá trị -> clear tìm kiếm -> sendkey, tìm -> chọn giá trị )
-    public static void dropdownSearchMuti(
-            String xpathDropdown,
-            String xpathSearch,
-            String keySearch,
-            String xpathGetValue,
-            String xpathSearch2,
-            String keySearch2,
-            String xpathGetValue2) throws InterruptedException {
-        //Kiểm tra giá mặc định
-        WebElement selected = driver.findElement(By.xpath(xpathDropdown)); //LocatorsTasks.dropdown
-        String currentValue = selected.getAttribute("title");
-        System.out.println("Giá trị mặc định là: "+currentValue);
-
-        driver.findElement(By.xpath(xpathDropdown)).click();
-        Thread.sleep(500);
-
-        driver.findElement(By.xpath(xpathSearch)).sendKeys(keySearch);
-
-        driver.findElement(By.xpath(xpathGetValue)).click();
-        Thread.sleep(500);
-
-        driver.findElement(By.xpath(xpathSearch2)).clear();
-
-        driver.findElement(By.xpath(xpathSearch2)).sendKeys(keySearch2);
-
-        driver.findElement(By.xpath(xpathGetValue2)).click();
-        Thread.sleep(500);
-
-        //Kiểm tra giá mặc định
-        WebElement selectedNew = driver.findElement(By.xpath(xpathDropdown)); //LocatorsTasks.dropdown
-        String newValue = selectedNew.getAttribute("title");
-        System.out.println("Giá trị mới là: "+newValue);
-    }
-
-    public static void dropdownSearch(
-            String xpathDropdown,
-            String xpathSearch,
-            String keySearch,
-            String xpathGetValue) throws InterruptedException {
-        //Kiểm tra giá mặc định
-        WebElement selected = driver.findElement(By.xpath(xpathDropdown)); //LocatorsTasks.dropdown
-        String currentValue = selected.getAttribute("title");
-        System.out.println("Giá trị mặc định là: "+currentValue);
-
-        driver.findElement(By.xpath(xpathDropdown)).click();
-        Thread.sleep(500);
-
-        driver.findElement(By.xpath(xpathSearch)).sendKeys(keySearch);
-
-        driver.findElement(By.xpath(xpathGetValue)).click();
-        Thread.sleep(500);
-
-        //Kiểm tra giá mặc định
-        WebElement selectedNew = driver.findElement(By.xpath(xpathDropdown)); //LocatorsTasks.dropdown
-        String newValue = selectedNew.getAttribute("title");
-        System.out.println("Giá trị mới là: "+newValue);
-    }
-
-    public static void chkDropdownRepeatAndTotalCycles() throws InterruptedException {
-        WebElement inputTotalCycles = driver.findElement(By.xpath(LocatorsTasks.inputTotalCycles));
-        WebElement labelInfinity = driver.findElement(By.xpath(LocatorsTasks.labelCheckboxInfinity));
-        WebElement chbInfinity = driver.findElement(By.xpath(LocatorsTasks.checkboxInfinity));
-
-        //kiểm tra giá tri mặc định của input
-        boolean isDisplayedInputCurrent = inputTotalCycles.isDisplayed();
-        System.out.println("Input được hiển thị (Mặc định): "+isDisplayedInputCurrent);
-
-        //gọi hàm dropdown no search
-        dropdownNoSearch(LocatorsTasks.dropdownRepeatEvery, LocatorsTasks.getValueRepeatEvery("Week"));
-        Thread.sleep(500);
-
-        //kiểm tra lại nếu dropdown đấy đã chọn dữ liệu thì input ẩn kia có hiện lên và thao tác được không
-        boolean isDisplayedInputNow = inputTotalCycles.isDisplayed();
-        System.out.println("Input được hiển thị: "+isDisplayedInputNow);
-
-        //Kiểm tra giá trị mặc định của checkbox infinity
-        boolean isSelectedInfinity = chbInfinity.isSelected();
-        System.out.println("Checkbox Infinity đuợc chọn (mặc định): " + isSelectedInfinity);
-
-        //Kiểm tra input Total thao tác được
-        if (isSelectedInfinity){
-            boolean isEnableInputCurrent = inputTotalCycles.isEnabled();
-            System.out.println("Input cho phép thao tác: "+isEnableInputCurrent);
-        }
-
-        //click lần 2 (bỏ chọn)
-        chbInfinity.click();
-
-        //Kiểm tra sau khi bỏ chọn checkbox thì cho phép thao tác nhập không
-        boolean isEnableInputNow = inputTotalCycles.isEnabled();
-        System.out.println("Input cho phép thao tác: "+isEnableInputNow);
-        if (isEnableInputNow) {
-            inputTotalCycles.clear();
-            inputTotalCycles.sendKeys("100000"); //kh biết nhập số 0
-        }
-        Thread.sleep(500);
-    }
-
-    //dropdown Related To and dropdown value of Related to
-    public static void dropdownRelatedToAndDropdownValue() throws InterruptedException {
-        //Kiểm tra hiển thị mặc định
-        boolean isDisplayDropdownValue = driver.findElement(By.xpath(LocatorsTasks.dropdownForRelatedTo)).isDisplayed();
-        System.out.println("Dropdown value RelatedTo hiển thị (Mặc định): "+isDisplayDropdownValue);
-
-        //Click vô hàm RelatedTo chọn giá trị
-        dropdownNoSearch(LocatorsTasks.dropdownRelatedTo, LocatorsTasks.getValueRelatedTo("Lead"));
-
-        //Kiểm tra hiển thị sau khi chọn Related to
-        boolean isDisplayDropdownValueNew = driver.findElement(By.xpath(LocatorsTasks.dropdownForRelatedTo)).isDisplayed();
-        System.out.println("Dropdown value RelatedTo hiển thị: "+isDisplayDropdownValueNew);
-
-        //dropdown valueDropdown Related to
-        dropdownSearch(LocatorsTasks.dropdownForRelatedTo, LocatorsTasks.inputSearchOfForRelatedTo, "Giang", LocatorsTasks.getValueForRelatedTo("GiangTest 02 - giang12345@gmail.com"));
-
-    }
-
-    public static void addNewTask(String taskName) throws InterruptedException {
         //Checkbox public
-        handleCheckbox(LocatorsTasks.checkboxPublic);
+        boolean isSelectedPublic = driver.findElement(By.xpath(LocatorsTasks.checkboxPublic)).isSelected();
+        if (!isSelectedPublic) {
+            driver.findElement(By.xpath(LocatorsTasks.checkboxPublic)).click();
+        }
+
         //Checkbox Billsble
-        handleCheckbox(LocatorsTasks.checkboxBillsble);
+        boolean isSelectedBillsble = driver.findElement(By.xpath(LocatorsTasks.checkboxPublic)).isSelected();
+        if (!isSelectedBillsble) {
+            driver.findElement(By.xpath(LocatorsTasks.checkboxPublic)).click();
+        }
+
         //check attachment
-        chkDisplayAttachfile();
+        driver.findElement(By.xpath(LocatorsTasks.linkAttachFile)).click();
+
         //sendKeys input
         driver.findElement(By.xpath(LocatorsTasks.inputSubject)).sendKeys(taskName);
         driver.findElement(By.xpath(LocatorsTasks.inputHourlyRate)).clear();
-        driver.findElement(By.xpath(LocatorsTasks.inputHourlyRate)).sendKeys("24");
+        driver.findElement(By.xpath(LocatorsTasks.inputHourlyRate)).sendKeys(hourlyRate);
         driver.findElement(By.xpath(LocatorsTasks.inputStartDate)).clear();
-        driver.findElement(By.xpath(LocatorsTasks.inputStartDate)).sendKeys("20-10-2025");
+        driver.findElement(By.xpath(LocatorsTasks.inputStartDate)).sendKeys(startDate);
         driver.findElement(By.xpath(LocatorsTasks.inputStartDate)).click();
         Thread.sleep(500);
-        driver.findElement(By.xpath(LocatorsTasks.inputDuaDate)).sendKeys("05-11-2025");
+        driver.findElement(By.xpath(LocatorsTasks.inputDuaDate)).sendKeys(duaDate);
         driver.findElement(By.xpath(LocatorsTasks.inputDuaDate)).click();
 
         //dropdown Priority
-        dropdownNoSearch(LocatorsTasks.dropdownPriority, LocatorsTasks.getValuePriority("High"));
+        driver.findElement(By.xpath(LocatorsTasks.dropdownPriority)).click();
+        Thread.sleep(500);
+        driver.findElement(By.xpath(LocatorsTasks.getValuePriority(priority))).click();
+        Thread.sleep(500);
 
-        //dropdown Repeat every and input Total cycle
-        chkDropdownRepeatAndTotalCycles();
+        //dropdown Repeat every and input Total cycle (cho if)
+        driver.findElement(By.xpath(LocatorsTasks.dropdownRepeatEvery)).click();
+        Thread.sleep(500);
+        driver.findElement(By.xpath(LocatorsTasks.getValueRepeatEvery(repeatEvery))).click();
+        Thread.sleep(500);
+        if(repeatEvery.equals("Custom")){
+            //input
+            driver.findElement(By.xpath(LocatorsTasks.repeatEveryCustom)).clear();
+            driver.findElement(By.xpath(LocatorsTasks.repeatEveryCustom)).sendKeys("100");
+            Thread.sleep(500);
+            //dropdown
+            driver.findElement(By.xpath(LocatorsTasks.dropdownRepeatEveryCustom)).click();
+            Thread.sleep(500);
+            driver.findElement(By.xpath(LocatorsTasks.getRepeatEveryCustom("Day(s)")));
+            Thread.sleep(1000);
+            //input Total
+            driver.findElement(By.xpath(LocatorsTasks.checkboxInfinity)).click(); //click (bỏ chọn)
+            Thread.sleep(500);
+            driver.findElement(By.xpath(LocatorsTasks.inputTotalCycles)).clear();
+            driver.findElement(By.xpath(LocatorsTasks.inputTotalCycles)).sendKeys("100000");
+            Thread.sleep(500);
+        }else if(repeatEvery.equals("Week") || repeatEvery.equals("2 Weeks") || repeatEvery.equals("1 Month") || repeatEvery.equals("2 Months") ||
+                repeatEvery.equals("3 Months") || repeatEvery.equals("6 Months") || repeatEvery.equals("1 Year")) {
+            driver.findElement(By.xpath(LocatorsTasks.checkboxInfinity)).click(); //click (bỏ chọn)
+            Thread.sleep(500);
+            driver.findElement(By.xpath(LocatorsTasks.inputTotalCycles)).clear();
+            driver.findElement(By.xpath(LocatorsTasks.inputTotalCycles)).sendKeys("100000");
+            Thread.sleep(500);
+        }else{
+            System.out.println("Không tồn tại");
+        }
 
-        //dropdown Related to and dropdown value related to
-        dropdownRelatedToAndDropdownValue();
+        //dropdown Related to
+        driver.findElement(By.xpath(LocatorsTasks.dropdownRelatedTo)).click();
+        Thread.sleep(500);
+        driver.findElement(By.xpath(LocatorsTasks.getValueRelatedTo(relatedTo))).click();
+        Thread.sleep(500);
+
+        //dropdown value Related to
+        boolean isDisplayDropdownValueNew = driver.findElement(By.xpath(LocatorsTasks.dropdownForRelatedTo)).isDisplayed();
+        System.out.println("Dropdown value RelatedTo hiển thị: " + isDisplayDropdownValueNew);
+
+        //Click vô hàm valueDropdown Related to chọn giá trị
+        driver.findElement(By.xpath(LocatorsTasks.dropdownForRelatedTo)).click();
+        Thread.sleep(500);
+        driver.findElement(By.xpath(LocatorsTasks.inputSearchOfForRelatedTo)).sendKeys(valueRelatedTo);
+        Thread.sleep(500);
+        driver.findElement(By.xpath(LocatorsTasks.getValueForRelatedTo(valueRelatedTo))).click();
+        Thread.sleep(500);
 
         //dropdown Assignees
-        dropdownSearchMuti(
-                LocatorsTasks.dropdownAssignees,
-                LocatorsTasks.inputSearchOffAssignees,
-                "Admin Anh",
-                LocatorsTasks.getValueAssignees("Admin Anh Tester"),
-                LocatorsTasks.inputSearchOffAssignees,
-                "Admin Ex",
-                LocatorsTasks.getValueAssignees("Admin Example")
-        );
+        driver.findElement(By.xpath(LocatorsTasks.dropdownAssignees)).click();
+        Thread.sleep(500);
+        driver.findElement(By.xpath(LocatorsTasks.inputSearchOffAssignees)).sendKeys(assignees);
+        Thread.sleep(500);
+        driver.findElement(By.xpath(LocatorsTasks.getValueAssignees(assignees))).click();
+        Thread.sleep(500);
 
-        //dropdown Followers
-        dropdownSearchMuti(
-                LocatorsTasks.dropdownFollowers,
-                LocatorsTasks.inputSearchOffFollowers,
-                "Admin Ex",
-                LocatorsTasks.getValueFollowers("Admin Example"),
-                LocatorsTasks.inputSearchOffFollowers,
-                "Admin Anh",
-                LocatorsTasks.getValueFollowers("Admin Anh Tester")
-        );
+        //dropdown Followers Mutip
+        driver.findElement(By.xpath(LocatorsTasks.dropdownFollowers)).click();
+        Thread.sleep(500);
+        driver.findElement(By.xpath(LocatorsTasks.inputSearchOffFollowers)).sendKeys(followers);
+        Thread.sleep(500);
+        driver.findElement(By.xpath(LocatorsTasks.getValueFollowers(followers))).click();
+        Thread.sleep(500);
+
+        driver.findElement(By.xpath(LocatorsTasks.inputSearchOffFollowers)).clear();
+        driver.findElement(By.xpath(LocatorsTasks.inputSearchOffFollowers)).sendKeys(followers2);
+        Thread.sleep(500);
+        driver.findElement(By.xpath(LocatorsTasks.getValueFollowers(followers2))).click();
+        Thread.sleep(500);
 
         //Tags
-        driver.findElement(By.xpath(LocatorsTasks.inputAddTags)).sendKeys("Giangh");
+        driver.findElement(By.xpath(LocatorsTasks.inputAddTags)).sendKeys(tags);
         driver.findElement(By.xpath(LocatorsTasks.labelTags)).click();
 
 //        driver.findElement(By.xpath(LocatorsTasks.textareaTaskDescription)).click();
@@ -239,15 +144,25 @@ public class BTTasks extends BaseTest {
 
 
     public static void main(String[] args) throws InterruptedException {
+        String taskName = "GTest1";
+        String hourlyRate = "24";
+        String startDate = "20-10-2025";
+        String duaDate = "05-11-2025";
+        String priority = "High";
+        String repeatEvery = "Week";
+        String totalCycles = "100000";
+        String relatedTo = "Lead";
+        String valueRelatedTo = "GiangTest 02 - giang12345@gmail.com";
+        String assignees = "Admin Anh Tester";
+        String followers = "Admin Example";
+        String followers2 = "Admin Anh Tester";
+        String tags = "Giang";
+
         createDriver();
         loginCRM();
         Thread.sleep(1000);
 
-        driver.findElement(By.xpath(LocatorsTasks.menuTasks)).click();
-        driver.findElement(By.xpath(LocatorsTasks.btnAddTasks)).click();
-        Thread.sleep(1000);
-
-        addNewTask("GTest1");
+        addNewTask(taskName, hourlyRate, startDate, duaDate, priority, repeatEvery, totalCycles, relatedTo, valueRelatedTo, assignees, followers, followers2, tags);
         Thread.sleep(1000);
 
         closeDriver();

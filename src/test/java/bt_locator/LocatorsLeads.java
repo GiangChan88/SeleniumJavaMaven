@@ -7,7 +7,7 @@ public class LocatorsLeads {
 
     //locator for Leads Page
     public static String buttonNewLead = "//a[normalize-space()='New Lead']";
-    public static String buttonLeadsSummary = "//a[@data-title='Leads Summary']";
+    public static String headerLeadsSummary = "//a[@data-title='Leads Summary']";
     public static String buttonKanban = "//a[@data-title='Switch to Kanban']";
     public static String buttonFilterBy = "//div[@id='vueApp']//button[@type='button']";
     public static String dropdownLeadLength = "//select[@name ='leads_length']";
