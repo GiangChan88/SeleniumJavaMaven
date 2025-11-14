@@ -6,6 +6,9 @@ public class LocatorsTasks {
     public static String menuTasks = "//span[normalize-space()='Tasks']";
     public static String btnAddTasks = "//a[normalize-space() = 'New Task']";
     public static String headerTasksSummary = "//h4//span[normalize-space()='Tasks Summary']";
+    public static String inputSearch = "//div[@id='tasks_filter']//input[@type='search']";
+    public static String iconClosePopupDetail = "//div[@id='task-modal']//button[@class= 'close']";
+    public static String firstRowItem = "//table[@id='tasks']//tbody/tr[1]/td[3]/a";
 
     //locators Add New Tasks
     public static String titleAddNewTask = "//h4[@id='myModalLabel']";

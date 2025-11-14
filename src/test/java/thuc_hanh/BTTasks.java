@@ -5,6 +5,7 @@ import bt_locator.LocatorsTasks;
 import common.BaseTest;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.testng.annotations.Test;
 
 public class BTTasks extends BaseTest {
     public static void verifyDisplay(String field, String messageTrue, String messageFalse) {
@@ -16,17 +17,25 @@ public class BTTasks extends BaseTest {
         }
     }
 
-    public static void addNewTask(String taskName, String hourlyRate, String startDate, String duaDate, String priority, String repeatEvery, String totalCycles,
-                                  String relatedTo, String valueRelatedTo, String assignees, String followers, String followers2, String tags) throws InterruptedException {
+    public static void verifyMenuTask() throws InterruptedException {
         //click menu Lead
         driver.findElement(By.xpath(LocatorsTasks.menuTasks)).click();
         Thread.sleep(2000);
         verifyDisplay(LocatorsTasks.headerTasksSummary, "Đã tới trang Tasks", "FAILED!!! Không truy cập được vào trang Tasks");
 
+    }
+
+    public static void verifyBtnAddTask() throws InterruptedException {
         //click button New Lead
         driver.findElement(By.xpath(LocatorsTasks.btnAddTasks)).click();
         Thread.sleep(1000);
         verifyDisplay(LocatorsTasks.titleAddNewTask, "Mở pop-up Add new Tasks thành công", "FAILED!!! Không mở được pop-up Add new Tasks");
+
+    }
+
+    public static void addNewTask(String taskName, String hourlyRate, String startDate, String duaDate, String priority, String repeatEvery, String totalCycles,
+                                  String relatedTo, String searchValueRelatedTo,String valueRelatedTo, String assignees, String followers, String followers2, String tags) throws InterruptedException {
+
 
         //Checkbox public
         boolean isSelectedPublic = driver.findElement(By.xpath(LocatorsTasks.checkboxPublic)).isSelected();
@@ -42,6 +51,7 @@ public class BTTasks extends BaseTest {
 
         //check attachment
         driver.findElement(By.xpath(LocatorsTasks.linkAttachFile)).click();
+        Thread.sleep(1000);
 
         //sendKeys input
         driver.findElement(By.xpath(LocatorsTasks.inputSubject)).sendKeys(taskName);
@@ -50,7 +60,7 @@ public class BTTasks extends BaseTest {
         driver.findElement(By.xpath(LocatorsTasks.inputStartDate)).clear();
         driver.findElement(By.xpath(LocatorsTasks.inputStartDate)).sendKeys(startDate);
         driver.findElement(By.xpath(LocatorsTasks.inputStartDate)).click();
-        Thread.sleep(500);
+        Thread.sleep(1000);
         driver.findElement(By.xpath(LocatorsTasks.inputDuaDate)).sendKeys(duaDate);
         driver.findElement(By.xpath(LocatorsTasks.inputDuaDate)).click();
 
@@ -86,7 +96,7 @@ public class BTTasks extends BaseTest {
             driver.findElement(By.xpath(LocatorsTasks.checkboxInfinity)).click(); //click (bỏ chọn)
             Thread.sleep(500);
             driver.findElement(By.xpath(LocatorsTasks.inputTotalCycles)).clear();
-            driver.findElement(By.xpath(LocatorsTasks.inputTotalCycles)).sendKeys("100000");
+            driver.findElement(By.xpath(LocatorsTasks.inputTotalCycles)).sendKeys(totalCycles);
             Thread.sleep(500);
         }else{
             System.out.println("Không tồn tại");
@@ -99,14 +109,14 @@ public class BTTasks extends BaseTest {
         Thread.sleep(500);
 
         //dropdown value Related to
-        boolean isDisplayDropdownValueNew = driver.findElement(By.xpath(LocatorsTasks.dropdownForRelatedTo)).isDisplayed();
-        System.out.println("Dropdown value RelatedTo hiển thị: " + isDisplayDropdownValueNew);
+//        boolean isDisplayDropdownValueNew = driver.findElement(By.xpath(LocatorsTasks.dropdownForRelatedTo)).isDisplayed();
+//        System.out.println("Dropdown value RelatedTo hiển thị: " + isDisplayDropdownValueNew);
 
         //Click vô hàm valueDropdown Related to chọn giá trị
         driver.findElement(By.xpath(LocatorsTasks.dropdownForRelatedTo)).click();
         Thread.sleep(500);
-        driver.findElement(By.xpath(LocatorsTasks.inputSearchOfForRelatedTo)).sendKeys(valueRelatedTo);
-        Thread.sleep(500);
+        driver.findElement(By.xpath(LocatorsTasks.inputSearchOfForRelatedTo)).sendKeys(searchValueRelatedTo);
+        Thread.sleep(1000);
         driver.findElement(By.xpath(LocatorsTasks.getValueForRelatedTo(valueRelatedTo))).click();
         Thread.sleep(500);
 
@@ -142,8 +152,21 @@ public class BTTasks extends BaseTest {
         Thread.sleep(1000);
     }
 
+    public static void closePopupDetail() throws InterruptedException {
+        Thread.sleep(2000);
+        driver.findElement(By.xpath(LocatorsTasks.iconClosePopupDetail)).click();
+    }
 
-    public static void main(String[] args) throws InterruptedException {
+    public static void searchTaskAddNew(String taskName) throws InterruptedException {
+        driver.findElement(By.xpath(LocatorsTasks.inputSearch)).clear();
+        driver.findElement(By.xpath(LocatorsTasks.inputSearch)).sendKeys(taskName);
+        Thread.sleep(2000);
+        String firstRowText = driver.findElement(By.xpath(LocatorsTasks.firstRowItem)).getText();
+        System.out.println("Tìm kiếm thành công Task vừa thêm mới: "+firstRowText);
+    }
+
+    @Test
+    public void testAddNewTask() throws InterruptedException {
         String taskName = "GTest1";
         String hourlyRate = "24";
         String startDate = "20-10-2025";
@@ -152,20 +175,32 @@ public class BTTasks extends BaseTest {
         String repeatEvery = "Week";
         String totalCycles = "100000";
         String relatedTo = "Lead";
-        String valueRelatedTo = "GiangTest 02 - giang12345@gmail.com";
+        String searchValueRelatedTo = "Giang Test 04";
+        String valueRelatedTo = "Giang Test 04 - giang09@gmail.com";
         String assignees = "Admin Anh Tester";
         String followers = "Admin Example";
         String followers2 = "Admin Anh Tester";
         String tags = "Giang";
 
-        createDriver();
+
         loginCRM();
         Thread.sleep(1000);
 
-        addNewTask(taskName, hourlyRate, startDate, duaDate, priority, repeatEvery, totalCycles, relatedTo, valueRelatedTo, assignees, followers, followers2, tags);
+        //click menu Task
+        verifyMenuTask();
+
+        //click btn Add Task
+        verifyBtnAddTask();
+
+        addNewTask(taskName, hourlyRate, startDate, duaDate, priority, repeatEvery, totalCycles, relatedTo, searchValueRelatedTo,valueRelatedTo, assignees, followers, followers2, tags);
+        Thread.sleep(3000);
+
+        closePopupDetail();
         Thread.sleep(1000);
 
-        closeDriver();
+        //verify
+        searchTaskAddNew(taskName);
+
     }
 
 }

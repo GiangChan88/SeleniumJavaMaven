@@ -1,0 +1,14 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+
+<suite name="CRM Test" verbose="1">
+    <test name="TestAddNewLeadAndEditLead">
+        <classes>
+            <class name="thuc_hanh.BTLeads"/>
+        </classes>
+    </test>
+    <test name="TestAddNewTask">
+        <classes>
+            <class name="thuc_hanh.BTTasks"/>
+        </classes>
+    </test>
+</suite>
