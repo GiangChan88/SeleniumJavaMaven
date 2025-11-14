@@ -167,7 +167,7 @@ public class BTTasks extends BaseTest {
 
     @Test
     public void testAddNewTask() throws InterruptedException {
-        String taskName = "GTest1";
+        String taskName = "GTest2";
         String hourlyRate = "24";
         String startDate = "20-10-2025";
         String duaDate = "05-11-2025";
@@ -175,8 +175,8 @@ public class BTTasks extends BaseTest {
         String repeatEvery = "Week";
         String totalCycles = "100000";
         String relatedTo = "Lead";
-        String searchValueRelatedTo = "Giang Test 04";
-        String valueRelatedTo = "Giang Test 04 - giang09@gmail.com";
+        String searchValueRelatedTo = "Giang Test 06";
+        String valueRelatedTo = "Giang Test 06 - giang10@gmail.com";
         String assignees = "Admin Anh Tester";
         String followers = "Admin Example";
         String followers2 = "Admin Anh Tester";

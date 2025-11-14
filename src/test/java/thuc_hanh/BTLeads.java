@@ -209,11 +209,11 @@ public class BTLeads extends BaseTest {
         String source = "Facebook";
         String assigned = "Admin Anh Tester";
         String tags = "Giang12345";
-        String leadName = "Giang Test 04";
+        String leadName = "Giang Test 05";
         String address = "230 Mễ Trì, Hà Nội";
         String position = "Mễ Trì";
         String city = "Hà Nội";
-        String emailAddress = "giang09@gmail.com";
+        String emailAddress = "giang08@gmail.com";
         String state = "123";
         String website = "https://8080:21";
         String country = "Angola";
@@ -250,12 +250,12 @@ public class BTLeads extends BaseTest {
         String status = "Active";
         String source = "Facebook";
         String assigned = "Admin Anh Tester";
-        String tags = "Giang12345";
-        String leadName = "Giang Test 04";
+        String tags = "GTest123";
+        String leadName = "Giang Test 06";
         String address = "230 Mễ Trì, Hà Nội";
         String position = "Mễ Trì";
         String city = "Hà Nội";
-        String emailAddress = "giang09@gmail.com";
+        String emailAddress = "giang10@gmail.com";
         String state = "123";
         String website = "https://8080:21";
         String country = "Angola";
@@ -268,11 +268,21 @@ public class BTLeads extends BaseTest {
         String dateContacted = "05-11-2025 00:00:00";
 
         loginCRM();
-        Thread.sleep(1000);
 
         //click menu Lead
         verifyMenuLead();
 
+        //click btn addnewLead
+        verifyBtnAddNewLead();
+
+        //Tạo data
+        addNewLead(status, source, assigned, tags, leadName, address, position, city, emailAddress, state, website, country, phone, zipcode, leadValue, language, company, description, dateContacted);
+        Thread.sleep(1000);
+
+        closePopupDetail();
+        Thread.sleep(1000);
+
+        //verifyLeadAddNew
         searchLead(leadName);
         Thread.sleep(500);
 
