@@ -274,9 +274,6 @@ public class BTLeads extends BaseTest {
         String description = "Không";
         String dateContacted = "05-11-2025 00:00:00";
 
-        //login
-        loginCRM();
-
         //click menu Lead
         clickMenuLead();
 
@@ -317,9 +314,6 @@ public class BTLeads extends BaseTest {
         String company = "ND";
         String description = "Không";
         String dateContacted = "05-11-2025 00:00:00";
-
-        //login
-        loginCRM();
 
         //click menu Lead
         clickMenuLead();
@@ -371,8 +365,6 @@ public class BTLeads extends BaseTest {
         String description = "Không";
         String dateContacted = "05-11-2025 00:00:00";
 
-        loginCRM();
-
         //click menu Lead
         clickMenuLead();
 
@@ -415,8 +407,6 @@ public class BTLeads extends BaseTest {
         String company = "ND";
         String description = "Không";
         String dateContacted = "05-11-2025 00:00:00";
-
-        loginCRM();
 
         //click menu Lead
         clickMenuLead();
@@ -468,9 +458,6 @@ public class BTLeads extends BaseTest {
         String sourceUpdate = "Google";
         String tagsUpdate = "Giang12345";
         String phoneUpdate = "090000282";
-
-        //login
-        loginCRM();
 
         //click menu Lead
         clickMenuLead();

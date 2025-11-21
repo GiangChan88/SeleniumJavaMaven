@@ -318,8 +318,6 @@ public class BTTasks extends BaseTest {
         String followers2 = "Admin Anh Tester";
         String tags = "Giang";
         String bodyIframeDescription = "Giang Add Tasks";
-
-        loginCRM();
         Thread.sleep(1000);
 
         //click menu Task
@@ -355,8 +353,6 @@ public class BTTasks extends BaseTest {
         String followers2 = "Admin Anh Tester";
         String tags = "Giang";
         String bodyIframeDescription = "Giang Add Tasks2";
-
-        loginCRM();
         Thread.sleep(1000);
 
         //click menu Task
@@ -405,9 +401,6 @@ public class BTTasks extends BaseTest {
         String totalCyclesUpdate = "6666";
         String tagsUpdate = "Giang12";
         String bodyIframeDescriptionUpdate = "Giang Update Tasks";
-
-        //login
-        loginCRM();
 
         //click menu Task
         clickMenuTask();

@@ -21,12 +21,13 @@ public class BaseTest {
     public SoftAssert softAssert;
 
     @BeforeMethod
-    public void createDriver() {
+    public void createDriver() throws InterruptedException {
         driver = new ChromeDriver();
         driver.manage().window().maximize();
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
         System.out.println("Mở trình duyệt Chrome");
         softAssert = new SoftAssert();
+        loginCRM();
     }
 
     @AfterMethod
