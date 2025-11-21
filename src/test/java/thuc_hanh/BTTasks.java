@@ -180,8 +180,9 @@ public class BTTasks extends BaseTest {
 
     //search Lead
     public void searchTaskSuccess(String expectedTaskName) throws InterruptedException {
-        driver.findElement(By.xpath(LocatorsTasks.inputSearch)).clear();
-        driver.findElement(By.xpath(LocatorsTasks.inputSearch)).sendKeys(expectedTaskName);
+        WebElement searchBox = driver.findElement(By.xpath(LocatorsTasks.inputSearch));
+        searchBox.clear();
+        searchBox.sendKeys(expectedTaskName);
         Thread.sleep(2000);
 
         List<WebElement> rows = driver.findElements(By.xpath("//table[@id='tasks']//tbody/tr/td[contains(normalize-space(),'"+expectedTaskName+"')]"));
@@ -252,14 +253,15 @@ public class BTTasks extends BaseTest {
     public void editTaskSuccess(String taskName, String priority, String totalCycles, String tags, String bodyIframeDescription) throws InterruptedException {
         Actions actions = new Actions(driver);
         //dropdown Priority
-        driver.findElement(By.xpath(LocatorsTasks.dropdownPriority)).click();
+        actions.click(driver.findElement(By.xpath(LocatorsTasks.dropdownPriority))).perform();
         Thread.sleep(500);
-        driver.findElement(By.xpath(LocatorsTasks.getValuePriority(priority))).click();
+        actions.click(driver.findElement(By.xpath(LocatorsTasks.getValuePriority(priority)))).perform();
         Thread.sleep(500);
 
         //input
-        driver.findElement(By.xpath(LocatorsTasks.inputTotalCycles)).clear();
-        driver.findElement(By.xpath(LocatorsTasks.inputTotalCycles)).sendKeys(totalCycles);
+        WebElement inputTotalCycles = driver.findElement(By.xpath(LocatorsTasks.inputTotalCycles));
+        inputTotalCycles.clear();
+        actions.sendKeys(inputTotalCycles, totalCycles).perform();
 
         //scroll kéo xuống dưới
         WebElement elementBtnSave = driver.findElement(By.xpath(LocatorsTasks.btnSave)); //trỏ tới element
@@ -269,14 +271,17 @@ public class BTTasks extends BaseTest {
         //Tag
         Thread.sleep(1000);
         WebElement elementCloseTags = driver.findElement(By.xpath("//div[@id='inputTagsWrapper']/ul//a[@class='tagit-close']/span[1]"));
-        elementCloseTags.click();
+        actions.click(elementCloseTags).perform();
         Thread.sleep(1000);
-        driver.findElement(By.xpath(LocatorsTasks.inputAddTags)).sendKeys(tags);
+        WebElement inputAddTags = driver.findElement(By.xpath(LocatorsTasks.inputAddTags));
+        actions.sendKeys(inputAddTags, tags).perform();
         Thread.sleep(1000);
 
         //click ra input name để đóng tag
-        driver.findElement(By.xpath(LocatorsTasks.labelTag)).click();
-        driver.findElement(By.xpath(LocatorsTasks.labelTag)).click();
+        WebElement labelTag = driver.findElement(By.xpath(LocatorsTasks.labelTag));
+        actions.click(labelTag).perform();
+        Thread.sleep(1000);
+        actions.click(labelTag).perform();
 
         //iframe
         //driver.findElement(By.xpath(LocatorsTasks.areaDescription)).click();
@@ -291,7 +296,8 @@ public class BTTasks extends BaseTest {
 
         //click btn Save
         Thread.sleep(1000);
-        driver.findElement(By.xpath(LocatorsTasks.btnSave)).click();
+        WebElement btnSave = driver.findElement(By.xpath(LocatorsTasks.btnSave));
+        actions.click(btnSave).perform();
         System.out.println("Sửa Task thành công");
     }
 
