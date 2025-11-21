@@ -3,12 +3,20 @@
 <suite name="CRM Test" verbose="1">
     <test name="TestLeadLead">
         <classes>
-            <class name="thuc_hanh.BTLeads"/>
+            <class name="thuc_hanh.BTLeads">
+                <methods>
+                    <include name="testAddNewLeadSuccess"/>
+                </methods>
+            </class>
         </classes>
     </test>
     <test name="TestTask">
         <classes>
-            <class name="thuc_hanh.BTTasks"/>
+            <class name="thuc_hanh.BTTasks">
+                <methods>
+                    <include name="testEditTaskSuccess"/>
+                </methods>
+            </class>
         </classes>
     </test>
 </suite>

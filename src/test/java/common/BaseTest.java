@@ -34,6 +34,7 @@ public class BaseTest {
         if(driver != null){
             driver.quit();
             System.out.println("Đóng trình duyệt Chrome");
+            System.out.println("__________________________________");
             softAssert.assertAll();
         }
     }

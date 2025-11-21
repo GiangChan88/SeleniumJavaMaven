@@ -138,7 +138,7 @@ public class BTLeads extends BaseTest {
         driver.findElement(By.xpath(LocatorsLeads.inputSearch)).sendKeys(expectedLeadName);
         Thread.sleep(2000);
 
-        List<WebElement> rows = driver.findElements(By.xpath("//table[@id='leads']//tbody/tr[text()='"+expectedLeadName+"']"));
+        List<WebElement> rows = driver.findElements(By.xpath("//table[@id='leads']//tbody/tr/td/a[normalize-space()='"+expectedLeadName+"']"));
         //Kiểm tra xem bảng trả về rỗng hay không
         if (rows.size() == 0) {
             System.out.println("Tìm kiếm thành công: 0 bản ghi");
@@ -285,6 +285,7 @@ public class BTLeads extends BaseTest {
 
         addNewLead(status, source, assigned, tags, leadName, address, position, city, emailAddress, state, website, country, phone, zipcode, leadValue, language, company, description, dateContacted);
         Thread.sleep(1000);
+        System.out.println("Tạo data thành công");
 
         closePopupDetail();
         Thread.sleep(2000);
