@@ -81,6 +81,7 @@ public class LocatorsLeads {
     //public static String iconCloseAddNewLead = "//div[@id='leads_bulk_actions']/descendant::button[@class='close']";
     public static String iconCloseAddNewLead = "//h4[@id='myModalLabel']/preceding-sibling::button[@class='close']";
 
+    public static String labelStatus = "//label[@for='status']";
     public static String dropdownStatus = "//button[@data-id='status']";
     public static String inputSearchOfStatus = "//button[@data-id='status']/following-sibling::div//input[@type='search']";
 
@@ -164,6 +165,7 @@ public class LocatorsLeads {
     public static String buttonClose = "//div[@id ='tab_lead_profile']//button[normalize-space()='Close']";
     //public static String buttonClose = "//button[@id = 'lead-form-submit']/following-sibling::button[normalize-space()='Close']";
     public static String buttonSave = "//button[@id = 'lead-form-submit']";
+
 
 
 }

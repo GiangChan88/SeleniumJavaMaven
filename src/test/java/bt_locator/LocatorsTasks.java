@@ -10,6 +10,16 @@ public class LocatorsTasks {
     public static String iconClosePopupDetail = "//div[@id='task-modal']//button[@class= 'close']";
     public static String firstRowItem = "//table[@id='tasks']//tbody/tr[1]/td[3]/a";
 
+    public static String buttonEdit(String leadName) {
+        String xpath = "//table[@id='tasks']//td[3]/a[normalize-space()='" + leadName + "']/following-sibling::div/a[normalize-space()='Edit']";
+        return xpath;
+    }
+
+    public static String buttonDelete(String leadName) {
+        String xpath = "//table[@id='tasks']//td[3]/a[normalize-space()='" + leadName + "']/following-sibling::div/a[normalize-space()='Delete']";
+        return xpath;
+    }
+
     //locators Add New Tasks
     public static String titleAddNewTask = "//h4[@id='myModalLabel']";
     public static String iconCloseAddNewTask = "//h4[@id='myModalLabel']/preceding-sibling::button";
@@ -100,8 +110,8 @@ public class LocatorsTasks {
         return xpathListFollowers;
     }
 
-
     public static String inputAddTags = "//div[@id='inputTagsWrapper']//input[@placeholder='Tag']";
+    public static String inputEditTags = "//div[@id='inputTagsWrapper']/input[@id='tags']";
 
     // public String dropdownTags = "//div[@id='inputTagsWrapper']//ul[@id='ui-id-2']";
     public static String getValueTags(String value) {
@@ -109,9 +119,10 @@ public class LocatorsTasks {
         return xpathListTag;
     }
 
-    public static String labelTags = "//label[@for='tags']";
+    public static String labelTag = "//div[@id='inputTagsWrapper']/label[@for='tags']";
 
-    public static String textareaTaskDescription = "//iframe[@id='description_ifr']";
+    public static String areaDescription = "//textarea[@id='description']";
+    public static String iframeDescription = "//iframe[@id='description_ifr']";
 
     public static String btnClose = "//form[@id='task-form']//button[normalize-space()='Close']";
     //public static String btnClose = "//h4[@id='myModalLabel']/parent::div/following-sibling::div[@class='modal-footer']/button[normalize-space()='Close']";
