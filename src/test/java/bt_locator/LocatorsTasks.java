@@ -21,7 +21,7 @@ public class LocatorsTasks {
     }
 
     //locators Add New Tasks
-    public static String titleAddNewTask = "//h4[@id='myModalLabel']";
+    public static String titleAddNewTask = "//h4[normalize-space()='Add new task']";
     public static String iconCloseAddNewTask = "//h4[@id='myModalLabel']/preceding-sibling::button";
 
     public static String labelPublic = "//input[@id='task_is_public']/parent::div[contains(@class, 'task-add-edit-public')]";

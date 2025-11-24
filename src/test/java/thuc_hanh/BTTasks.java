@@ -18,8 +18,15 @@ public class BTTasks extends BaseTest {
         //click menu Lead
         driver.findElement(By.xpath(LocatorsTasks.menuTasks)).click();
         Thread.sleep(2000);
+        System.out.println("Click menu Task");
+    }
+
+    public void verifyMenuTask() throws InterruptedException {
         List<WebElement> checkHeaderTaskSummary = driver.findElements(By.xpath(LocatorsTasks.headerTasksSummary));
         Assert.assertTrue(checkHeaderTaskSummary.size() > 0, "FAILED!!! Không truy cập được vào trang Tasks");
+        //check text
+        WebElement menuTaskText = driver.findElement(By.xpath(LocatorsTasks.headerTasksSummary));
+        softAssert.assertEquals(menuTaskText, "Tasks Summary", "Tasks Summary is not correct");
         System.out.println("Đã tới Tasks");
     }
 
@@ -27,8 +34,15 @@ public class BTTasks extends BaseTest {
         //click button New Lead
         driver.findElement(By.xpath(LocatorsTasks.btnAddTasks)).click();
         Thread.sleep(1000);
+        System.out.println("Click button Add Task");
+    }
+
+    public void verifyBtnAddTask() throws InterruptedException {
         List<WebElement> checkTitleAddNewTask = driver.findElements(By.xpath(LocatorsTasks.titleAddNewTask));
         Assert.assertTrue(checkTitleAddNewTask.size() > 0, "FAILED!!! Không mở được pop-up Add new Tasks");
+        //checktext
+        WebElement btnAddTask = driver.findElement(By.xpath(LocatorsTasks.titleAddNewTask));
+        softAssert.assertEquals(btnAddTask, "Add new task", "Title Add new task is not correct");
         System.out.println("Mở pop-up Add new Tasks thành công");
     }
 
@@ -185,16 +199,30 @@ public class BTTasks extends BaseTest {
         searchBox.sendKeys(expectedTaskName);
         Thread.sleep(2000);
 
+
         List<WebElement> rows = driver.findElements(By.xpath("//table[@id='tasks']//tbody/tr/td[contains(normalize-space(),'"+expectedTaskName+"')]"));
-        //Kiểm tra xem bảng trả về rỗng hay không
-        if (rows.size() == 0) {
-            System.out.println("Tìm kiếm thành công: 0 bản ghi");
-            Assert.assertTrue(true, "Còn dữ liệu");  // Test pass
-        } else {
-            String actualTaskName = driver.findElement(By.xpath(LocatorsTasks.firstRowItem)).getText();
-            Assert.assertEquals(actualTaskName.trim(), expectedTaskName.trim(), "Name Task hiển thị sau khi tìm kiếm không khớp với Task vừa thêm ");
-            System.out.println("Tìm kiếm thành công Task: " + actualTaskName);
-        }
+        //Sai khi không có bản ghi
+        //Assert.assertFalse(rows.size() == 0, "Không tìm thấy Task '" + expectedTaskName + "' sau khi search!");
+
+        //Mong muốn rows.size() > 0 => đúng, nếu rows.size() == 0 thì hiển thị message kia
+        Assert.assertTrue(rows.size() > 0, "Không tìm thấy Task '" + expectedTaskName + "' sau khi search!");
+
+        String actualTaskName = rows.get(0).getText();
+        Assert.assertEquals(actualTaskName.trim(), expectedTaskName.trim(), "Name Task hiển thị sau khi tìm kiếm không khớp với Task vừa thêm ");
+        System.out.println("Tìm kiếm thành công Task: " + actualTaskName);
+    }
+
+    public void searchTaskSuccessNoData(String expectedTaskName) throws InterruptedException {
+        WebElement searchBox = driver.findElement(By.xpath(LocatorsTasks.inputSearch));
+        searchBox.clear();
+        searchBox.sendKeys(expectedTaskName);
+        Thread.sleep(2000);
+
+//        List<WebElement> actualTaskName = driver.findElements(By.xpath("//table[@id='tasks']//tbody/tr/td[contains(normalize-space(),'"+expectedTaskName+"')]"));
+//        Assert.assertTrue(actualTaskName.size() == 0, "Còn dữ liệu");
+        List<WebElement> rows = driver.findElements(By.xpath("//table[@id='tasks']//tbody/tr/td[contains(normalize-space(),'"+expectedTaskName+"')]"));
+        Assert.assertFalse(rows.size() > 0, "Không mong muốn: vẫn còn bản ghi '" + expectedTaskName + "' trong bảng!");// Test pass
+        System.out.println("Tìm kiếm thành công: 0 bản ghi");
     }
 
     //Hàm so sánh giá trị đã thêm mới trong màn edit
@@ -229,7 +257,7 @@ public class BTTasks extends BaseTest {
         Thread.sleep(1000);
         List<WebElement> checkTitleEditTask = driver.findElements(By.xpath("//h4[@id='myModalLabel' and normalize-space() = 'Edit task "+taskName+"']"));
         Assert.assertTrue(checkTitleEditTask.size() > 0, "FAILED!!! Không mở được pop-up Edit Tasks");
-        System.out.println("Mở pop-up Edit Tasks thành công");
+        System.out.println("Mở pop-up Edit Task thành công");
     }
 
     public void viewEditTaskSuccess(String taskName, String hourlyRate, String startDate, String duaDate, String priority, String repeatEvery, String totalCycles,
@@ -250,18 +278,95 @@ public class BTTasks extends BaseTest {
         System.out.println("Tất cả các trường dữ liệu Task đã được Verify thành công");
     }
 
-    public void editTaskSuccess(String taskName, String priority, String totalCycles, String tags, String bodyIframeDescription) throws InterruptedException {
+    public void editTaskSuccess(String hourlyRate, String startDate, String duaDate, String priority, String repeatEvery, String totalCycles,
+                                String relatedTo, String searchValueRelatedTo, String valueRelatedTo, String tags, String bodyIframeDescription) throws InterruptedException {
         Actions actions = new Actions(driver);
+
+        WebElement checkboxPublic = driver.findElement(By.xpath(LocatorsTasks.checkboxPublic));
+        WebElement checkboxBillsble = driver.findElement(By.xpath(LocatorsTasks.checkboxPublic));
+        WebElement inputHourlyRate = driver.findElement(By.xpath(LocatorsTasks.inputHourlyRate));
+        WebElement inputStartDate = driver.findElement(By.xpath(LocatorsTasks.inputStartDate));
+        WebElement inputDuaDate = driver.findElement(By.xpath(LocatorsTasks.inputDuaDate));
+
+        //Checkbox public
+        if (!checkboxPublic.isSelected()) {
+            checkboxPublic.click();
+        }
+        softAssert.assertTrue(checkboxPublic.isSelected(), "Checkbox public chưa được tích sau khi click");
+
+        //Checkbox Billable
+        if (!checkboxBillsble.isSelected()) {
+            checkboxBillsble.click();
+        }
+        softAssert.assertTrue(checkboxBillsble.isSelected(), "Checkbox Billable chưa được tích sau khi click");
+
+        //sendKeys input
+        inputHourlyRate.clear();
+        actions.sendKeys(inputHourlyRate, hourlyRate);
+
+        inputStartDate.clear();
+        actions.sendKeys(inputStartDate, startDate);
+        inputStartDate.click();
+        Thread.sleep(1000);
+
+        inputDuaDate.clear();
+        actions.sendKeys(inputDuaDate, duaDate);
+        inputDuaDate.click();
+
         //dropdown Priority
-        actions.click(driver.findElement(By.xpath(LocatorsTasks.dropdownPriority))).perform();
+        actions.click(driver.findElement(By.xpath(LocatorsTasks.dropdownPriority)));
         Thread.sleep(500);
-        actions.click(driver.findElement(By.xpath(LocatorsTasks.getValuePriority(priority)))).perform();
+        actions.click(driver.findElement(By.xpath(LocatorsTasks.getValuePriority(priority))));
         Thread.sleep(500);
 
-        //input
-        WebElement inputTotalCycles = driver.findElement(By.xpath(LocatorsTasks.inputTotalCycles));
-        inputTotalCycles.clear();
-        actions.sendKeys(inputTotalCycles, totalCycles).perform();
+        //dropdown Repeat every and input Total cycle (cho if)
+        actions.click(driver.findElement(By.xpath(LocatorsTasks.dropdownRepeatEvery)));
+        Thread.sleep(500);
+        actions.click(driver.findElement(By.xpath(LocatorsTasks.getValueRepeatEvery(repeatEvery))));
+        Thread.sleep(500);
+        if (repeatEvery.equals("Custom")) {
+            //input
+            WebElement repeatEveryCustom = driver.findElement(By.xpath(LocatorsTasks.repeatEveryCustom));
+            repeatEveryCustom.clear();
+            actions.sendKeys(repeatEveryCustom, "100");
+            Thread.sleep(500);
+            //dropdown
+            actions.click(driver.findElement(By.xpath(LocatorsTasks.dropdownRepeatEveryCustom)));
+            Thread.sleep(500);
+            driver.findElement(By.xpath(LocatorsTasks.getRepeatEveryCustom("Day(s)")));
+            Thread.sleep(1000);
+            //input Total
+            actions.click(driver.findElement(By.xpath(LocatorsTasks.checkboxInfinity))); //click (bỏ chọn)
+            Thread.sleep(500);
+            WebElement inputTotalCycles = driver.findElement(By.xpath(LocatorsTasks.inputTotalCycles));
+            inputTotalCycles.clear();
+            actions.sendKeys(inputTotalCycles, totalCycles);
+            Thread.sleep(500);
+        } else if (repeatEvery.equals("Week") || repeatEvery.equals("2 Weeks") || repeatEvery.equals("1 Month") || repeatEvery.equals("2 Months") ||
+                repeatEvery.equals("3 Months") || repeatEvery.equals("6 Months") || repeatEvery.equals("1 Year")) {
+            driver.findElement(By.xpath(LocatorsTasks.checkboxInfinity)).click(); //click (bỏ chọn)
+            Thread.sleep(500);
+            WebElement inputTotalCycles = driver.findElement(By.xpath(LocatorsTasks.inputTotalCycles));
+            inputTotalCycles.clear();
+            actions.sendKeys(inputTotalCycles, totalCycles);
+            Thread.sleep(500);
+        } else {
+            System.out.println("Không tồn tại");
+        }
+
+        //dropdown Related to
+        actions.click(driver.findElement(By.xpath(LocatorsTasks.dropdownRelatedTo)));
+        Thread.sleep(500);
+        actions.click(driver.findElement(By.xpath(LocatorsTasks.getValueRelatedTo(relatedTo))));
+        Thread.sleep(500);
+
+        //Click vô hàm valueDropdown Related to chọn giá trị
+        actions.click(driver.findElement(By.xpath(LocatorsTasks.dropdownForRelatedTo)));
+        Thread.sleep(500);
+        actions.sendKeys( driver.findElement(By.xpath(LocatorsTasks.inputSearchOfForRelatedTo)), searchValueRelatedTo);
+        Thread.sleep(1000);
+        actions.click(driver.findElement(By.xpath(LocatorsTasks.getValueForRelatedTo(valueRelatedTo))));
+        Thread.sleep(500);
 
         //scroll kéo xuống dưới
         WebElement elementBtnSave = driver.findElement(By.xpath(LocatorsTasks.btnSave)); //trỏ tới element
@@ -322,9 +427,11 @@ public class BTTasks extends BaseTest {
 
         //click menu Task
         clickMenuTask();
+        verifyMenuTask();
 
         //click btn Add Task
         clickBtnAddTask();
+        verifyBtnAddTask();
 
         addNewTask(taskName, hourlyRate, startDate, duaDate, priority, repeatEvery, totalCycles, relatedTo, searchValueRelatedTo, valueRelatedTo, assignees, followers, followers2, tags, bodyIframeDescription);
         Thread.sleep(3000);
@@ -357,9 +464,11 @@ public class BTTasks extends BaseTest {
 
         //click menu Task
         clickMenuTask();
+        verifyMenuTask();
 
         //click btn Add Task
         clickBtnAddTask();
+        verifyBtnAddTask();
 
         addNewTask(taskName, hourlyRate, startDate, duaDate, priority, repeatEvery, totalCycles, relatedTo, searchValueRelatedTo, valueRelatedTo, assignees, followers, followers2, tags, bodyIframeDescription);
         Thread.sleep(3000);
@@ -395,18 +504,27 @@ public class BTTasks extends BaseTest {
         String tags = "Giang";
         String bodyIframeDescription = "Giang Add Tasks2";
 
-
         //Data Update
+        String hourlyRateUpdate = "24";
+        String startDateUpdate = "20-11-2025";
+        String duaDateUpdate = "21-11-2025";
         String priorityUpdate = "Low";
+        String repeatEveryUpdate = "Week";
         String totalCyclesUpdate = "6666";
+        String relatedToUpdate = "Lead";
+        String searchValueRelatedToUpdate = "Giang Chan";
+        String valueRelatedToUpdate = "Giang Chan - giang08@gmail.com";
         String tagsUpdate = "Giang12";
         String bodyIframeDescriptionUpdate = "Giang Update Tasks";
 
+
         //click menu Task
         clickMenuTask();
+        verifyMenuTask();
 
-        //click btn addnewTask
+        //click btn Add Task
         clickBtnAddTask();
+        verifyBtnAddTask();
 
         //Tạo data
         addNewTask(taskName, hourlyRate, startDate, duaDate, priority, repeatEvery, totalCycles, relatedTo, searchValueRelatedTo, valueRelatedTo, assignees, followers, followers2, tags, bodyIframeDescription);
@@ -419,10 +537,9 @@ public class BTTasks extends BaseTest {
         searchTaskSuccess(taskName);
         Thread.sleep(2000);
 
-        clickBtnEdit(taskName);
-
         //Edit Lead
-        editTaskSuccess(taskName, priorityUpdate, totalCyclesUpdate, tagsUpdate, bodyIframeDescriptionUpdate);
+        clickBtnEdit(taskName);
+        editTaskSuccess(hourlyRateUpdate, startDateUpdate, duaDateUpdate, priorityUpdate, repeatEveryUpdate, totalCyclesUpdate, relatedToUpdate, searchValueRelatedToUpdate, valueRelatedToUpdate, tagsUpdate, bodyIframeDescriptionUpdate);
         Thread.sleep(1000);
 
         closePopupDetail();
@@ -432,9 +549,8 @@ public class BTTasks extends BaseTest {
         searchTaskSuccess(taskName);
         Thread.sleep(2000);
 
-        clickBtnEdit(taskName);
-
         //verify edit
+        clickBtnEdit(taskName);
         viewEditTaskSuccess(taskName, hourlyRate +".00", startDate, duaDate, priorityUpdate, repeatEvery, totalCyclesUpdate, relatedTo, valueRelatedTo, tagsUpdate, bodyIframeDescriptionUpdate);
     }
 

@@ -6,6 +6,7 @@
             <class name="thuc_hanh.BTLeads">
                 <methods>
                     <include name="testAddNewLeadSuccess"/>
+                    <include name="testEditLeadSuccess"/>
                 </methods>
             </class>
         </classes>
