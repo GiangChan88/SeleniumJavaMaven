@@ -1,4 +1,4 @@
-package bt_locator;
+package locator;
 
 public class LocatorsLogin {
     public String url = "https://crm.anhtester.com/admin/authentication";

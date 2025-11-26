@@ -1,21 +1,39 @@
 package thuc_hanh;
 
 
-import bt_locator.LocatorsLeads;
-import bt_locator.LocatorsLogin;
+import locator.LocatorsLeads;
 import common.BaseTest;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
-import org.openqa.selenium.interactions.SourceType;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import java.util.List;
 
 public class BTLeads extends BaseTest {
+
+    String status = "";
+    String source = "";
+    String assigned = "";
+    String tags = "";
+    String leadName = "";
+    String address = "";
+    String position = "";
+    String city = "";
+    String emailAddress = "";
+    String state = "";
+    String website = "";
+    String country = "";
+    String phone = "";
+    String zipcode = "";
+    String leadValue = "";
+    String language = "";
+    String company = "";
+    String description = "";
+    String dateContacted = "";
 
     public void clickMenuLead() throws InterruptedException {
         //click menu Lead
@@ -28,7 +46,7 @@ public class BTLeads extends BaseTest {
         List<WebElement> checkHeaderLeadSummary = driver.findElements(By.xpath(LocatorsLeads.titleLeadsSummary));
         Assert.assertTrue(checkHeaderLeadSummary.size() > 0, "FAILED!!! Không truy cập được vào trang Leads");
         //check text
-        WebElement menuLeadText = driver.findElement(By.xpath(LocatorsLeads.titleLeadsSummary));
+        String menuLeadText = driver.findElement(By.xpath(LocatorsLeads.titleLeadsSummary)).getText();
         softAssert.assertEquals(menuLeadText, "Leads Summary", "Title Leads Summary is not correct");
         System.out.println("Verify: Đã tới Leads");
     }
@@ -44,7 +62,7 @@ public class BTLeads extends BaseTest {
         List<WebElement> checktitleAddNewLead = driver.findElements(By.xpath(LocatorsLeads.titleAddNewLead));
         Assert.assertTrue(checktitleAddNewLead.size() > 0, "FAILED!!! Không mở được pop-up Add new lead");
         //check text
-        WebElement titleAddNewLead = driver.findElement(By.xpath(LocatorsLeads.titleAddNewLead));
+        String titleAddNewLead = driver.findElement(By.xpath(LocatorsLeads.titleAddNewLead)).getText();
         softAssert.assertEquals(titleAddNewLead, "Add new lead", "Title Add new lead is not correct");
         System.out.println("Verify: Mở pop-up Add new lead thành công");
     }
@@ -93,6 +111,12 @@ public class BTLeads extends BaseTest {
         Assert.assertEquals(actual.trim(), expected.trim(), "FAIL: Giá trị mong muốn là: " + expected + " nhưng giá trị thực tế là: " + actual);
     }
 
+    public void compareFieldText(String xpathActual, String expectedValue) {
+        String expected = expectedValue;
+        String actual = driver.findElement(By.xpath(xpathActual)).getText();
+        Assert.assertEquals(actual.trim(), expected.trim(), "FAIL: Giá trị mong muốn là: " + expected + " nhưng giá trị thực tế là: " + actual);
+    }
+
     public void verifyCheckboxSelected(String checkbox) {
         boolean checked = driver.findElement(By.xpath(checkbox)).isSelected();
         Assert.assertTrue(checked, "Checkbox chưa được tích sau khi click");
@@ -127,7 +151,6 @@ public class BTLeads extends BaseTest {
         WebElement inputLeadValue = driver.findElement(By.xpath(LocatorsLeads.inputLeadValue));
         WebElement inputCompany = driver.findElement(By.xpath(LocatorsLeads.inputCompany));
         WebElement inputDescription = driver.findElement(By.xpath(LocatorsLeads.inputDescription));
-        WebElement inputLastContacted = driver.findElement(By.xpath(LocatorsLeads.inputLastContact));
 
 
         //dropdown Status
@@ -214,7 +237,7 @@ public class BTLeads extends BaseTest {
         //scroll kéo xuống dưới
         WebElement elementBtnSave = driver.findElement(By.xpath(LocatorsLeads.buttonSave)); //trỏ tới element
         JavascriptExecutor js = (JavascriptExecutor) driver;
-        js.executeScript("arguments[0].scrollIntoView(true);", elementBtnSave); //true là cuộn xuống dưới, false là cuộn lên trên
+        js.executeScript("arguments[0].scrollIntoView(false);", elementBtnSave); //true là cuộn hiển thị ở top trang, false là cuộn hiển thị ở bottom trang
 
         //dropdown Language
         driver.findElement(By.xpath(LocatorsLeads.dropdownLanguage)).click();
@@ -240,6 +263,7 @@ public class BTLeads extends BaseTest {
             inputDateContacted.sendKeys(dateContacted);
             Thread.sleep(500);
         }else {
+            WebElement inputLastContacted = driver.findElement(By.xpath(LocatorsLeads.inputLastContact));
             inputLastContacted.clear();
             Thread.sleep(500);
             inputLastContacted.sendKeys(dateContacted);
@@ -253,9 +277,9 @@ public class BTLeads extends BaseTest {
                                 String emailAddress, String state, String website, String country, String phone, String zipcode, String leadValue, String language,
                                 String company, String description, String dateContacted) throws InterruptedException {
 
-        compareFieldAttribute(LocatorsLeads.dropdownStatus, status, "title");
-        compareFieldAttribute(LocatorsLeads.dropdownSource, source, "title");
-        compareFieldAttribute(LocatorsLeads.dropdownAssigned, assigned, "title");
+        compareFieldText(LocatorsLeads.dropdownStatus, status);
+        compareFieldText(LocatorsLeads.dropdownSource, source);
+        compareFieldText(LocatorsLeads.dropdownAssigned, assigned);
         compareFieldAttribute(LocatorsLeads.inputEditTags, tags, "value");
         compareFieldAttribute(LocatorsLeads.inputName, leadName, "value");
         compareFieldAttribute(LocatorsLeads.inputAddress, address, "value");
@@ -264,11 +288,11 @@ public class BTLeads extends BaseTest {
         compareFieldAttribute(LocatorsLeads.inputEmailAddress, emailAddress, "value");
         compareFieldAttribute(LocatorsLeads.inputState, state, "value");
         compareFieldAttribute(LocatorsLeads.inputWebsite, website, "value");
-        compareFieldAttribute(LocatorsLeads.dropdownCountry, country, "title");
+        compareFieldText(LocatorsLeads.dropdownCountry, country);
         compareFieldAttribute(LocatorsLeads.inputPhone, phone, "value");
         compareFieldAttribute(LocatorsLeads.inputZipCode, zipcode, "value");
         compareFieldAttribute(LocatorsLeads.inputLeadValue, leadValue + ".00", "value");
-        compareFieldAttribute(LocatorsLeads.dropdownLanguage, language, "title");
+        compareFieldText(LocatorsLeads.dropdownLanguage, language);
         compareFieldAttribute(LocatorsLeads.inputCompany, company, "value");
         compareFieldAttribute(LocatorsLeads.inputDescription, description, "value");
         compareFieldAttribute(LocatorsLeads.inputLastContact, dateContacted, "value"); //hệ thống bug
@@ -303,26 +327,26 @@ public class BTLeads extends BaseTest {
 
     @Test(priority = 1)
     public void testAddNewLeadSuccess() throws InterruptedException {
-        String status = "Active";
-        String source = "Facebook";
-        String assigned = "Admin Anh Tester";
-        String tags = "Giang12345";
-        String leadName = "Giang Chan";
-        String address = "230 Mễ Trì, Hà Nội";
-        String position = "Mễ Trì";
-        String city = "Hà Nội";
-        String emailAddress = "giang08@gmail.com";
-        String state = "123";
-        String website = "https://8080:21";
-        String country = "Angola";
-        String phone = "0772627627";
-        String zipcode = "7789";
-        String leadValue = "100000";
-        String language = "English";
-        String company = "ND";
-        String description = "Không";
-        String dateContacted = "05-11-2025 00:00:00";
-
+        BTLeads lead = new BTLeads();
+        lead.status = "Active";
+        lead.source = "Facebook";
+        lead.assigned = "Admin Anh Tester";
+        lead.tags = "Giang12345";
+        lead.leadName = "Giang Chan";
+        lead.address = "230 Mễ Trì, Hà Nội";
+        lead.position = "Mễ Trì";
+        lead.city = "Hà Nội";
+        lead.emailAddress = "giang08@gmail.com";
+        lead.state = "123";
+        lead.website = "https://8080:21";
+        lead.country = "Angola";
+        lead.phone = "0772627627";
+        lead.zipcode = "7789";
+        lead.leadValue = "100000";
+        lead.language = "English";
+        lead.company = "ND";
+        lead.description = "Không";
+        lead.dateContacted = "05-11-2025 00:00:00";
 
         //click menu Lead
         clickMenuLead();
@@ -332,7 +356,7 @@ public class BTLeads extends BaseTest {
         clickBtnAddNewLead();
         verifyBtnAddNewLead();
 
-        addAndEditLeadSuccess(status, source, assigned, tags, leadName, address, position, city, emailAddress, state, website, country, phone, zipcode, leadValue, language, company, description, dateContacted, 0);
+        addAndEditLeadSuccess(lead.status, lead.source, lead.assigned, lead.tags, lead.leadName, lead.address, lead.position, lead.city, lead.emailAddress, lead.state, lead.website, lead.country, lead.phone, lead.zipcode, lead.leadValue, lead.language, lead.company, lead.description, lead.dateContacted, 0);
         Thread.sleep(1000);
         System.out.println("Tạo data thành công");
 
@@ -340,33 +364,33 @@ public class BTLeads extends BaseTest {
         Thread.sleep(2000);
 
         //verifyLeadAddNew
-        clickBtnEdit(leadName);
-        searchLeadSuccess(leadName);
+        searchLeadSuccess(lead.leadName);
         Thread.sleep(500);
     }
 
     //Set Email đã tồn tại
     @Test(priority = 2)
     public void testAddNewLeadFailEmailAlreadyExists() throws InterruptedException {
-        String status = "Active";
-        String source = "Facebook";
-        String assigned = "Admin Anh Tester";
-        String tags = "Giang12345";
-        String leadName = "Giang Test EmailAlreadyExists";
-        String address = "230 Mễ Trì, Hà Nội";
-        String position = "Mễ Trì";
-        String city = "Hà Nội";
-        String emailAddress = "giang08@gmail.com";
-        String state = "123";
-        String website = "https://8080:21";
-        String country = "Angola";
-        String phone = "0772627627";
-        String zipcode = "7789";
-        String leadValue = "100000";
-        String language = "English";
-        String company = "ND";
-        String description = "Không";
-        String dateContacted = "05-11-2025 00:00:00";
+        BTLeads lead = new BTLeads();
+        lead.status = "Active";
+        lead.source = "Facebook";
+        lead.assigned = "Admin Anh Tester";
+        lead.tags = "Giang12345";
+        lead.leadName = "Giang Test EmailAlreadyExists";
+        lead.address = "230 Mễ Trì, Hà Nội";
+        lead.position = "Mễ Trì";
+        lead.city = "Hà Nội";
+        lead.emailAddress = "giang08@gmail.com";
+        lead.state = "123";
+        lead.website = "https://8080:21";
+        lead.country = "Angola";
+        lead.phone = "0772627627";
+        lead.zipcode = "7789";
+        lead.leadValue = "100000";
+        lead.language = "English";
+        lead.company = "ND";
+        lead.description = "Không";
+        lead.dateContacted = "05-11-2025 00:00:00";
 
         //click menu Lead
         clickMenuLead();
@@ -376,7 +400,7 @@ public class BTLeads extends BaseTest {
         clickBtnAddNewLead();
         verifyBtnAddNewLead();
 
-        addAndEditLeadSuccess(status, source, assigned, tags, leadName, address, position, city, emailAddress, state, website, country, phone, zipcode, leadValue, language, company, description, dateContacted, 0);
+        addAndEditLeadSuccess(lead.status, lead.source, lead.assigned, lead.tags, lead.leadName, lead.address, lead.position, lead.city, lead.emailAddress, lead.state, lead.website, lead.country, lead.phone, lead.zipcode, lead.leadValue, lead.language, lead.company, lead.description, lead.dateContacted, 0);
         Thread.sleep(1000);
 
         //verify lỗi
@@ -395,53 +419,32 @@ public class BTLeads extends BaseTest {
         Thread.sleep(2000);
 
         //Kiểm tra lại
-        searchLeadSuccessNoData(leadName);
+        searchLeadSuccessNoData(lead.leadName);
     }
 
     @Test(priority = 3)
     public void testEditLeadSuccess() throws InterruptedException {
         //Data Add
-        String status = "Active";
-        String source = "Facebook";
-        String assigned = "Admin Anh Tester";
-        String tags = "Giang12";
-        String leadName = "Giang Test";
-        String address = "230 Mễ Trì, Hà Nội";
-        String position = "Mễ Trì";
-        String city = "Hà Nội";
-        String emailAddress = "giangtestedit08@gmail.com";
-        String state = "123";
-        String website = "https://8080:21";
-        String country = "Angola";
-        String phone = "0772627627";
-        String zipcode = "7789";
-        String leadValue = "100000";
-        String language = "English";
-        String company = "ND";
-        String description = "Không";
-        String dateContacted = "05-11-2025 00:00:00";
-
-        //Data Update
-        String statusUpdate = "Active";
-        String sourceUpdate = "Google";
-        String assignedUpdate = "Admin Anh Tester";
-        String tagsUpdate = "Giang12345";
-        String leadNameUpdate = "Giang Test Edit";
-        String addressUpdate = "231 Hoonag Mai, Hà Nội";
-        String positionUpdate = "Hoàng Mai";
-        String cityUpdate = "Hà Nội";
-        String emailAddressUpdate = "giangedit08@gmail.com";
-        String stateUpdate = "123";
-        String websiteUpdate = "https://8080:21";
-        String countryUpdate = "Angola";
-        String phoneUpdate = "0911138277";
-        String zipcodeUpdate = "7789";
-        String leadValueUpdate = "7";
-        String languageUpdate = "English";
-        String companyUpdate = "VN";
-        String descriptionUpdate = "Không";
-        String dateContactedUpdate = "05-11-2025 00:00:00";
-
+        BTLeads lead = new BTLeads();
+        lead.status = "Active";
+        lead.source = "Facebook";
+        lead.assigned = "Admin Anh Tester";
+        lead.tags = "Giang12";
+        lead.leadName = "Giang Test";
+        lead.address = "230 Mễ Trì, Hà Nội";
+        lead.position = "Mễ Trì";
+        lead.city = "Hà Nội";
+        lead.emailAddress = "giangtestedit08@gmail.com";
+        lead.state = "123";
+        lead.website = "https://8080:21";
+        lead.country = "Angola";
+        lead.phone = "0772627627";
+        lead.zipcode = "7789";
+        lead.leadValue = "100000";
+        lead.language = "English";
+        lead.company = "ND";
+        lead.description = "Không";
+        lead.dateContacted = "05-11-2025 00:00:00";
 
         //click menu Lead
         clickMenuLead();
@@ -452,59 +455,65 @@ public class BTLeads extends BaseTest {
         verifyBtnAddNewLead();
 
         //Tạo data
-        addAndEditLeadSuccess(status, source, assigned, tags, leadName, address, position, city, emailAddress, state, website, country, phone, zipcode, leadValue, language, company, description, dateContacted, 0);
+        addAndEditLeadSuccess(lead.status, lead.source, lead.assigned, lead.tags, lead.leadName, lead.address, lead.position, lead.city, lead.emailAddress, lead.state, lead.website, lead.country, lead.phone, lead.zipcode, lead.leadValue, lead.language, lead.company, lead.description, lead.dateContacted, 0);
         Thread.sleep(1000);
 
         closePopupDetail();
         Thread.sleep(2000);
 
         //verifyLeadAddNew
-        searchLeadSuccess(leadName);
+        searchLeadSuccess(lead.leadName);
         Thread.sleep(1000);
 
         //click btn edit
-        clickBtnEdit(leadName);
+        clickBtnEdit(lead.leadName);
+
+        //Data Update
+        lead.address = "231 Hoonag Mai, Hà Nội";
+        lead.position = "Hoàng Mai";
+        lead.city = "Hà Nội";
+        lead.emailAddress = "giangedit08@gmail.com";
+        lead.company = "VN";
 
         //Edit Lead
-        addAndEditLeadSuccess(statusUpdate, sourceUpdate, assignedUpdate, tagsUpdate, leadNameUpdate, addressUpdate, positionUpdate, cityUpdate, emailAddressUpdate, stateUpdate, websiteUpdate, countryUpdate, phoneUpdate,
-                zipcodeUpdate,leadValueUpdate, languageUpdate, companyUpdate, descriptionUpdate, dateContactedUpdate, 1);
+        addAndEditLeadSuccess(lead.status, lead.source, lead.assigned, lead.tags, lead.leadName, lead.address, lead.position, lead.city, lead.emailAddress, lead.state, lead.website, lead.country, lead.phone, lead.zipcode, lead.leadValue, lead.language, lead.company, lead.description, lead.dateContacted, 1);
         Thread.sleep(1000);
 
         closePopupDetail();
         Thread.sleep(2000);
 
         //verifyLeadAddNew
-        searchLeadSuccess(leadNameUpdate);
+        searchLeadSuccess(lead.leadName);
         Thread.sleep(2000);
 
         //verify edit
-        clickBtnEdit(leadNameUpdate);
-        viewEditLead(statusUpdate, sourceUpdate, assignedUpdate, tagsUpdate, leadNameUpdate, addressUpdate, positionUpdate, cityUpdate, emailAddressUpdate, stateUpdate, websiteUpdate, countryUpdate, phoneUpdate,
-                zipcodeUpdate,leadValueUpdate, languageUpdate, companyUpdate, descriptionUpdate, dateContactedUpdate);
+        clickBtnEdit(lead.leadName);
+        viewEditLead(lead.status, lead.source, lead.assigned, lead.tags, lead.leadName, lead.address, lead.position, lead.city, lead.emailAddress, lead.state, lead.website, lead.country, lead.phone, lead.zipcode, lead.leadValue, lead.language, lead.company, lead.description, lead.dateContacted);
     }
 
 
     @Test(priority = 4)
     public void testViewEditLeadSuccess() throws InterruptedException {
-        String status = "Active";
-        String source = "Facebook";
-        String assigned = "Admin Anh Tester";
-        String tags = "GTest123";
-        String leadName = "Giang Test 001";
-        String address = "230 Mễ Trì, Hà Nội";
-        String position = "Mễ Trì";
-        String city = "Hà Nội";
-        String emailAddress = "giang001Nodo@gmail.com";
-        String state = "123";
-        String website = "https://8080:21";
-        String country = "Angola";
-        String phone = "0772627627";
-        String zipcode = "7789";
-        String leadValue = "100000";
-        String language = "English";
-        String company = "ND";
-        String description = "Không";
-        String dateContacted = "05-11-2025 00:00:00";
+        BTLeads lead = new BTLeads();
+        lead.status = "Active";
+        lead.source = "Facebook";
+        lead.assigned = "Admin Anh Tester";
+        lead.tags = "GTest123";
+        lead.leadName = "Giang Test 001";
+        lead.address = "230 Mễ Trì, Hà Nội";
+        lead.position = "Mễ Trì";
+        lead.city = "Hà Nội";
+        lead.emailAddress = "giang001Nodo@gmail.com";
+        lead.state = "123";
+        lead.website = "https://8080:21";
+        lead.country = "Angola";
+        lead.phone = "0772627627";
+        lead.zipcode = "7789";
+        lead.leadValue = "100000";
+        lead.language = "English";
+        lead.company = "ND";
+        lead.description = "Không";
+        lead.dateContacted = "05-11-2025 00:00:00";
 
         //click menu Lead
         clickMenuLead();
@@ -515,42 +524,43 @@ public class BTLeads extends BaseTest {
         verifyBtnAddNewLead();
 
         //Tạo data
-        addAndEditLeadSuccess(status, source, assigned, tags, leadName, address, position, city, emailAddress, state, website, country, phone, zipcode, leadValue, language, company, description, dateContacted, 0);
+        addAndEditLeadSuccess(lead.status, lead.source, lead.assigned, lead.tags, lead.leadName, lead.address, lead.position, lead.city, lead.emailAddress, lead.state, lead.website, lead.country, lead.phone, lead.zipcode, lead.leadValue, lead.language, lead.company, lead.description, lead.dateContacted, 0);
         Thread.sleep(1000);
 
         closePopupDetail();
         Thread.sleep(2000);
 
         //verifyLeadAddNew
-        searchLeadSuccess(leadName);
+        searchLeadSuccess(lead.leadName);
         Thread.sleep(500);
 
-        clickBtnEdit(leadName);
-        viewEditLead(status, source, assigned, tags, leadName, address, position, city, emailAddress, state, website, country, phone, zipcode, leadValue, language, company, description, dateContacted);
+        clickBtnEdit(lead.leadName);
+        viewEditLead(lead.status, lead.source, lead.assigned, lead.tags, lead.leadName, lead.address, lead.position, lead.city, lead.emailAddress, lead.state, lead.website, lead.country, lead.phone, lead.zipcode, lead.leadValue, lead.language, lead.company, lead.description, lead.dateContacted);
         Thread.sleep(2000);
     }
 
     @Test(priority = 5)
     public void testDeleteLeadSuccess() throws InterruptedException {
-        String status = "Active";
-        String source = "Facebook";
-        String assigned = "Admin Anh Tester";
-        String tags = "GTest123";
-        String leadName = "Giang Test ND01";
-        String address = "230 Mễ Trì, Hà Nội";
-        String position = "Mễ Trì";
-        String city = "Hà Nội";
-        String emailAddress = "giangND01@gmail.com";
-        String state = "123";
-        String website = "https://8080:21";
-        String country = "Angola";
-        String phone = "0772627627";
-        String zipcode = "7789";
-        String leadValue = "100000";
-        String language = "English";
-        String company = "ND";
-        String description = "Không";
-        String dateContacted = "05-11-2025 00:00:00";
+        BTLeads lead = new BTLeads();
+        lead.status = "Active";
+        lead.source = "Facebook";
+        lead.assigned = "Admin Anh Tester";
+        lead.tags = "GTest123";
+        lead.leadName = "Giang Test ND01";
+        lead.address = "230 Mễ Trì, Hà Nội";
+        lead.position = "Mễ Trì";
+        lead.city = "Hà Nội";
+        lead.emailAddress = "giangND01@gmail.com";
+        lead.state = "123";
+        lead.website = "https://8080:21";
+        lead.country = "Angola";
+        lead.phone = "0772627627";
+        lead.zipcode = "7789";
+        lead.leadValue = "100000";
+        lead.language = "English";
+        lead.company = "ND";
+        lead.description = "Không";
+        lead.dateContacted = "05-11-2025 00:00:00";
 
         //click menu Lead
         clickMenuLead();
@@ -561,22 +571,22 @@ public class BTLeads extends BaseTest {
         verifyBtnAddNewLead();
 
         //Tạo data
-        addAndEditLeadSuccess(status, source, assigned, tags, leadName, address, position, city, emailAddress, state, website, country, phone, zipcode, leadValue, language, company, description, dateContacted, 0);
+        addAndEditLeadSuccess(lead.status, lead.source, lead.assigned, lead.tags, lead.leadName, lead.address, lead.position, lead.city, lead.emailAddress, lead.state, lead.website, lead.country, lead.phone, lead.zipcode, lead.leadValue, lead.language, lead.company, lead.description, lead.dateContacted, 0);
         Thread.sleep(1000);
 
         closePopupDetail();
         Thread.sleep(2000);
 
         //verifyLeadAddNew
-        searchLeadSuccess(leadName);
+        searchLeadSuccess(lead.leadName);
         Thread.sleep(500);
 
         //click btn delete
-        deleteLeadSuccess(leadName);
-        confirmDeleteLeadSuccess(leadName, 1); //1 là xóa
+        deleteLeadSuccess(lead.leadName);
+        confirmDeleteLeadSuccess(lead.leadName, 1); //1 là xóa
 
         //Verify Deleted
-        searchLeadSuccessNoData(leadName);
+        searchLeadSuccessNoData(lead.leadName);
     }
 
 
