@@ -1,9 +1,11 @@
 package thuc_hanh;
 
+import keywords.WebUI;
 import locator.LocatorsTasks;
 import common.BaseTest;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.testng.Assert;
@@ -31,283 +33,232 @@ public class BTTasks extends BaseTest {
 
     public void clickMenuTask() throws InterruptedException {
         //click menu Lead
-        driver.findElement(By.xpath(LocatorsTasks.menuTasks)).click();
-        Thread.sleep(2000);
+        WebUI.clickElement(driver, LocatorsTasks.menuTasks);
         System.out.println("Click menu Task");
     }
 
     public void verifyMenuTask() throws InterruptedException {
-        List<WebElement> checkHeaderTaskSummary = driver.findElements(By.xpath(LocatorsTasks.headerTasksSummary));
-        Assert.assertTrue(checkHeaderTaskSummary.size() > 0, "FAILED!!! Không truy cập được vào trang Tasks");
-        //check text
-        String menuTaskText = driver.findElement(By.xpath(LocatorsTasks.headerTasksSummary)).getText();
-        softAssert.assertEquals(menuTaskText, "Tasks Summary", "Tasks Summary is not correct");
-        System.out.println("Đã tới Tasks");
+        Thread.sleep(1000);
+        //Truyền text vào xpath nên không cần check Text
+        boolean checkHeaderTaskSummary = WebUI.checkExitsElement(driver, LocatorsTasks.headerTasksSummary);
+        Assert.assertTrue(checkHeaderTaskSummary, "FAILED!!! Không truy cập được vào trang Tasks");
     }
 
     public void clickBtnAddTask() throws InterruptedException {
         //click button New Lead
-        driver.findElement(By.xpath(LocatorsTasks.btnAddTasks)).click();
-        Thread.sleep(1000);
+        WebUI.clickElement(driver, LocatorsTasks.btnAddTasks);
         System.out.println("Click button Add Task");
     }
 
     public void verifyBtnAddTask() throws InterruptedException {
-        List<WebElement> checkTitleAddNewTask = driver.findElements(By.xpath(LocatorsTasks.titleAddNewTask));
-        Assert.assertTrue(checkTitleAddNewTask.size() > 0, "FAILED!!! Không mở được pop-up Add new Tasks");
-        //checktext
-        String btnAddTask = driver.findElement(By.xpath(LocatorsTasks.titleAddNewTask)).getText();
-        softAssert.assertEquals(btnAddTask, "Add new task", "Title Add new task is not correct");
-        System.out.println("Mở pop-up Add new Tasks thành công");
+        Thread.sleep(2000);
+        //Truyền text vào xpath nên không cần check Text
+        boolean checkTitleAddNewTask = WebUI.checkExitsElement(driver, LocatorsTasks.titleAddNewTask);
+        Assert.assertTrue(checkTitleAddNewTask, "FAILED!!! Không mở được pop-up Add new Tasks");
     }
 
     public void addNewTask(String taskName, String hourlyRate, String startDate, String duaDate, String priority, String repeatEvery, String totalCycles,
                            String relatedTo, String searchValueRelatedTo, String valueRelatedTo, String assignees, String assignees2, String followers, String followers2, String tags, String bodyIframeDescription) throws InterruptedException {
 
         //Checkbox public
-        WebElement checkboxPublic = driver.findElement(By.xpath(LocatorsTasks.checkboxPublic));
+        WebElement checkboxPublic = WebUI.getWebElement(driver, LocatorsTasks.checkboxPublic);
         if (!checkboxPublic.isSelected()) {
             checkboxPublic.click();
         }
         softAssert.assertTrue(checkboxPublic.isSelected(), "Checkbox public chưa được tích sau khi click");
 
         //Checkbox Billable
-        WebElement checkboxBillsble = driver.findElement(By.xpath(LocatorsTasks.checkboxPublic));
+        WebElement checkboxBillsble = WebUI.getWebElement(driver, LocatorsTasks.checkboxBillsble);
         if (!checkboxBillsble.isSelected()) {
             checkboxBillsble.click();
         }
         softAssert.assertTrue(checkboxBillsble.isSelected(), "Checkbox Billable chưa được tích sau khi click");
 
         //check attachment
-        driver.findElement(By.xpath(LocatorsTasks.linkAttachFile)).click();
-        Thread.sleep(1000);
+        WebUI.clickElement(driver, LocatorsTasks.linkAttachFile);
 
         //sendKeys input
-        driver.findElement(By.xpath(LocatorsTasks.inputSubject)).sendKeys(taskName);
-        driver.findElement(By.xpath(LocatorsTasks.inputHourlyRate)).clear();
-        driver.findElement(By.xpath(LocatorsTasks.inputHourlyRate)).sendKeys(hourlyRate);
-        driver.findElement(By.xpath(LocatorsTasks.inputStartDate)).clear();
-        driver.findElement(By.xpath(LocatorsTasks.inputStartDate)).sendKeys(startDate);
-        driver.findElement(By.xpath(LocatorsTasks.inputStartDate)).click();
-        Thread.sleep(1000);
-        driver.findElement(By.xpath(LocatorsTasks.inputDuaDate)).sendKeys(duaDate);
-        driver.findElement(By.xpath(LocatorsTasks.inputDuaDate)).click();
+        WebUI.setTextElement(driver, LocatorsTasks.inputSubject, taskName);
+        WebUI.clearElement(driver, LocatorsTasks.inputHourlyRate);
+        WebUI.setTextElement(driver, LocatorsTasks.inputHourlyRate, hourlyRate);
+        WebUI.clearElement(driver, LocatorsTasks.inputStartDate);
+        WebUI.setTextElement(driver, LocatorsTasks.inputStartDate, startDate);
+        WebUI.clickElement(driver, LocatorsTasks.inputStartDate);
+        WebUI.clearElement(driver, LocatorsTasks.inputDuaDate);
+        WebUI.setTextElement(driver, LocatorsTasks.inputDuaDate, duaDate);
+        WebUI.clickElement(driver, LocatorsTasks.inputDuaDate);
 
         //dropdown Priority
-        driver.findElement(By.xpath(LocatorsTasks.dropdownPriority)).click();
-        Thread.sleep(500);
-        driver.findElement(By.xpath(LocatorsTasks.getValuePriority(priority))).click();
-        Thread.sleep(500);
+        WebUI.clickElement(driver, LocatorsTasks.dropdownPriority);
+        WebUI.clickElement(driver, LocatorsTasks.getValuePriority(priority));
 
         //dropdown Repeat every and input Total cycle (cho if)
-        driver.findElement(By.xpath(LocatorsTasks.dropdownRepeatEvery)).click();
-        Thread.sleep(500);
-        driver.findElement(By.xpath(LocatorsTasks.getValueRepeatEvery(repeatEvery))).click();
-        Thread.sleep(500);
+        WebUI.clickElement(driver, LocatorsTasks.dropdownRepeatEvery);
+        WebUI.clickElement(driver, LocatorsTasks.getValueRepeatEvery(repeatEvery));
         if (repeatEvery.equals("Custom")) {
             //input
-            driver.findElement(By.xpath(LocatorsTasks.repeatEveryCustom)).clear();
-            driver.findElement(By.xpath(LocatorsTasks.repeatEveryCustom)).sendKeys("100");
-            Thread.sleep(500);
+            WebUI.clearElement(driver, LocatorsTasks.repeatEveryCustom);
+            WebUI.setTextElement(driver, LocatorsTasks.repeatEveryCustom, "100");
+
             //dropdown
-            driver.findElement(By.xpath(LocatorsTasks.dropdownRepeatEveryCustom)).click();
-            Thread.sleep(500);
-            driver.findElement(By.xpath(LocatorsTasks.getRepeatEveryCustom("Day(s)")));
-            Thread.sleep(1000);
+            WebUI.clickElement(driver, LocatorsTasks.dropdownRepeatEveryCustom);
+            WebUI.clickElement(driver, LocatorsTasks.getRepeatEveryCustom("Week(s)"));
+
             //input Total
-            driver.findElement(By.xpath(LocatorsTasks.checkboxInfinity)).click(); //click (bỏ chọn)
-            Thread.sleep(500);
-            driver.findElement(By.xpath(LocatorsTasks.inputTotalCycles)).clear();
-            driver.findElement(By.xpath(LocatorsTasks.inputTotalCycles)).sendKeys("100000");
-            Thread.sleep(500);
+            WebUI.clickElement(driver, LocatorsTasks.labelCheckboxInfinity); // - click bỏ chọn
+            WebUI.clearElement(driver, LocatorsTasks.inputTotalCycles);
+            WebUI.setTextElement(driver, LocatorsTasks.inputTotalCycles, "100000");
         } else if (repeatEvery.equals("Week") || repeatEvery.equals("2 Weeks") || repeatEvery.equals("1 Month") || repeatEvery.equals("2 Months") ||
                 repeatEvery.equals("3 Months") || repeatEvery.equals("6 Months") || repeatEvery.equals("1 Year")) {
-            driver.findElement(By.xpath(LocatorsTasks.checkboxInfinity)).click(); //click (bỏ chọn)
-            Thread.sleep(500);
-            driver.findElement(By.xpath(LocatorsTasks.inputTotalCycles)).clear();
-            driver.findElement(By.xpath(LocatorsTasks.inputTotalCycles)).sendKeys(totalCycles);
-            Thread.sleep(500);
+
+            WebUI.clickElement(driver, LocatorsTasks.labelCheckboxInfinity); // - click bỏ chọn
+            WebUI.clearElement(driver, LocatorsTasks.inputTotalCycles);
+            WebUI.setTextElement(driver, LocatorsTasks.inputTotalCycles, "100000");
         } else {
             System.out.println("Không tồn tại");
         }
 
         //dropdown Related to
-        driver.findElement(By.xpath(LocatorsTasks.dropdownRelatedTo)).click();
-        Thread.sleep(500);
-        driver.findElement(By.xpath(LocatorsTasks.getValueRelatedTo(relatedTo))).click();
-        Thread.sleep(500);
-
-        //dropdown value Related to
-//        boolean isDisplayDropdownValueNew = driver.findElement(By.xpath(LocatorsTasks.dropdownForRelatedTo)).isDisplayed();
-//        System.out.println("Dropdown value RelatedTo hiển thị: " + isDisplayDropdownValueNew);
+        WebUI.clickElement(driver, LocatorsTasks.dropdownRelatedTo);
+        WebUI.clickElement(driver, LocatorsTasks.getValueRelatedTo(relatedTo));
 
         //Click vô hàm valueDropdown Related to chọn giá trị
-        driver.findElement(By.xpath(LocatorsTasks.dropdownForRelatedTo)).click();
-        Thread.sleep(500);
-        driver.findElement(By.xpath(LocatorsTasks.inputSearchOfForRelatedTo)).sendKeys(searchValueRelatedTo);
+        Actions actions = new Actions(driver);
+        WebUI.clickElement(driver, LocatorsTasks.dropdownForRelatedTo);
+        WebUI.setTextElement(driver, LocatorsTasks.inputSearchOfForRelatedTo, searchValueRelatedTo);
         Thread.sleep(1000);
-        driver.findElement(By.xpath(LocatorsTasks.getValueForRelatedTo(valueRelatedTo))).click();
-        Thread.sleep(500);
+        WebUI.setTextElement(driver, LocatorsTasks.inputSearchOfForRelatedTo," ");
+        //WebUI.setTextElement(driver, LocatorsTasks.inputSearchOfForRelatedTo, searchValueRelatedTo);
+        WebUI.clickElement(driver, LocatorsTasks.getValueForRelatedTo(valueRelatedTo));
 
         //scroll kéo xuống dưới
-        WebElement elementBtnSave = driver.findElement(By.xpath(LocatorsTasks.btnSave)); //trỏ tới element
-        JavascriptExecutor js = (JavascriptExecutor) driver;
-        js.executeScript("arguments[0].scrollIntoView(false);", elementBtnSave); //true là cuộn xuống dưới, false là cuộn lên trên
+        WebUI.scrollAtBottom(driver, LocatorsTasks.btnSave);
 
         //dropdown Assignees
         //bỏ click
-        driver.findElement(By.xpath(LocatorsTasks.dropdownAssignees)).click();
-        List<WebElement> listAssignees = driver.findElements(By.xpath("//button[@data-id='assignees']/following-sibling::div//a"));
+        WebUI.clickElement(driver, LocatorsTasks.dropdownAssignees);
+        List<WebElement> listAssignees = WebUI.getWebElements(driver, LocatorsTasks.listAssignees);
         //bỏ click
         for (WebElement assignee : listAssignees) {
-            if (assignee.getAttribute("aria-selected").equals("true")) {
+            if (assignee.isSelected()) {
                 assignee.click();
             }
         }
 
-        Thread.sleep(500);
-        driver.findElement(By.xpath(LocatorsTasks.inputSearchOffAssignees)).sendKeys(assignees);
-        Thread.sleep(500);
-        driver.findElement(By.xpath(LocatorsTasks.getValueAssignees(assignees))).click();
-        Thread.sleep(500);
+        WebUI.setTextElement(driver, LocatorsTasks.inputSearchOffAssignees, assignees);
+        WebUI.clickElement(driver, LocatorsTasks.getValueAssignees(assignees));
 
-        driver.findElement(By.xpath(LocatorsTasks.inputSearchOffAssignees)).clear();
-        driver.findElement(By.xpath(LocatorsTasks.inputSearchOffAssignees)).sendKeys(assignees2);
-        Thread.sleep(500);
-        driver.findElement(By.xpath(LocatorsTasks.getValueAssignees(assignees2))).click();
-        Thread.sleep(500);
+        WebUI.clearElement(driver, LocatorsTasks.inputSearchOffAssignees);
+        WebUI.setTextElement(driver, LocatorsTasks.inputSearchOffAssignees, assignees2);
+        WebUI.clickElement(driver, LocatorsTasks.getValueAssignees(assignees2));
 
         //dropdown Followers Mutip (tạo chọn data trước)
-        driver.findElement(By.xpath(LocatorsTasks.dropdownFollowers)).click();
-        driver.findElement(By.xpath(LocatorsTasks.inputSearchOffFollowers)).sendKeys(followers);
-        Thread.sleep(500);
-        driver.findElement(By.xpath(LocatorsTasks.getValueFollowers(followers))).click();
-        Thread.sleep(500);
-        driver.findElement(By.xpath(LocatorsTasks.dropdownFollowers)).click();
-        Thread.sleep(500);
+        WebUI.clickElement(driver, LocatorsTasks.dropdownFollowers);
+        WebUI.setTextElement(driver, LocatorsTasks.inputSearchOffFollowers, followers);
+        WebUI.clickElement(driver, LocatorsTasks.getValueFollowers(followers));
+        WebUI.clickElement(driver, LocatorsTasks.dropdownFollowers);
 
         //bỏ click
-        driver.findElement(By.xpath(LocatorsTasks.dropdownFollowers)).click();
-        List<WebElement> listFollowers = driver.findElements(By.xpath("//button[@data-id='followers[]']/following-sibling::div//a"));
+        driver.findElement(LocatorsTasks.dropdownFollowers).click();
+        List<WebElement> listFollowers = WebUI.getWebElements(driver, LocatorsTasks.listFollowers);
         for (WebElement follower : listFollowers) {
-            if (follower.getAttribute("aria-selected").equals("true")) {
+            if (follower.isSelected()) {
                 follower.click();
             }
         }
-        Thread.sleep(500);
-        driver.findElement(By.xpath(LocatorsTasks.inputSearchOffFollowers)).sendKeys(followers);
-        Thread.sleep(500);
-        driver.findElement(By.xpath(LocatorsTasks.getValueFollowers(followers))).click();
-        Thread.sleep(500);
+        WebUI.setTextElement(driver, LocatorsTasks.inputSearchOffFollowers, followers);
+        WebUI.clickElement(driver, LocatorsTasks.getValueFollowers(followers));
 
-        driver.findElement(By.xpath(LocatorsTasks.inputSearchOffFollowers)).clear();
-        driver.findElement(By.xpath(LocatorsTasks.inputSearchOffFollowers)).sendKeys(followers2);
-        Thread.sleep(500);
-        driver.findElement(By.xpath(LocatorsTasks.getValueFollowers(followers2))).click();
-        Thread.sleep(500);
+        WebUI.clearElement(driver, LocatorsTasks.inputSearchOffFollowers);
+        WebUI.setTextElement(driver, LocatorsTasks.inputSearchOffFollowers, followers2);
+        WebUI.clickElement(driver, LocatorsTasks.getValueFollowers(followers2));
 
         //Tags
-        driver.findElement(By.xpath(LocatorsTasks.inputAddTags)).sendKeys(tags);
-        Thread.sleep(2000);
+        WebUI.setTextElement(driver, LocatorsTasks.inputAddTags, tags);
 
         //Tắt tags
-        driver.findElement(By.xpath(LocatorsTasks.labelTag)).click();
-        driver.findElement(By.xpath(LocatorsTasks.labelTag)).click();
-        Thread.sleep(1000);
+        WebUI.clickElement(driver, LocatorsTasks.labelTag);
+        WebUI.clickElement(driver, LocatorsTasks.labelTag);
 
         //iframe
-        driver.findElement(By.xpath(LocatorsTasks.areaDescription)).click();
-        Thread.sleep(1500);
-        driver.switchTo().frame("description_ifr");
+        WebUI.clickElement(driver, LocatorsTasks.areaDescription);
+        WebUI.switchToFrame(driver, By.id("description_ifr"));
+        //driver.switchTo().frame("description_ifr");
 
-        WebElement bodyIframe = driver.findElement(By.xpath("//body[@id='tinymce']"));
-        bodyIframe.clear();
-        bodyIframe.sendKeys(bodyIframeDescription);
+        WebUI.clearElement(driver, LocatorsTasks.bodyIframe);
+        WebUI.setTextElement(driver, LocatorsTasks.bodyIframe, bodyIframeDescription);
 
         driver.switchTo().parentFrame();
 
         //click btn Save
-        driver.findElement(By.xpath(LocatorsTasks.btnSave)).click();
-        Thread.sleep(1000);
+        WebUI.clickElement(driver, LocatorsTasks.btnSave);
         System.out.println("Thêm mới thành công Tasks");
     }
 
     public void closePopupDetail() throws InterruptedException {
         Thread.sleep(2000);
-        driver.findElement(By.xpath(LocatorsTasks.iconClosePopupDetail)).click();
+        WebUI.clickElement(driver, LocatorsTasks.iconClosePopupDetail);
     }
 
     //search Lead
     public void searchTaskSuccess(String expectedTaskName) throws InterruptedException {
-        WebElement searchBox = driver.findElement(By.xpath(LocatorsTasks.inputSearch));
-        searchBox.clear();
-        searchBox.sendKeys(expectedTaskName);
-        Thread.sleep(2000);
+        WebUI.clearElement(driver, LocatorsTasks.inputSearch);
+        WebUI.setTextElement(driver, LocatorsTasks.inputSearch, expectedTaskName);
 
-
-        List<WebElement> rows = driver.findElements(By.xpath("//table[@id='tasks']//tbody/tr/td/a[normalize-space()='"+expectedTaskName+"']"));
+        boolean rows = WebUI.checkExitsElement(driver, LocatorsTasks.getRows(expectedTaskName));
         //Sai khi không có bản ghi
         //Assert.assertFalse(rows.size() == 0, "Không tìm thấy Task '" + expectedTaskName + "' sau khi search!");
 
         //Mong muốn rows.size() > 0 => đúng, nếu rows.size() == 0 thì hiển thị message kia
-        Assert.assertTrue(rows.size() > 0, "Không tìm thấy Task '" + expectedTaskName + "' sau khi search!");
-
-        String actualTaskName = rows.get(0).getText();
-        Assert.assertEquals(actualTaskName.trim(), expectedTaskName.trim(), "Name Task hiển thị sau khi tìm kiếm không khớp với Task vừa thêm ");
-        System.out.println("Tìm kiếm thành công Task: " + actualTaskName);
+        Assert.assertTrue(rows, "Không tìm thấy Task '" + expectedTaskName + "' sau khi search!");
+        System.out.println("Tìm kiếm thành công Task: " + expectedTaskName);
     }
 
     public void searchTaskSuccessNoData(String expectedTaskName) throws InterruptedException {
-        WebElement searchBox = driver.findElement(By.xpath(LocatorsTasks.inputSearch));
-        searchBox.clear();
-        searchBox.sendKeys(expectedTaskName);
-        Thread.sleep(2000);
+        WebUI.clearElement(driver, LocatorsTasks.inputSearch);
+        WebUI.setTextElement(driver, LocatorsTasks.inputSearch, expectedTaskName);
 
-//        List<WebElement> actualTaskName = driver.findElements(By.xpath("//table[@id='tasks']//tbody/tr/td[contains(normalize-space(),'"+expectedTaskName+"')]"));
+//        List<WebElement> actualTaskName = driver.findElements("//table[@id='tasks']//tbody/tr/td[contains(normalize-space(),'"+expectedTaskName+"')]");
 //        Assert.assertTrue(actualTaskName.size() == 0, "Còn dữ liệu");
-        List<WebElement> rows = driver.findElements(By.xpath("//table[@id='tasks']//tbody/tr/td[contains(normalize-space(),'"+expectedTaskName+"')]"));
-        Assert.assertFalse(rows.size() > 0, "Không mong muốn: vẫn còn bản ghi '" + expectedTaskName + "' trong bảng!");// Test pass
+        boolean rows = WebUI.checkExitsElement(driver, LocatorsTasks.getRows(expectedTaskName));
+        Assert.assertFalse(rows, "Không mong muốn: vẫn còn bản ghi '" + expectedTaskName + "' trong bảng!");//trả về true => có bản ghi (test fail). trả về false => không còn bản ghi (test pass)
         System.out.println("Tìm kiếm thành công: 0 bản ghi");
     }
 
     //Hàm so sánh giá trị đã thêm mới trong màn edit
-    public void compareFieldAttribute(String xpathActual, String expectedValue, String attributeActual) {
-        String expected = expectedValue;
-        String actual = driver.findElement(By.xpath(xpathActual)).getAttribute(attributeActual);
-        Assert.assertEquals(actual.trim(), expected.trim(), "FAIL: Giá trị mong muốn là: " + expected + " nhưng giá trị thực tế là: " + actual);
+    public void compareFieldAttribute(By xpathActual, String expectedValue, String attributeActual) {
+        //String actual = driver.findElement(xpathActual).getAttribute(attributeActual);
+        String actual = WebUI.getElementAttribute(driver, xpathActual, attributeActual);
+        Assert.assertEquals(actual.trim(), expectedValue.trim(), "FAIL: Giá trị mong muốn là: " + expectedValue + " nhưng giá trị thực tế là: " + actual);
     }
 
-    public void compareFieldText(String xpathActual, String expectedValue) {
-        String expected = expectedValue;
-        String actual = driver.findElement(By.xpath(xpathActual)).getText();
-        Assert.assertEquals(actual.trim(), expected.trim(), "FAIL: Giá trị mong muốn là: " + expected + " nhưng giá trị thực tế là: " + actual);
+    public void compareFieldText(By xpathActual, String expectedValue) {
+        String actual = WebUI.getElementText(driver, xpathActual);
+        Assert.assertEquals(actual.trim(), expectedValue.trim(), "FAIL: Giá trị mong muốn là: " + expectedValue + " nhưng giá trị thực tế là: " + actual);
     }
 
-    public void verifyCheckboxSelected(String xpathCheckbox) {
-        boolean checked = driver.findElement(By.xpath(xpathCheckbox)).isSelected();
+    public void verifyCheckboxSelected(By xpathCheckbox) {
+        boolean checked = driver.findElement(xpathCheckbox).isSelected();
         Assert.assertTrue(checked, "Checkbox chưa được tích sau khi click");
     }
 
     public void compareIframeValue(String expectedValue) {
         driver.switchTo().frame("description_ifr");
-        String actual = driver.findElement(By.xpath("//body[@id='tinymce']")).getText();
+        String actual = WebUI.getElementText(driver, LocatorsTasks.bodyIframe);
         driver.switchTo().defaultContent();
-
-        Assert.assertEquals(actual.trim(), expectedValue.trim(),
-                "FAIL: Giá trị mong muốn là: " + expectedValue + " nhưng thực tế là: " + actual);
+        Assert.assertEquals(actual.trim(), expectedValue.trim(), "FAIL: Giá trị mong muốn là: " + expectedValue + " nhưng thực tế là: " + actual);
     }
 
     public void clickBtnEdit(String taskName) throws InterruptedException {
-        WebElement firstRow = driver.findElement(By.xpath(LocatorsTasks.firstRowItem));
+        WebElement firstRow = WebUI.getWebElement(driver, LocatorsTasks.firstRowItem);
 
         //Hover chuột vào dòng đầu tiên
         Actions actions = new Actions(driver);
         actions.moveToElement(firstRow).perform();
-        Thread.sleep(2000);
-        driver.findElement(By.xpath(LocatorsTasks.buttonEdit(taskName))).click();
+        WebUI.clickElement(driver, LocatorsTasks.buttonEdit(taskName));
+        boolean checkTitleEditTask = WebUI.checkExitsElement(driver, LocatorsTasks.titleEditTask(taskName));
         Thread.sleep(1000);
-        List<WebElement> checkTitleEditTask = driver.findElements(By.xpath("//h4[@id='myModalLabel' and normalize-space() = 'Edit task "+taskName+"']"));
-        Assert.assertTrue(checkTitleEditTask.size() > 0, "FAILED!!! Không mở được pop-up Edit Tasks");
+        Assert.assertTrue(checkTitleEditTask, "FAILED!!! Không mở được pop-up Edit Tasks");
         System.out.println("Mở pop-up Edit Task thành công");
     }
 
@@ -324,7 +275,7 @@ public class BTTasks extends BaseTest {
         compareFieldAttribute(LocatorsTasks.inputTotalCycles, totalCycles, "value");
         compareFieldText(LocatorsTasks.dropdownRelatedTo, relatedTo);
         compareFieldText(LocatorsTasks.dropdownForRelatedTo, valueRelatedTo);
-        compareFieldAttribute(LocatorsTasks.inputEditTags, tags, "value");
+        compareFieldText(LocatorsTasks.inputEditTags, tags);
         compareIframeValue(bodyIframeDescription);
         System.out.println("Tất cả các trường dữ liệu Task đã được Verify thành công");
     }
@@ -333,126 +284,112 @@ public class BTTasks extends BaseTest {
                                 String relatedTo, String searchValueRelatedTo, String valueRelatedTo, String tags, String bodyIframeDescription) throws InterruptedException {
         Actions actions = new Actions(driver);
 
-        WebElement checkboxPublic = driver.findElement(By.xpath(LocatorsTasks.checkboxPublic));
-        WebElement checkboxBillsble = driver.findElement(By.xpath(LocatorsTasks.checkboxPublic));
-        WebElement inputHourlyRate = driver.findElement(By.xpath(LocatorsTasks.inputHourlyRate));
-        WebElement inputStartDate = driver.findElement(By.xpath(LocatorsTasks.inputStartDate));
-        WebElement inputDuaDate = driver.findElement(By.xpath(LocatorsTasks.inputDuaDate));
+        WebElement labelCheckboxPublic = WebUI.getWebElement(driver, LocatorsTasks.labelPublic);
+        WebElement checkboxPublic = WebUI.getWebElement(driver, LocatorsTasks.checkboxPublic);
+        WebElement labelCheckboxBillsble = WebUI.getWebElement(driver, LocatorsTasks.labelBillsble);
+        WebElement checkboxBillsble = WebUI.getWebElement(driver, LocatorsTasks.checkboxBillsble);
 
         //Checkbox public
         if (!checkboxPublic.isSelected()) {
-            actions.click(checkboxPublic).perform();
+            actions.click(labelCheckboxPublic).perform();
         }
         softAssert.assertTrue(checkboxPublic.isSelected(), "Checkbox public chưa được tích sau khi click");
 
         //Checkbox Billable
         if (!checkboxBillsble.isSelected()) {
-            actions.click(checkboxBillsble).perform();
+            actions.click(labelCheckboxPublic).perform();
         }
         softAssert.assertTrue(checkboxBillsble.isSelected(), "Checkbox Billable chưa được tích sau khi click");
 
         //sendKeys input
-        inputHourlyRate.clear();
+        WebElement inputHourlyRate = WebUI.getWebElement(driver, LocatorsTasks.inputHourlyRate);
+        actions.click(inputHourlyRate).perform();
+        actions.keyDown(Keys.CONTROL).sendKeys("a").keyUp(Keys.CONTROL).keyDown(Keys.DELETE).keyUp(Keys.DELETE).build().perform();
         actions.sendKeys(inputHourlyRate, hourlyRate).perform();
 
-        inputStartDate.clear();
+        WebElement inputStartDate = WebUI.getWebElement(driver, LocatorsTasks.inputStartDate);
+        actions.click(inputStartDate).perform();
+        actions.keyDown(Keys.CONTROL).sendKeys("a").keyUp(Keys.CONTROL).keyDown(Keys.DELETE).keyUp(Keys.DELETE).build().perform();
         actions.sendKeys(inputStartDate, startDate).perform();
         actions.click(inputStartDate).perform();
-        Thread.sleep(1000);
 
-        inputDuaDate.clear();
+        WebElement inputDuaDate = WebUI.getWebElement(driver, LocatorsTasks.inputDuaDate);
+        actions.click(inputDuaDate).perform();
+        actions.keyDown(Keys.CONTROL).sendKeys("a").keyUp(Keys.CONTROL).keyDown(Keys.DELETE).keyUp(Keys.DELETE).build().perform();
         actions.sendKeys(inputDuaDate, duaDate).perform();
         actions.click(inputDuaDate).perform();
 
         //dropdown Priority
-        actions.click(driver.findElement(By.xpath(LocatorsTasks.dropdownPriority))).perform();
-        Thread.sleep(500);
-        actions.click(driver.findElement(By.xpath(LocatorsTasks.getValuePriority(priority)))).perform();
-        Thread.sleep(500);
+        actions.click(WebUI.getWebElement(driver, LocatorsTasks.dropdownPriority)).perform();
+        actions.click(WebUI.getWebElement(driver, LocatorsTasks.getValuePriority(priority))).perform();
 
         //dropdown Repeat every and input Total cycle (cho if)
-        actions.click(driver.findElement(By.xpath(LocatorsTasks.dropdownRepeatEvery))).perform();
-        Thread.sleep(500);
-        actions.click(driver.findElement(By.xpath(LocatorsTasks.getValueRepeatEvery(repeatEvery)))).perform();
-        Thread.sleep(500);
+        actions.click(WebUI.getWebElement(driver, LocatorsTasks.dropdownRepeatEvery)).perform();
+        actions.click(WebUI.getWebElement(driver, LocatorsTasks.getValueRepeatEvery(repeatEvery))).perform();
         if (repeatEvery.equals("Custom")) {
             //input
-            WebElement repeatEveryCustom = driver.findElement(By.xpath(LocatorsTasks.repeatEveryCustom));
-            repeatEveryCustom.clear();
+            WebElement repeatEveryCustom = WebUI.getWebElement(driver, LocatorsTasks.repeatEveryCustom);
+            actions.click(repeatEveryCustom).perform();
+            actions.keyDown(Keys.CONTROL).sendKeys("a").keyUp(Keys.CONTROL).keyDown(Keys.DELETE).keyUp(Keys.DELETE).build().perform();
             actions.sendKeys(repeatEveryCustom, "100").perform();
-            Thread.sleep(500);
+
             //dropdown
-            actions.click(driver.findElement(By.xpath(LocatorsTasks.dropdownRepeatEveryCustom))).perform();
-            Thread.sleep(500);
-            driver.findElement(By.xpath(LocatorsTasks.getRepeatEveryCustom("Day(s)")));
-            Thread.sleep(1000);
+            actions.click(WebUI.getWebElement(driver, LocatorsTasks.dropdownRepeatEveryCustom)).perform();
+            actions.click(WebUI.getWebElement(driver, LocatorsTasks.getRepeatEveryCustom("Day(s)")));
+
             //input Total
-            actions.click(driver.findElement(By.xpath(LocatorsTasks.checkboxInfinity))).perform(); //click (bỏ chọn)
-            Thread.sleep(500);
-            WebElement inputTotalCycles = driver.findElement(By.xpath(LocatorsTasks.inputTotalCycles));
-            inputTotalCycles.clear();
+            actions.click(WebUI.getWebElement(driver, LocatorsTasks.checkboxInfinity)).perform(); //click (bỏ chọn)
+            WebElement inputTotalCycles = WebUI.getWebElement(driver, LocatorsTasks.inputTotalCycles);
+            actions.click(inputTotalCycles).perform();
+            actions.keyDown(Keys.CONTROL).sendKeys("a").keyUp(Keys.CONTROL).keyDown(Keys.DELETE).keyUp(Keys.DELETE).build().perform();
             actions.sendKeys(inputTotalCycles, totalCycles).perform();
-            Thread.sleep(500);
+
         } else if (repeatEvery.equals("Week") || repeatEvery.equals("2 Weeks") || repeatEvery.equals("1 Month") || repeatEvery.equals("2 Months") ||
                 repeatEvery.equals("3 Months") || repeatEvery.equals("6 Months") || repeatEvery.equals("1 Year")) {
-            //actions.click(driver.findElement(By.xpath(LocatorsTasks.checkboxInfinity))).perform(); //click (bỏ chọn)
-            Thread.sleep(500);
-            WebElement inputTotalCycles = driver.findElement(By.xpath(LocatorsTasks.inputTotalCycles));
-            inputTotalCycles.clear();
+            //actions.click(driver.findElement(LocatorsTasks.checkboxInfinity)).perform(); //click (bỏ chọn)
+            WebElement inputTotalCycles = WebUI.getWebElement(driver, LocatorsTasks.inputTotalCycles);
+            actions.click(inputTotalCycles).perform();
+            actions.keyDown(Keys.CONTROL).sendKeys("a").keyUp(Keys.CONTROL).keyDown(Keys.DELETE).keyUp(Keys.DELETE).build().perform();
             actions.sendKeys(inputTotalCycles, totalCycles).perform();
-            Thread.sleep(500);
         } else {
             System.out.println("Không tồn tại");
         }
 
         //dropdown Related to
-        actions.click(driver.findElement(By.xpath(LocatorsTasks.dropdownRelatedTo))).perform();
-        Thread.sleep(500);
-        actions.click(driver.findElement(By.xpath(LocatorsTasks.getValueRelatedTo(relatedTo)))).perform();
-        Thread.sleep(500);
+        actions.click(WebUI.getWebElement(driver, LocatorsTasks.dropdownRelatedTo)).perform();
+        actions.click(WebUI.getWebElement(driver, LocatorsTasks.getValueRelatedTo(relatedTo))).perform();
 
         //Click vô hàm valueDropdown Related to chọn giá trị
-        actions.click(driver.findElement(By.xpath(LocatorsTasks.dropdownForRelatedTo))).perform();
-        Thread.sleep(500);
-        actions.sendKeys( driver.findElement(By.xpath(LocatorsTasks.inputSearchOfForRelatedTo)), searchValueRelatedTo).perform();
-        Thread.sleep(1000);
-        actions.click(driver.findElement(By.xpath(LocatorsTasks.getValueForRelatedTo(valueRelatedTo)))).perform();
-        Thread.sleep(500);
+        actions.click(WebUI.getWebElement(driver, LocatorsTasks.dropdownForRelatedTo)).perform();
+        actions.sendKeys(WebUI.getWebElement(driver, LocatorsTasks.inputSearchOfForRelatedTo), searchValueRelatedTo).perform();
+        actions.click(WebUI.getWebElement(driver, LocatorsTasks.getValueForRelatedTo(valueRelatedTo))).perform();
 
         //scroll kéo xuống dưới
-        WebElement elementBtnSave = driver.findElement(By.xpath(LocatorsTasks.btnSave)); //trỏ tới element
-        JavascriptExecutor js = (JavascriptExecutor) driver;
-        js.executeScript("arguments[0].scrollIntoView(true);", elementBtnSave); //true là cuộn xuống dưới, false là cuộn lên trên
+        WebUI.scrollAtBottom(driver, LocatorsTasks.btnSave);
 
         //Tag
-        Thread.sleep(1000);
-        WebElement elementCloseTags = driver.findElement(By.xpath("//div[@id='inputTagsWrapper']/ul//a[@class='tagit-close']/span[1]"));
+        WebElement elementCloseTags = WebUI.getWebElement(driver, LocatorsTasks.elementCloseTags);
         actions.click(elementCloseTags).perform();
-        Thread.sleep(1000);
-        WebElement inputAddTags = driver.findElement(By.xpath(LocatorsTasks.inputAddTags));
-        actions.sendKeys(inputAddTags, tags).perform();
-        Thread.sleep(1000);
+        actions.sendKeys(WebUI.getWebElement(driver, LocatorsTasks.inputAddTags), tags).perform();
 
         //click ra input name để đóng tag
-        WebElement labelTag = driver.findElement(By.xpath(LocatorsTasks.labelTag));
-        actions.click(labelTag).perform();
-        Thread.sleep(1000);
+        WebElement labelTag = WebUI.getWebElement(driver, LocatorsTasks.labelTag);
+        actions.click(labelTag).perform();;
         actions.click(labelTag).perform();
 
         //iframe
-        //driver.findElement(By.xpath(LocatorsTasks.areaDescription)).click();
-        Thread.sleep(500);
-        driver.switchTo().frame("description_ifr");
+        //driver.findElement(LocatorsTasks.areaDescription).click();
+        WebUI.switchToFrame(driver, By.id("description_ifr"));
 
-        WebElement bodyIframe = driver.findElement(By.xpath("//body[@id='tinymce']"));
-        bodyIframe.clear();
-        bodyIframe.sendKeys(bodyIframeDescription);
+        WebElement bodyIframe = WebUI.getWebElement(driver, LocatorsTasks.bodyIframe);
+        actions.click(bodyIframe).perform();
+        actions.keyDown(Keys.CONTROL).sendKeys("a").keyUp(Keys.CONTROL).keyDown(Keys.DELETE).keyUp(Keys.DELETE).build().perform();
+        actions.sendKeys(bodyIframe, bodyIframeDescription).perform();
 
         driver.switchTo().parentFrame();
 
         //click btn Save
-        Thread.sleep(1000);
-        WebElement btnSave = driver.findElement(By.xpath(LocatorsTasks.btnSave));
+        WebElement btnSave = WebUI.getWebElement(driver, LocatorsTasks.btnSave);
         actions.click(btnSave).perform();
         System.out.println("Sửa Task thành công");
     }
@@ -460,7 +397,7 @@ public class BTTasks extends BaseTest {
     @Test(priority = 1)
     public void testAddNewTask() throws InterruptedException {
         BTTasks tasks = new BTTasks();
-        tasks.taskName = "GTest2";
+        tasks.taskName = "GTest2111";
         tasks.hourlyRate = "24";
         tasks.startDate = "20-10-2025";
         tasks.duaDate = "05-11-2025";

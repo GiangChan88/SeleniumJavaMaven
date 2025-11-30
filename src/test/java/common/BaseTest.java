@@ -1,5 +1,6 @@
 package common;
 
+import keywords.WebUI;
 import locator.LocatorsLogin;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -33,32 +34,26 @@ public class BaseTest {
             driver.quit();
             System.out.println("Đóng trình duyệt Chrome");
             System.out.println("__________________________________");
-            softAssert.assertAll();
         }
+        softAssert.assertAll();
     }
 
     public void loginCRM() throws InterruptedException {
         driver.get("https://crm.anhtester.com/admin/authentication");
-        //Verify header Login
-        List<WebElement> checkHeaderLogin = driver.findElements(By.xpath(LocatorsLogin.headerLogin));
-        Assert.assertTrue(checkHeaderLogin.size() > 0, "Check Header Login is not displayed");
+        //Verify header Login - vì truyền text vào xpath rồi nên không cần so sánh text
+        boolean checkHeaderLogin = WebUI.checkExitsElement(driver, LocatorsLogin.headerLogin);
+        Assert.assertTrue(checkHeaderLogin, "Check Header Login is not displayed");
 
-        String headerLoginText = driver.findElement(By.xpath(LocatorsLogin.headerLogin)).getText();
-        softAssert.assertEquals(headerLoginText, "Login", "Header Login is not correct");
-
-        Thread.sleep(1000);
-        driver.findElement(By.xpath(LocatorsLogin.inputEmail)).clear();
-        driver.findElement(By.xpath(LocatorsLogin.inputPassword)).clear();
-        driver.findElement(By.xpath(LocatorsLogin.inputEmail)).sendKeys("admin@example.com");
-        Thread.sleep(1000);
-        driver.findElement(By.xpath(LocatorsLogin.inputPassword)).sendKeys("123456");
-        Thread.sleep(1000);
-        driver.findElement(By.xpath(LocatorsLogin.buttonLogin)).click();
-        Thread.sleep(1000);
+        WebUI.clickElement(driver, LocatorsLogin.inputEmail);
+        WebUI.clickElement(driver, LocatorsLogin.inputPassword);
+        WebUI.setTextElement(driver, LocatorsLogin.inputEmail, "admin@example.com");
+        WebUI.setTextElement(driver, LocatorsLogin.inputPassword, "123456");
+        WebUI.clickElement(driver, LocatorsLogin.buttonLogin);
         System.out.println("Đăng nhập CRM thành công");
 
         //Verify header after Login
-        List<WebElement> checkMenuDashboard = driver.findElements(By.xpath(LocatorsLogin.menuDashboard));
-        Assert.assertTrue(checkMenuDashboard.size() > 0, "Check Menu DashBoard is not displayed after Login");
+        Thread.sleep(1000);
+        boolean checkMenuDashboard = WebUI.checkExitsElement(driver, LocatorsLogin.menuDashboard);
+        Assert.assertTrue(checkMenuDashboard, "Check Menu DashBoard is not displayed after Login");
     }
 }

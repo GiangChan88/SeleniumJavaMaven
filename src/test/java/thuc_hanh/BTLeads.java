@@ -1,6 +1,7 @@
 package thuc_hanh;
 
 
+import keywords.WebUI;
 import locator.LocatorsLeads;
 import common.BaseTest;
 import org.openqa.selenium.Alert;
@@ -35,102 +36,89 @@ public class BTLeads extends BaseTest {
     String description = "";
     String dateContacted = "";
 
-    public void clickMenuLead() throws InterruptedException {
+    public void clickMenuLead() {
         //click menu Lead
-        driver.findElement(By.xpath(LocatorsLeads.menuLeads)).click();
-        Thread.sleep(2000);
+        WebUI.clickElement(driver, LocatorsLeads.menuLeads);
         System.out.println("Click Lead Menu");
     }
 
     public void verifyMenuLead() throws InterruptedException {
-        List<WebElement> checkHeaderLeadSummary = driver.findElements(By.xpath(LocatorsLeads.titleLeadsSummary));
-        Assert.assertTrue(checkHeaderLeadSummary.size() > 0, "FAILED!!! Không truy cập được vào trang Leads");
-        //check text
-        String menuLeadText = driver.findElement(By.xpath(LocatorsLeads.titleLeadsSummary)).getText();
-        softAssert.assertEquals(menuLeadText, "Leads Summary", "Title Leads Summary is not correct");
-        System.out.println("Verify: Đã tới Leads");
+        Thread.sleep(1000);
+        //do truyền text vào xpath nên là kh cần get text để so sánh nữa
+        boolean checkHeaderLeadSummary = WebUI.checkExitsElement(driver, LocatorsLeads.titleLeadsSummary);
+        Assert.assertTrue(checkHeaderLeadSummary, "FAILED!!! Không truy cập được vào trang Leads");
     }
 
-    public void clickBtnAddNewLead() throws InterruptedException {
+    public void clickBtnAddNewLead() {
         //click button New Lead
-        driver.findElement(By.xpath(LocatorsLeads.btnAddLead)).click();
-        Thread.sleep(1000);
+        WebUI.clickElement(driver, LocatorsLeads.btnAddLead);
         System.out.println("Click Button Add New Lead");
     }
 
     public void verifyBtnAddNewLead() throws InterruptedException {
-        List<WebElement> checktitleAddNewLead = driver.findElements(By.xpath(LocatorsLeads.titleAddNewLead));
-        Assert.assertTrue(checktitleAddNewLead.size() > 0, "FAILED!!! Không mở được pop-up Add new lead");
-        //check text
-        String titleAddNewLead = driver.findElement(By.xpath(LocatorsLeads.titleAddNewLead)).getText();
-        softAssert.assertEquals(titleAddNewLead, "Add new lead", "Title Add new lead is not correct");
+        Thread.sleep(1000);
+        boolean checktitleAddNewLead = WebUI.checkExitsElement(driver, LocatorsLeads.titleAddNewLead);
+        Assert.assertTrue(checktitleAddNewLead, "FAILED!!! Không mở được pop-up Add new lead");
         System.out.println("Verify: Mở pop-up Add new lead thành công");
     }
 
     //close Popup Detail
     public void closePopupDetail() {
-        driver.findElement(By.xpath("//div[@id='lead-modal']//div[@class='modal-header']/button")).click();
+        WebUI.clickElement(driver, LocatorsLeads.iconClosePopupDetail);
     }
 
     //search Lead
     public void searchLeadSuccess(String expectedLeadName) throws InterruptedException {
-        driver.findElement(By.xpath(LocatorsLeads.inputSearch)).clear();
-        driver.findElement(By.xpath(LocatorsLeads.inputSearch)).sendKeys(expectedLeadName);
+        WebUI.clearElement(driver, LocatorsLeads.inputSearch);
+        WebUI.setTextElement(driver, LocatorsLeads.inputSearch, expectedLeadName);
         Thread.sleep(2000);
 
-        List<WebElement> rows = driver.findElements(By.xpath("//table[@id='leads']//tbody/tr/td/a[normalize-space()='" + expectedLeadName + "']"));
+        boolean rows = WebUI.checkExitsElement(driver, LocatorsLeads.getRows(expectedLeadName));
         //Sai khi không có bản ghi (không mong muốn rows.size() == 0 => đúng)
         //Assert.assertFalse(rows.size() == 0, "Không tìm thấy Lead '" + expectedLeadName + "' sau khi search!");
 
         //Mong muốn rows.size() > 0 => đúng, nếu rows.size() == 0 thì hiển thị message kia
-        Assert.assertTrue(rows.size() > 0, "Không tìm thấy Lead '" + expectedLeadName + "' sau khi search!");
-
-        String actualLeadName = rows.get(0).getText();
-        Assert.assertEquals(actualLeadName.trim(), expectedLeadName.trim(), "Name Lead hiển thị sau khi tìm kiếm không khớp với Leads vừa thêm");
-        System.out.println("Tìm kiếm thành công Lead: " + actualLeadName);
+        Assert.assertTrue(rows, "Không tìm thấy Lead '" + expectedLeadName + "' sau khi search!");
+        System.out.println("Tìm kiếm thành công Lead: " + expectedLeadName);
     }
 
     public void searchLeadSuccessNoData(String expectedLeadName) throws InterruptedException {
-        driver.findElement(By.xpath(LocatorsLeads.inputSearch)).clear();
-        driver.findElement(By.xpath(LocatorsLeads.inputSearch)).sendKeys(expectedLeadName);
+        WebUI.clearElement(driver, LocatorsLeads.inputSearch);
+        WebUI.setTextElement(driver, LocatorsLeads.inputSearch, expectedLeadName);
         Thread.sleep(2000);
 
-//        List<WebElement> actualLeadName = driver.findElements(By.xpath("//table[@id='leads']//tbody/tr[text()='"+expectedLeadName+"']"));
+//        List<WebElement> actualLeadName = driver.findElements("//table[@id='leads']//tbody/tr[text()='"+expectedLeadName+"']");
 //        Assert.assertTrue(actualLeadName.size() == 0, "Còn dữ liệu");
         //hoặc
-        List<WebElement> rows = driver.findElements(By.xpath("//table[@id='leads']//tbody/tr/td/a[normalize-space()='"+expectedLeadName+"']"));
+        boolean rows = WebUI.checkExitsElement(driver, LocatorsLeads.getRows(expectedLeadName));
         //Sai khi có bản ghi (không mong muốn rows.size() > 0 => đúng)
-        Assert.assertFalse(rows.size() > 0 , "Không mong muốn: vẫn còn bản ghi '" + expectedLeadName + "' trong bảng!");  // Test pass
+        Assert.assertFalse(rows, "Không mong muốn: vẫn còn bản ghi '" + expectedLeadName + "' trong bảng!");  // Test pass
         System.out.println("Tìm kiếm thành công: 0 bản ghi");
     }
 
     //Hàm so sánh giá trị đã thêm mới trong màn edit
-    public void compareFieldAttribute(String xpathActual, String expectedValue, String attributeActual) {
-        String expected = expectedValue;
-        String actual = driver.findElement(By.xpath(xpathActual)).getAttribute(attributeActual);
-        Assert.assertEquals(actual.trim(), expected.trim(), "FAIL: Giá trị mong muốn là: " + expected + " nhưng giá trị thực tế là: " + actual);
+    public void compareFieldAttribute(By xpathActual, String expectedValue, String attributeActual) {
+        String actual = WebUI.getElementAttribute(driver, xpathActual, attributeActual);
+        Assert.assertEquals(actual.trim(), expectedValue.trim(), "FAIL: Giá trị mong muốn là: " + expectedValue + " nhưng giá trị thực tế là: " + actual);
     }
 
-    public void compareFieldText(String xpathActual, String expectedValue) {
-        String expected = expectedValue;
-        String actual = driver.findElement(By.xpath(xpathActual)).getText();
-        Assert.assertEquals(actual.trim(), expected.trim(), "FAIL: Giá trị mong muốn là: " + expected + " nhưng giá trị thực tế là: " + actual);
+    public void compareFieldText(By xpathActual, String expectedValue) {
+        String actual = WebUI.getElementText(driver, xpathActual);
+        Assert.assertEquals(actual.trim(), expectedValue.trim(), "FAIL: Giá trị mong muốn là: " + expectedValue + " nhưng giá trị thực tế là: " + actual);
     }
 
-    public void verifyCheckboxSelected(String checkbox) {
-        boolean checked = driver.findElement(By.xpath(checkbox)).isSelected();
+    public void verifyCheckboxSelected(By checkbox) {
+        boolean checked = driver.findElement(checkbox).isSelected();
         Assert.assertTrue(checked, "Checkbox chưa được tích sau khi click");
     }
 
-    public void clickBtnEdit(String leadName) throws InterruptedException {
-        WebElement firstRow = driver.findElement(By.xpath(LocatorsLeads.firstRowItem));
+    public void clickBtnEdit(String leadName) {
+        WebElement firstRow = driver.findElement(LocatorsLeads.firstRowItem);
 
         //Hover chuột vào dòng đầu tiên
         Actions actions = new Actions(driver);
         actions.moveToElement(firstRow).perform();
-        Thread.sleep(2000);
-        driver.findElement(By.xpath(LocatorsLeads.buttonEdit(leadName))).click();
-        Thread.sleep(2000);
+        WebUI.clickElement(driver, LocatorsLeads.buttonEdit(leadName));
         System.out.println("Mở pop-up Edit Lead thành công");
     }
 
@@ -138,149 +126,106 @@ public class BTLeads extends BaseTest {
                                 String emailAddress, String state, String website, String country, String phone, String zipcode, String leadValue, String language,
                                 String company, String description, String dateContacted, int flagEdit) throws InterruptedException {
 
-        WebElement inputDateContacted = driver.findElement(By.xpath(LocatorsLeads.inputDateContacted));
-        WebElement inputName = driver.findElement(By.xpath(LocatorsLeads.inputName));
-        WebElement inputAddress = driver.findElement(By.xpath(LocatorsLeads.inputAddress));
-        WebElement inputPosition = driver.findElement(By.xpath(LocatorsLeads.inputPosition));
-        WebElement inputCity = driver.findElement(By.xpath(LocatorsLeads.inputCity));
-        WebElement inputEmailAddress = driver.findElement(By.xpath(LocatorsLeads.inputEmailAddress));
-        WebElement inputState = driver.findElement(By.xpath(LocatorsLeads.inputState));
-        WebElement inputWebsite = driver.findElement(By.xpath(LocatorsLeads.inputWebsite));
-        WebElement inputPhone = driver.findElement(By.xpath(LocatorsLeads.inputPhone));
-        WebElement inputZipCode = driver.findElement(By.xpath(LocatorsLeads.inputZipCode));
-        WebElement inputLeadValue = driver.findElement(By.xpath(LocatorsLeads.inputLeadValue));
-        WebElement inputCompany = driver.findElement(By.xpath(LocatorsLeads.inputCompany));
-        WebElement inputDescription = driver.findElement(By.xpath(LocatorsLeads.inputDescription));
-
 
         //dropdown Status
-        driver.findElement(By.xpath(LocatorsLeads.dropdownStatus)).click();
-        Thread.sleep(500);
-        driver.findElement(By.xpath(LocatorsLeads.inputSearchOfStatus)).sendKeys(status);
-        Thread.sleep(500);
-        driver.findElement(By.xpath(LocatorsLeads.getValueStatus(status))).click();
-        Thread.sleep(500);
+        WebUI.clickElement(driver, LocatorsLeads.dropdownStatus);
+        WebUI.setTextElement(driver, LocatorsLeads.inputSearchOfStatus, status);
+        WebUI.clickElement(driver, LocatorsLeads.getValueStatus(status));
 
         //dropdown Source
-        driver.findElement(By.xpath(LocatorsLeads.dropdownSource)).click();
-        Thread.sleep(500);
-        driver.findElement(By.xpath(LocatorsLeads.inputSearchOfSource)).sendKeys(source);
-        Thread.sleep(500);
-        driver.findElement(By.xpath(LocatorsLeads.getValueSource(source))).click();
-        Thread.sleep(500);
+        WebUI.clickElement(driver, LocatorsLeads.dropdownSource);
+        WebUI.setTextElement(driver, LocatorsLeads.inputSearchOfSource, source);
+        WebUI.clickElement(driver, LocatorsLeads.getValueSource(source));
 
         //dropdownAssigned
-        driver.findElement(By.xpath(LocatorsLeads.dropdownAssigned)).click();
-        Thread.sleep(500);
-        driver.findElement(By.xpath(LocatorsLeads.inputSearchOfAssigned)).sendKeys(assigned);
-        Thread.sleep(500);
-        driver.findElement(By.xpath(LocatorsLeads.getValueAssigned(assigned))).click();
-        Thread.sleep(500);
+        WebUI.clickElement(driver, LocatorsLeads.dropdownAssigned);
+        WebUI.setTextElement(driver, LocatorsLeads.inputSearchOfAssigned, assigned);
+        WebUI.clickElement(driver, LocatorsLeads.getValueAssigned(assigned));
 
         //Clear
         if (flagEdit == 1) {
-            Thread.sleep(1000);
-            WebElement elementCloseTags = driver.findElement(By.xpath("//div[@id='inputTagsWrapper']/ul//a[@class='tagit-close']/span[1]"));
-            elementCloseTags.click();
-            inputName.clear();
-            inputAddress.clear();
-            inputPosition.clear();
-            inputCity.clear();
-            inputEmailAddress.clear();
-            inputState.clear();
-            inputWebsite.clear();
-            inputPhone.clear();
-            inputZipCode.clear();
-            inputLeadValue.clear();
-            inputCompany.clear();
-            inputDescription.clear();
-            Thread.sleep(1000);
-            JavascriptExecutor js = (JavascriptExecutor) driver;
-            js.executeScript("arguments[0].scrollIntoView(false);", driver.findElement(By.xpath(LocatorsLeads.dropdownStatus)));
-            Thread.sleep(1000);
-            driver.findElement(By.xpath(LocatorsLeads.inputAddTags)).click();
+            WebUI.clickElement(driver, LocatorsLeads.elementCloseTags);
+
+            WebUI.clearElement(driver, LocatorsLeads.inputName);
+            WebUI.clearElement(driver, LocatorsLeads.inputAddress);
+            WebUI.clearElement(driver, LocatorsLeads.inputPosition);
+            WebUI.clearElement(driver, LocatorsLeads.inputCity);
+            WebUI.clearElement(driver, LocatorsLeads.inputEmailAddress);
+            WebUI.clearElement(driver, LocatorsLeads.inputState);
+            WebUI.clearElement(driver, LocatorsLeads.inputWebsite);
+            WebUI.clearElement(driver, LocatorsLeads.inputPhone);
+            WebUI.clearElement(driver, LocatorsLeads.inputZipCode);
+            WebUI.clearElement(driver, LocatorsLeads.inputLeadValue);
+            WebUI.clearElement(driver, LocatorsLeads.inputCompany);
+            WebUI.clearElement(driver, LocatorsLeads.inputDescription);
+
+            WebUI.scrollAtTop(driver, LocatorsLeads.dropdownStatus);
+            WebUI.clickElement(driver, LocatorsLeads.inputAddTags);
         }
 
         //Tag
-        Thread.sleep(1000);
-        driver.findElement(By.xpath(LocatorsLeads.inputAddTags)).sendKeys(tags);
-        Thread.sleep(1000);
+        WebUI.setTextElement(driver, LocatorsLeads.inputAddTags, tags);
 
         //click ra input name để đóng tag
-        WebElement labelStatus = driver.findElement(By.xpath(LocatorsLeads.labelStatus));
-        labelStatus.click();
-        Thread.sleep(500);
-        labelStatus.click();
+        WebUI.clickElement(driver, LocatorsLeads.labelStatus);
+        WebUI.clickElement(driver, LocatorsLeads.labelStatus);
 
         //input
-        inputName.sendKeys(leadName);
-        inputAddress.sendKeys(address);
-        inputPosition.sendKeys(position);
-        inputCity.sendKeys(city);
-        inputEmailAddress.sendKeys(emailAddress);
-        inputState.sendKeys(state);
-        inputWebsite.sendKeys(website);
+        WebUI.setTextElement(driver, LocatorsLeads.inputName, leadName);
+        WebUI.setTextElement(driver, LocatorsLeads.inputAddress, address);
+        WebUI.setTextElement(driver, LocatorsLeads.inputPosition, position);
+        WebUI.setTextElement(driver, LocatorsLeads.inputCity, city);
+        WebUI.setTextElement(driver, LocatorsLeads.inputEmailAddress, emailAddress);
+        WebUI.setTextElement(driver, LocatorsLeads.inputState, state);
+        WebUI.setTextElement(driver, LocatorsLeads.inputWebsite, website);
 
         //dropdown Country
-        driver.findElement(By.xpath(LocatorsLeads.dropdownCountry)).click();
-        Thread.sleep(500);
-        driver.findElement(By.xpath(LocatorsLeads.inputSearchOfCountry)).sendKeys(country);
-        Thread.sleep(500);
-        driver.findElement(By.xpath(LocatorsLeads.getValueCountry(country))).click();
-        Thread.sleep(500);
+        WebUI.clickElement(driver, LocatorsLeads.dropdownCountry);
+        WebUI.setTextElement(driver, LocatorsLeads.inputSearchOfCountry, country);
+        WebUI.clickElement(driver, LocatorsLeads.getValueCountry(country));
 
         //input
-        inputPhone.sendKeys(phone);
-        inputZipCode.sendKeys(zipcode);
-        inputLeadValue.sendKeys(leadValue);
+        WebUI.setTextElement(driver, LocatorsLeads.inputPhone, phone);
+        WebUI.setTextElement(driver, LocatorsLeads.inputZipCode, zipcode);
+        WebUI.setTextElement(driver, LocatorsLeads.inputLeadValue, leadValue);
 
         //scroll kéo xuống dưới
-        WebElement elementBtnSave = driver.findElement(By.xpath(LocatorsLeads.buttonSave)); //trỏ tới element
-        JavascriptExecutor js = (JavascriptExecutor) driver;
-        js.executeScript("arguments[0].scrollIntoView(false);", elementBtnSave); //true là cuộn hiển thị ở top trang, false là cuộn hiển thị ở bottom trang
+        WebUI.scrollAtBottom(driver, LocatorsLeads.buttonSave);
 
         //dropdown Language
-        driver.findElement(By.xpath(LocatorsLeads.dropdownLanguage)).click();
-        Thread.sleep(500);
-        driver.findElement(By.xpath(LocatorsLeads.inputSearchOfLanguage)).sendKeys(language);
-        Thread.sleep(500);
-        driver.findElement(By.xpath(LocatorsLeads.getValueLanguage(language))).click();
-        Thread.sleep(500);
+        WebUI.clickElement(driver, LocatorsLeads.dropdownLanguage);
+        WebUI.setTextElement(driver, LocatorsLeads.inputSearchOfLanguage, language);
+        WebUI.clickElement(driver, LocatorsLeads.getValueLanguage(language));
 
         //input
-        inputCompany.sendKeys(company);
-        inputDescription.sendKeys(description);
+        WebUI.setTextElement(driver, LocatorsLeads.inputCompany, company);
+        WebUI.setTextElement(driver, LocatorsLeads.inputDescription, description);
 
         //checkbox public
-        driver.findElement(By.xpath(LocatorsLeads.checkboxPublic)).click();
-        Thread.sleep(500);
+        WebUI.clickElement(driver, LocatorsLeads.labelPublic);
 
         //checkbox contactedToday
         //flagEdit = 0 => Thêm mới
         if (flagEdit == 0){
-            driver.findElement(By.xpath(LocatorsLeads.checkboxContactedToday)).click();
-            Thread.sleep(500);
-            inputDateContacted.sendKeys(dateContacted);
-            Thread.sleep(500);
+            WebUI.clickElement(driver, LocatorsLeads.labelContactedToday);
+            WebUI.setTextElement(driver, LocatorsLeads.inputDateContacted, dateContacted);
         }else {
-            WebElement inputLastContacted = driver.findElement(By.xpath(LocatorsLeads.inputLastContact));
-            inputLastContacted.clear();
-            Thread.sleep(500);
-            inputLastContacted.sendKeys(dateContacted);
+            WebUI.clearElement(driver, LocatorsLeads.inputLastContact);
+            WebUI.setTextElement(driver, LocatorsLeads.inputLastContact, dateContacted);
         }
 
         //click btn Save
-        driver.findElement(By.xpath(LocatorsLeads.buttonSave)).click();
+        WebUI.clickElement(driver, LocatorsLeads.buttonSave);
     }
 
     public void viewEditLead(String status, String source, String assigned, String tags, String leadName, String address, String position, String city,
                                 String emailAddress, String state, String website, String country, String phone, String zipcode, String leadValue, String language,
-                                String company, String description, String dateContacted) throws InterruptedException {
+                                String company, String description, String dateContacted) {
 
         compareFieldText(LocatorsLeads.dropdownStatus, status);
         compareFieldText(LocatorsLeads.dropdownSource, source);
         compareFieldText(LocatorsLeads.dropdownAssigned, assigned);
-        compareFieldAttribute(LocatorsLeads.inputEditTags, tags, "value");
+        compareFieldText(LocatorsLeads.inputEditTags, tags);
         compareFieldAttribute(LocatorsLeads.inputName, leadName, "value");
         compareFieldAttribute(LocatorsLeads.inputAddress, address, "value");
         compareFieldAttribute(LocatorsLeads.inputPosition, position, "value");
@@ -300,26 +245,27 @@ public class BTLeads extends BaseTest {
         System.out.println("Tất cả các trường dữ liệu Lead đã được Verify thành công");
     }
 
-    public void deleteLeadSuccess(String leadName) throws InterruptedException {
-        WebElement firstRow = driver.findElement(By.xpath(LocatorsLeads.firstRowItem));
+    public void deleteLeadSuccess(String leadName) {
+        WebElement firstRow = driver.findElement(LocatorsLeads.firstRowItem);
 
         //Hover chuột vào dòng đầu tiên
         Actions actions = new Actions(driver);
         actions.moveToElement(firstRow).perform();
-        Thread.sleep(2000);
-        driver.findElement(By.xpath(LocatorsLeads.buttonDelete(leadName))).click();
-        System.out.println("Click button Delete");
+        WebUI.clickElement(driver, LocatorsLeads.buttonDelete(leadName));
     }
 
     public void confirmDeleteLeadSuccess(String leadName, int flag) throws InterruptedException {
         System.out.println("Confirm Delete Lead Success");
         Thread.sleep(2000);
+        Alert alert = driver.switchTo().alert();
+        String alertText = alert.getText();
+        softAssert.assertEquals(alertText, "Are you sure you want to perform this action?", "Nội dung trong alert Delete không đúng");
+        System.out.println("Nội dung trong alert Delete hợp lệ");
+        //check text trên alert
         if (flag == 1) {
-            Alert alert = driver.switchTo().alert();
             alert.accept();
             System.out.println("Xóa thành công");
         }else {
-            Alert alert = driver.switchTo().alert();
             alert.dismiss();
             System.out.println("Bỏ xóa thành công");
         }
@@ -332,11 +278,11 @@ public class BTLeads extends BaseTest {
         lead.source = "Facebook";
         lead.assigned = "Admin Anh Tester";
         lead.tags = "Giang12345";
-        lead.leadName = "Giang Chan";
+        lead.leadName = "Giang Chan1";
         lead.address = "230 Mễ Trì, Hà Nội";
         lead.position = "Mễ Trì";
         lead.city = "Hà Nội";
-        lead.emailAddress = "giang08@gmail.com";
+        lead.emailAddress = "giang081@gmail.com";
         lead.state = "123";
         lead.website = "https://8080:21";
         lead.country = "Angola";
@@ -415,7 +361,7 @@ public class BTLeads extends BaseTest {
 
         //close popup add
         Thread.sleep(1000);
-        driver.findElement(By.xpath(LocatorsLeads.buttonClose)).click();
+        driver.findElement(LocatorsLeads.buttonClose).click();
         Thread.sleep(2000);
 
         //Kiểm tra lại
