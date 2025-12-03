@@ -1,5 +1,7 @@
 package com.giangnth.testcases;
 
+import com.giangnth.pages.DashboardPage;
+import com.giangnth.pages.LoginPage;
 import keywords.WebUI;
 import com.giangnth.pages.TasksPage;
 import common.BaseTest;
@@ -7,6 +9,8 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -30,368 +34,9 @@ public class TestCaseTask extends BaseTest {
     String tags = "";
     String bodyIframeDescription = "";
 
-    public void clickMenuTask() throws InterruptedException {
-        //click menu Lead
-        WebUI.clickElement(driver, TasksPage.menuTasks);
-        System.out.println("Click menu Task");
-    }
-
-    public void verifyMenuTask() throws InterruptedException {
-        Thread.sleep(1000);
-        //Truyền text vào xpath nên không cần check Text
-        boolean checkHeaderTaskSummary = WebUI.checkExitsElement(driver, TasksPage.headerTasksSummary);
-        Assert.assertTrue(checkHeaderTaskSummary, "FAILED!!! Không truy cập được vào trang Tasks");
-    }
-
-    public void clickBtnAddTask() throws InterruptedException {
-        //click button New Lead
-        WebUI.clickElement(driver, TasksPage.btnAddTasks);
-        System.out.println("Click button Add Task");
-    }
-
-    public void verifyBtnAddTask() throws InterruptedException {
-        Thread.sleep(2000);
-        //Truyền text vào xpath nên không cần check Text
-        boolean checkTitleAddNewTask = WebUI.checkExitsElement(driver, TasksPage.titleAddNewTask);
-        Assert.assertTrue(checkTitleAddNewTask, "FAILED!!! Không mở được pop-up Add new Tasks");
-    }
-
-    public void addNewTask(String taskName, String hourlyRate, String startDate, String duaDate, String priority, String repeatEvery, String totalCycles,
-                           String relatedTo, String searchValueRelatedTo, String valueRelatedTo, String assignees, String assignees2, String followers, String followers2, String tags, String bodyIframeDescription) throws InterruptedException {
-
-        //Checkbox public
-        WebElement checkboxPublic = WebUI.getWebElement(driver, TasksPage.checkboxPublic);
-        if (!checkboxPublic.isSelected()) {
-            checkboxPublic.click();
-        }
-        softAssert.assertTrue(checkboxPublic.isSelected(), "Checkbox public chưa được tích sau khi click");
-
-        //Checkbox Billable
-        WebElement checkboxBillsble = WebUI.getWebElement(driver, TasksPage.checkboxBillsble);
-        if (!checkboxBillsble.isSelected()) {
-            checkboxBillsble.click();
-        }
-        softAssert.assertTrue(checkboxBillsble.isSelected(), "Checkbox Billable chưa được tích sau khi click");
-
-        //check attachment
-        WebUI.clickElement(driver, TasksPage.linkAttachFile);
-
-        //sendKeys input
-        WebUI.setTextElement(driver, TasksPage.inputSubject, taskName);
-        WebUI.clearElement(driver, TasksPage.inputHourlyRate);
-        WebUI.setTextElement(driver, TasksPage.inputHourlyRate, hourlyRate);
-        WebUI.clearElement(driver, TasksPage.inputStartDate);
-        WebUI.setTextElement(driver, TasksPage.inputStartDate, startDate);
-        WebUI.clickElement(driver, TasksPage.inputStartDate);
-        WebUI.clearElement(driver, TasksPage.inputDuaDate);
-        WebUI.setTextElement(driver, TasksPage.inputDuaDate, duaDate);
-        WebUI.clickElement(driver, TasksPage.inputDuaDate);
-
-        //dropdown Priority
-        WebUI.clickElement(driver, TasksPage.dropdownPriority);
-        WebUI.clickElement(driver, TasksPage.getValuePriority(priority));
-
-        //dropdown Repeat every and input Total cycle (cho if)
-        WebUI.clickElement(driver, TasksPage.dropdownRepeatEvery);
-        WebUI.clickElement(driver, TasksPage.getValueRepeatEvery(repeatEvery));
-        if (repeatEvery.equals("Custom")) {
-            //input
-            WebUI.clearElement(driver, TasksPage.repeatEveryCustom);
-            WebUI.setTextElement(driver, TasksPage.repeatEveryCustom, "100");
-
-            //dropdown
-            WebUI.clickElement(driver, TasksPage.dropdownRepeatEveryCustom);
-            WebUI.clickElement(driver, TasksPage.getRepeatEveryCustom("Week(s)"));
-
-            //input Total
-            WebUI.clickElement(driver, TasksPage.labelCheckboxInfinity); // - click bỏ chọn
-            WebUI.clearElement(driver, TasksPage.inputTotalCycles);
-            WebUI.setTextElement(driver, TasksPage.inputTotalCycles, "100000");
-        } else if (repeatEvery.equals("Week") || repeatEvery.equals("2 Weeks") || repeatEvery.equals("1 Month") || repeatEvery.equals("2 Months") ||
-                repeatEvery.equals("3 Months") || repeatEvery.equals("6 Months") || repeatEvery.equals("1 Year")) {
-
-            WebUI.clickElement(driver, TasksPage.labelCheckboxInfinity); // - click bỏ chọn
-            WebUI.clearElement(driver, TasksPage.inputTotalCycles);
-            WebUI.setTextElement(driver, TasksPage.inputTotalCycles, "100000");
-        } else {
-            System.out.println("Không tồn tại");
-        }
-
-        //dropdown Related to
-        WebUI.clickElement(driver, TasksPage.dropdownRelatedTo);
-        WebUI.clickElement(driver, TasksPage.getValueRelatedTo(relatedTo));
-
-        //Click vô hàm valueDropdown Related to chọn giá trị
-        Actions actions = new Actions(driver);
-        WebUI.clickElement(driver, TasksPage.dropdownForRelatedTo);
-        WebUI.setTextElement(driver, TasksPage.inputSearchOfForRelatedTo, searchValueRelatedTo);
-        Thread.sleep(1000);
-        WebUI.setTextElement(driver, TasksPage.inputSearchOfForRelatedTo," ");
-        //WebUI.setTextElement(driver, LocatorsTasks.inputSearchOfForRelatedTo, searchValueRelatedTo);
-        WebUI.clickElement(driver, TasksPage.getValueForRelatedTo(valueRelatedTo));
-
-        //scroll kéo xuống dưới
-        WebUI.scrollAtBottom(driver, TasksPage.btnSave);
-
-        //dropdown Assignees
-        //bỏ click
-        WebUI.clickElement(driver, TasksPage.dropdownAssignees);
-        List<WebElement> listAssignees = WebUI.getWebElements(driver, TasksPage.listAssignees);
-        //bỏ click
-        for (WebElement assignee : listAssignees) {
-            if (assignee.isSelected()) {
-                assignee.click();
-            }
-        }
-
-        WebUI.setTextElement(driver, TasksPage.inputSearchOffAssignees, assignees);
-        WebUI.clickElement(driver, TasksPage.getValueAssignees(assignees));
-
-        WebUI.clearElement(driver, TasksPage.inputSearchOffAssignees);
-        WebUI.setTextElement(driver, TasksPage.inputSearchOffAssignees, assignees2);
-        WebUI.clickElement(driver, TasksPage.getValueAssignees(assignees2));
-
-        //dropdown Followers Mutip (tạo chọn data trước)
-        WebUI.clickElement(driver, TasksPage.dropdownFollowers);
-        WebUI.setTextElement(driver, TasksPage.inputSearchOffFollowers, followers);
-        WebUI.clickElement(driver, TasksPage.getValueFollowers(followers));
-        WebUI.clickElement(driver, TasksPage.dropdownFollowers);
-
-        //bỏ click
-        driver.findElement(TasksPage.dropdownFollowers).click();
-        List<WebElement> listFollowers = WebUI.getWebElements(driver, TasksPage.listFollowers);
-        for (WebElement follower : listFollowers) {
-            if (follower.isSelected()) {
-                follower.click();
-            }
-        }
-        WebUI.setTextElement(driver, TasksPage.inputSearchOffFollowers, followers);
-        WebUI.clickElement(driver, TasksPage.getValueFollowers(followers));
-
-        WebUI.clearElement(driver, TasksPage.inputSearchOffFollowers);
-        WebUI.setTextElement(driver, TasksPage.inputSearchOffFollowers, followers2);
-        WebUI.clickElement(driver, TasksPage.getValueFollowers(followers2));
-
-        //Tags
-        WebUI.setTextElement(driver, TasksPage.inputAddTags, tags);
-
-        //Tắt tags
-        WebUI.clickElement(driver, TasksPage.labelTag);
-        WebUI.clickElement(driver, TasksPage.labelTag);
-
-        //iframe
-        WebUI.clickElement(driver, TasksPage.areaDescription);
-        WebUI.switchToFrame(driver, By.id("description_ifr"));
-        //driver.switchTo().frame("description_ifr");
-
-        WebUI.clearElement(driver, TasksPage.bodyIframe);
-        WebUI.setTextElement(driver, TasksPage.bodyIframe, bodyIframeDescription);
-
-        driver.switchTo().parentFrame();
-
-        //click btn Save
-        WebUI.clickElement(driver, TasksPage.btnSave);
-        System.out.println("Thêm mới thành công Tasks");
-    }
-
-    public void closePopupDetail() throws InterruptedException {
-        Thread.sleep(2000);
-        WebUI.clickElement(driver, TasksPage.iconClosePopupDetail);
-    }
-
-    //search Lead
-    public void searchTaskSuccess(String expectedTaskName) throws InterruptedException {
-        WebUI.clearElement(driver, TasksPage.inputSearch);
-        WebUI.setTextElement(driver, TasksPage.inputSearch, expectedTaskName);
-
-        boolean rows = WebUI.checkExitsElement(driver, TasksPage.getRows(expectedTaskName));
-        //Sai khi không có bản ghi
-        //Assert.assertFalse(rows.size() == 0, "Không tìm thấy Task '" + expectedTaskName + "' sau khi search!");
-
-        //Mong muốn rows.size() > 0 => đúng, nếu rows.size() == 0 thì hiển thị message kia
-        Assert.assertTrue(rows, "Không tìm thấy Task '" + expectedTaskName + "' sau khi search!");
-        System.out.println("Tìm kiếm thành công Task: " + expectedTaskName);
-    }
-
-    public void searchTaskSuccessNoData(String expectedTaskName) throws InterruptedException {
-        WebUI.clearElement(driver, TasksPage.inputSearch);
-        WebUI.setTextElement(driver, TasksPage.inputSearch, expectedTaskName);
-
-//        List<WebElement> actualTaskName = driver.findElements("//table[@id='tasks']//tbody/tr/td[contains(normalize-space(),'"+expectedTaskName+"')]");
-//        Assert.assertTrue(actualTaskName.size() == 0, "Còn dữ liệu");
-        boolean rows = WebUI.checkExitsElement(driver, TasksPage.getRows(expectedTaskName));
-        Assert.assertFalse(rows, "Không mong muốn: vẫn còn bản ghi '" + expectedTaskName + "' trong bảng!");//trả về true => có bản ghi (test fail). trả về false => không còn bản ghi (test pass)
-        System.out.println("Tìm kiếm thành công: 0 bản ghi");
-    }
-
-    //Hàm so sánh giá trị đã thêm mới trong màn edit
-    public void compareFieldAttribute(By xpathActual, String expectedValue, String attributeActual) {
-        //String actual = driver.findElement(xpathActual).getAttribute(attributeActual);
-        String actual = WebUI.getElementAttribute(driver, xpathActual, attributeActual);
-        Assert.assertEquals(actual.trim(), expectedValue.trim(), "FAIL: Giá trị mong muốn là: " + expectedValue + " nhưng giá trị thực tế là: " + actual);
-    }
-
-    public void compareFieldText(By xpathActual, String expectedValue) {
-        String actual = WebUI.getElementText(driver, xpathActual);
-        Assert.assertEquals(actual.trim(), expectedValue.trim(), "FAIL: Giá trị mong muốn là: " + expectedValue + " nhưng giá trị thực tế là: " + actual);
-    }
-
-    public void verifyCheckboxSelected(By xpathCheckbox) {
-        boolean checked = driver.findElement(xpathCheckbox).isSelected();
-        Assert.assertTrue(checked, "Checkbox chưa được tích sau khi click");
-    }
-
-    public void compareIframeValue(String expectedValue) {
-        driver.switchTo().frame("description_ifr");
-        String actual = WebUI.getElementText(driver, TasksPage.bodyIframe);
-        driver.switchTo().defaultContent();
-        Assert.assertEquals(actual.trim(), expectedValue.trim(), "FAIL: Giá trị mong muốn là: " + expectedValue + " nhưng thực tế là: " + actual);
-    }
-
-    public void clickBtnEdit(String taskName) throws InterruptedException {
-        WebElement firstRow = WebUI.getWebElement(driver, TasksPage.firstRowItem);
-
-        //Hover chuột vào dòng đầu tiên
-        Actions actions = new Actions(driver);
-        actions.moveToElement(firstRow).perform();
-        WebUI.clickElement(driver, TasksPage.buttonEdit(taskName));
-        boolean checkTitleEditTask = WebUI.checkExitsElement(driver, TasksPage.titleEditTask(taskName));
-        Thread.sleep(1000);
-        Assert.assertTrue(checkTitleEditTask, "FAILED!!! Không mở được pop-up Edit Tasks");
-        System.out.println("Mở pop-up Edit Task thành công");
-    }
-
-    public void viewEditTaskSuccess(String taskName, String hourlyRate, String startDate, String duaDate, String priority, String repeatEvery, String totalCycles,
-                                    String relatedTo, String valueRelatedTo, String tags, String bodyIframeDescription) throws InterruptedException {
-        verifyCheckboxSelected(TasksPage.checkboxPublic);
-        verifyCheckboxSelected(TasksPage.checkboxBillsble);
-        compareFieldAttribute(TasksPage.inputSubject, taskName, "value");
-        compareFieldAttribute(TasksPage.inputHourlyRate, hourlyRate, "value");
-        compareFieldAttribute(TasksPage.inputStartDate, startDate, "value");
-        compareFieldAttribute(TasksPage.inputDuaDate, duaDate, "value");
-        compareFieldText(TasksPage.dropdownPriority, priority);
-        compareFieldText(TasksPage.dropdownRepeatEvery, repeatEvery);
-        compareFieldAttribute(TasksPage.inputTotalCycles, totalCycles, "value");
-        compareFieldText(TasksPage.dropdownRelatedTo, relatedTo);
-        compareFieldText(TasksPage.dropdownForRelatedTo, valueRelatedTo);
-        compareFieldText(TasksPage.inputEditTags, tags);
-        compareIframeValue(bodyIframeDescription);
-        System.out.println("Tất cả các trường dữ liệu Task đã được Verify thành công");
-    }
-
-    public void editTaskSuccess(String hourlyRate, String startDate, String duaDate, String priority, String repeatEvery, String totalCycles,
-                                String relatedTo, String searchValueRelatedTo, String valueRelatedTo, String tags, String bodyIframeDescription) throws InterruptedException {
-        Actions actions = new Actions(driver);
-
-        WebElement labelCheckboxPublic = WebUI.getWebElement(driver, TasksPage.labelPublic);
-        WebElement checkboxPublic = WebUI.getWebElement(driver, TasksPage.checkboxPublic);
-        WebElement labelCheckboxBillsble = WebUI.getWebElement(driver, TasksPage.labelBillsble);
-        WebElement checkboxBillsble = WebUI.getWebElement(driver, TasksPage.checkboxBillsble);
-
-        //Checkbox public
-        if (!checkboxPublic.isSelected()) {
-            actions.click(labelCheckboxPublic).perform();
-        }
-        softAssert.assertTrue(checkboxPublic.isSelected(), "Checkbox public chưa được tích sau khi click");
-
-        //Checkbox Billable
-        if (!checkboxBillsble.isSelected()) {
-            actions.click(labelCheckboxPublic).perform();
-        }
-        softAssert.assertTrue(checkboxBillsble.isSelected(), "Checkbox Billable chưa được tích sau khi click");
-
-        //sendKeys input
-        WebElement inputHourlyRate = WebUI.getWebElement(driver, TasksPage.inputHourlyRate);
-        actions.click(inputHourlyRate).perform();
-        actions.keyDown(Keys.CONTROL).sendKeys("a").keyUp(Keys.CONTROL).keyDown(Keys.DELETE).keyUp(Keys.DELETE).build().perform();
-        actions.sendKeys(inputHourlyRate, hourlyRate).perform();
-
-        WebElement inputStartDate = WebUI.getWebElement(driver, TasksPage.inputStartDate);
-        actions.click(inputStartDate).perform();
-        actions.keyDown(Keys.CONTROL).sendKeys("a").keyUp(Keys.CONTROL).keyDown(Keys.DELETE).keyUp(Keys.DELETE).build().perform();
-        actions.sendKeys(inputStartDate, startDate).perform();
-        actions.click(inputStartDate).perform();
-
-        WebElement inputDuaDate = WebUI.getWebElement(driver, TasksPage.inputDuaDate);
-        actions.click(inputDuaDate).perform();
-        actions.keyDown(Keys.CONTROL).sendKeys("a").keyUp(Keys.CONTROL).keyDown(Keys.DELETE).keyUp(Keys.DELETE).build().perform();
-        actions.sendKeys(inputDuaDate, duaDate).perform();
-        actions.click(inputDuaDate).perform();
-
-        //dropdown Priority
-        actions.click(WebUI.getWebElement(driver, TasksPage.dropdownPriority)).perform();
-        actions.click(WebUI.getWebElement(driver, TasksPage.getValuePriority(priority))).perform();
-
-        //dropdown Repeat every and input Total cycle (cho if)
-        actions.click(WebUI.getWebElement(driver, TasksPage.dropdownRepeatEvery)).perform();
-        actions.click(WebUI.getWebElement(driver, TasksPage.getValueRepeatEvery(repeatEvery))).perform();
-        if (repeatEvery.equals("Custom")) {
-            //input
-            WebElement repeatEveryCustom = WebUI.getWebElement(driver, TasksPage.repeatEveryCustom);
-            actions.click(repeatEveryCustom).perform();
-            actions.keyDown(Keys.CONTROL).sendKeys("a").keyUp(Keys.CONTROL).keyDown(Keys.DELETE).keyUp(Keys.DELETE).build().perform();
-            actions.sendKeys(repeatEveryCustom, "100").perform();
-
-            //dropdown
-            actions.click(WebUI.getWebElement(driver, TasksPage.dropdownRepeatEveryCustom)).perform();
-            actions.click(WebUI.getWebElement(driver, TasksPage.getRepeatEveryCustom("Day(s)")));
-
-            //input Total
-            actions.click(WebUI.getWebElement(driver, TasksPage.checkboxInfinity)).perform(); //click (bỏ chọn)
-            WebElement inputTotalCycles = WebUI.getWebElement(driver, TasksPage.inputTotalCycles);
-            actions.click(inputTotalCycles).perform();
-            actions.keyDown(Keys.CONTROL).sendKeys("a").keyUp(Keys.CONTROL).keyDown(Keys.DELETE).keyUp(Keys.DELETE).build().perform();
-            actions.sendKeys(inputTotalCycles, totalCycles).perform();
-
-        } else if (repeatEvery.equals("Week") || repeatEvery.equals("2 Weeks") || repeatEvery.equals("1 Month") || repeatEvery.equals("2 Months") ||
-                repeatEvery.equals("3 Months") || repeatEvery.equals("6 Months") || repeatEvery.equals("1 Year")) {
-            //actions.click(driver.findElement(LocatorsTasks.checkboxInfinity)).perform(); //click (bỏ chọn)
-            WebElement inputTotalCycles = WebUI.getWebElement(driver, TasksPage.inputTotalCycles);
-            actions.click(inputTotalCycles).perform();
-            actions.keyDown(Keys.CONTROL).sendKeys("a").keyUp(Keys.CONTROL).keyDown(Keys.DELETE).keyUp(Keys.DELETE).build().perform();
-            actions.sendKeys(inputTotalCycles, totalCycles).perform();
-        } else {
-            System.out.println("Không tồn tại");
-        }
-
-        //dropdown Related to
-        actions.click(WebUI.getWebElement(driver, TasksPage.dropdownRelatedTo)).perform();
-        actions.click(WebUI.getWebElement(driver, TasksPage.getValueRelatedTo(relatedTo))).perform();
-
-        //Click vô hàm valueDropdown Related to chọn giá trị
-        actions.click(WebUI.getWebElement(driver, TasksPage.dropdownForRelatedTo)).perform();
-        actions.sendKeys(WebUI.getWebElement(driver, TasksPage.inputSearchOfForRelatedTo), searchValueRelatedTo).perform();
-        actions.click(WebUI.getWebElement(driver, TasksPage.getValueForRelatedTo(valueRelatedTo))).perform();
-
-        //scroll kéo xuống dưới
-        WebUI.scrollAtBottom(driver, TasksPage.btnSave);
-
-        //Tag
-        WebElement elementCloseTags = WebUI.getWebElement(driver, TasksPage.elementCloseTags);
-        actions.click(elementCloseTags).perform();
-        actions.sendKeys(WebUI.getWebElement(driver, TasksPage.inputAddTags), tags).perform();
-
-        //click ra input name để đóng tag
-        WebElement labelTag = WebUI.getWebElement(driver, TasksPage.labelTag);
-        actions.click(labelTag).perform();;
-        actions.click(labelTag).perform();
-
-        //iframe
-        //driver.findElement(LocatorsTasks.areaDescription).click();
-        WebUI.switchToFrame(driver, By.id("description_ifr"));
-
-        WebElement bodyIframe = WebUI.getWebElement(driver, TasksPage.bodyIframe);
-        actions.click(bodyIframe).perform();
-        actions.keyDown(Keys.CONTROL).sendKeys("a").keyUp(Keys.CONTROL).keyDown(Keys.DELETE).keyUp(Keys.DELETE).build().perform();
-        actions.sendKeys(bodyIframe, bodyIframeDescription).perform();
-
-        driver.switchTo().parentFrame();
-
-        //click btn Save
-        WebElement btnSave = WebUI.getWebElement(driver, TasksPage.btnSave);
-        actions.click(btnSave).perform();
-        System.out.println("Sửa Task thành công");
-    }
+    private LoginPage loginPage;
+    private TasksPage tasksPage;
+    private DashboardPage dashboardPage;
 
     @Test(priority = 1)
     public void testAddNewTask() throws InterruptedException {
@@ -415,21 +60,23 @@ public class TestCaseTask extends BaseTest {
         Thread.sleep(1000);
 
         //click menu Task
-        clickMenuTask();
-        verifyMenuTask();
+        loginPage = new LoginPage(driver);
+        dashboardPage = loginPage.loginCRM();
+        tasksPage = dashboardPage.clickMenuTask();
+        tasksPage.verifyMenuTask();
 
         //click btn Add Task
-        clickBtnAddTask();
-        verifyBtnAddTask();
+        tasksPage.clickBtnAddTask();
+        tasksPage.verifyBtnAddTask();
 
-        addNewTask(tasks.taskName, tasks.hourlyRate, tasks.startDate, tasks.duaDate, tasks.priority, tasks.repeatEvery, tasks.totalCycles, tasks.relatedTo, tasks.searchValueRelatedTo, tasks.valueRelatedTo, tasks.assignees, tasks.assignees2, tasks.followers, tasks.followers2, tasks.tags, tasks.bodyIframeDescription);
+        tasksPage.addNewTask(tasks.taskName, tasks.hourlyRate, tasks.startDate, tasks.duaDate, tasks.priority, tasks.repeatEvery, tasks.totalCycles, tasks.relatedTo, tasks.searchValueRelatedTo, tasks.valueRelatedTo, tasks.assignees, tasks.assignees2, tasks.followers, tasks.followers2, tasks.tags, tasks.bodyIframeDescription);
         Thread.sleep(3000);
 
-        closePopupDetail();
+        tasksPage.closePopupDetail();
         Thread.sleep(1000);
 
         //verify
-        searchTaskSuccess(tasks.taskName);
+        tasksPage.searchTaskSuccess(tasks.taskName);
     }
 
     @Test(priority = 2)
@@ -454,26 +101,28 @@ public class TestCaseTask extends BaseTest {
         Thread.sleep(1000);
 
         //click menu Task
-        clickMenuTask();
-        verifyMenuTask();
+        loginPage = new LoginPage(driver);
+        dashboardPage = loginPage.loginCRM();
+        tasksPage = dashboardPage.clickMenuTask();
+        tasksPage.verifyMenuTask();
 
         //click btn Add Task
-        clickBtnAddTask();
-        verifyBtnAddTask();
+        tasksPage.clickBtnAddTask();
+        tasksPage.verifyBtnAddTask();
 
-        addNewTask(tasks.taskName, tasks.hourlyRate, tasks.startDate, tasks.duaDate, tasks.priority, tasks.repeatEvery, tasks.totalCycles, tasks.relatedTo, tasks.searchValueRelatedTo, tasks.valueRelatedTo, tasks.assignees, tasks.assignees2, tasks.followers, tasks.followers2, tasks.tags, tasks.bodyIframeDescription);
+        tasksPage.addNewTask(tasks.taskName, tasks.hourlyRate, tasks.startDate, tasks.duaDate, tasks.priority, tasks.repeatEvery, tasks.totalCycles, tasks.relatedTo, tasks.searchValueRelatedTo, tasks.valueRelatedTo, tasks.assignees, tasks.assignees2, tasks.followers, tasks.followers2, tasks.tags, tasks.bodyIframeDescription);
         Thread.sleep(3000);
 
-        closePopupDetail();
+        tasksPage.closePopupDetail();
         Thread.sleep(1000);
 
         //verify
-        searchTaskSuccess(tasks.taskName);
+        tasksPage.searchTaskSuccess(tasks.taskName);
 
         //click btn edit
-        clickBtnEdit(tasks.taskName);
+        tasksPage.clickBtnEdit(tasks.taskName);
 
-        viewEditTaskSuccess(tasks.taskName, tasks.hourlyRate +".00", tasks.startDate, tasks.duaDate, tasks.priority, tasks.repeatEvery, tasks.totalCycles, tasks.relatedTo, tasks.valueRelatedTo, tasks.tags, tasks.bodyIframeDescription);
+        tasksPage.viewEditTaskSuccess(tasks.taskName, tasks.hourlyRate +".00", tasks.startDate, tasks.duaDate, tasks.priority, tasks.repeatEvery, tasks.totalCycles, tasks.relatedTo, tasks.valueRelatedTo, tasks.tags, tasks.bodyIframeDescription);
     }
 
     @Test(priority = 3)
@@ -498,26 +147,28 @@ public class TestCaseTask extends BaseTest {
         tasks.bodyIframeDescription = "Giang Add Tasks2";
 
         //click menu Task
-        clickMenuTask();
-        verifyMenuTask();
+        loginPage = new LoginPage(driver);
+        dashboardPage = loginPage.loginCRM();
+        tasksPage = dashboardPage.clickMenuTask();
+        tasksPage.verifyMenuTask();
 
         //click btn Add Task
-        clickBtnAddTask();
-        verifyBtnAddTask();
+        tasksPage.clickBtnAddTask();
+        tasksPage.verifyBtnAddTask();
 
         //Tạo data
-        addNewTask(tasks.taskName, tasks.hourlyRate, tasks.startDate, tasks.duaDate, tasks.priority, tasks.repeatEvery, tasks.totalCycles, tasks.relatedTo, tasks.searchValueRelatedTo, tasks.valueRelatedTo, tasks.assignees, tasks.assignees2, tasks.followers, tasks.followers2, tasks.tags, tasks.bodyIframeDescription);
+        tasksPage.addNewTask(tasks.taskName, tasks.hourlyRate, tasks.startDate, tasks.duaDate, tasks.priority, tasks.repeatEvery, tasks.totalCycles, tasks.relatedTo, tasks.searchValueRelatedTo, tasks.valueRelatedTo, tasks.assignees, tasks.assignees2, tasks.followers, tasks.followers2, tasks.tags, tasks.bodyIframeDescription);
         Thread.sleep(3000);
 
-        closePopupDetail();
+        tasksPage.closePopupDetail();
         Thread.sleep(1000);
 
         //verify
-        searchTaskSuccess(tasks.taskName);
+        tasksPage.searchTaskSuccess(tasks.taskName);
         Thread.sleep(2000);
 
         //Edit Lead
-        clickBtnEdit(tasks.taskName);
+        tasksPage.clickBtnEdit(tasks.taskName);
 
         //Data Update
         tasks.duaDate = "21-12-2025";
@@ -526,19 +177,19 @@ public class TestCaseTask extends BaseTest {
         tasks.tags = "Giang12";
         tasks.bodyIframeDescription = "Giang Update Tasks";
 
-        editTaskSuccess(tasks.hourlyRate, tasks.startDate, tasks.duaDate, tasks.priority, tasks.repeatEvery, tasks.totalCycles, tasks.relatedTo, tasks.searchValueRelatedTo, tasks.valueRelatedTo, tasks.tags, tasks.bodyIframeDescription);
+        tasksPage.editTaskSuccess(tasks.hourlyRate, tasks.startDate, tasks.duaDate, tasks.priority, tasks.repeatEvery, tasks.totalCycles, tasks.relatedTo, tasks.searchValueRelatedTo, tasks.valueRelatedTo, tasks.tags, tasks.bodyIframeDescription);
         Thread.sleep(1000);
 
-        closePopupDetail();
-        Thread.sleep(2000);
+        tasksPage.closePopupDetail();
+        Thread.sleep(1000);
 
         //verifyLeadAddNew
-        searchTaskSuccess(tasks.taskName);
-        Thread.sleep(2000);
+        tasksPage.searchTaskSuccess(tasks.taskName);
+        Thread.sleep(1000);
 
         //verify edit
-        clickBtnEdit(tasks.taskName);
-        viewEditTaskSuccess(tasks.taskName, tasks.hourlyRate +".00", tasks.startDate, tasks.duaDate, tasks.priority, tasks.repeatEvery, tasks.totalCycles, tasks.relatedTo, tasks.valueRelatedTo, tasks.tags, tasks.bodyIframeDescription);
+        tasksPage.clickBtnEdit(tasks.taskName);
+        tasksPage.viewEditTaskSuccess(tasks.taskName, tasks.hourlyRate +".00", tasks.startDate, tasks.duaDate, tasks.priority, tasks.repeatEvery, tasks.totalCycles, tasks.relatedTo, tasks.valueRelatedTo, tasks.tags, tasks.bodyIframeDescription);
     }
 
 }

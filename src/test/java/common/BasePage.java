@@ -2,6 +2,7 @@ package common;
 
 import com.giangnth.pages.DashboardPage;
 import com.giangnth.pages.LeadsPage;
+import com.giangnth.pages.TasksPage;
 import keywords.WebUI;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -18,6 +19,7 @@ public class BasePage {
     public By menuDashboard = By.xpath("//ul[@id='side-menu']//span[@class = 'menu-text' and normalize-space() = 'Dashboard']");
     public By menuProject = By.xpath("//ul[@id='side-menu']//span[@class = 'menu-text' and normalize-space() = 'Projects']");
     public By menuLeads = By.xpath("//span[@class = 'menu-text' and normalize-space() = 'Leads']");
+    public By menuTasks = By.xpath("//span[normalize-space()='Tasks']");
 
     public DashboardPage clickMenuDashboard(){
         WebUI.clickElement(driver, menuDashboard);
@@ -33,6 +35,13 @@ public class BasePage {
         WebUI.clickElement(driver, menuLeads);
         System.out.println("Click Lead Menu");
         return new LeadsPage(driver);
+    }
+
+    public TasksPage clickMenuTask() throws InterruptedException {
+        //click menu Lead
+        WebUI.clickElement(driver, menuTasks);
+        System.out.println("Click menu Task");
+        return new TasksPage(driver);
     }
 
 
