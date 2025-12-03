@@ -1,9 +1,10 @@
-package locator;
+package com.giangnth.pages;
 
-import keywords.WebUI;
+import common.BasePage;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
 
-public class LocatorsTasks {
+public class TasksPage {
 
     //locators menu tasks
     public static By menuTasks = By.xpath("//span[normalize-space()='Tasks']");
@@ -12,6 +13,7 @@ public class LocatorsTasks {
     public static By inputSearch = By.xpath("//div[@id='tasks_filter']//input[@type='search']");
     public static By iconClosePopupDetail = By.xpath("//div[@id='task-modal']//button[@class= 'close']");
     public static By firstRowItem = By.xpath("//table[@id='tasks']//tbody/tr[1]/td[3]/a");
+
 
     public static By buttonEdit(String leadName) {
         By xpath = By.xpath("//table[@id='tasks']//td[3]/a[normalize-space()='" + leadName + "']/following-sibling::div/a[normalize-space()='Edit']");

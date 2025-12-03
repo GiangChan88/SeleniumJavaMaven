@@ -3,7 +3,7 @@
 <suite name="CRM Test" verbose="1">
     <test name="TestLeadLead">
         <classes>
-            <class name="thuc_hanh.BTLeads">
+            <class name="com.giangnth.testcases.TestCaseLead">
                 <methods>
                     <include name="testAddNewLeadSuccess"/>
                     <include name="testEditLeadSuccess"/>
@@ -13,7 +13,7 @@
     </test>
     <test name="TestTask">
         <classes>
-            <class name="thuc_hanh.BTTasks">
+            <class name="com.giangnth.testcases.TestCaseTask">
                 <methods>
                     <include name="testEditTaskSuccess"/>
                 </methods>
