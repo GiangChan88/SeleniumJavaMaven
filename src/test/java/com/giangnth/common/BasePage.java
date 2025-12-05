@@ -1,4 +1,4 @@
-package common;
+package com.giangnth.common;
 
 import com.giangnth.pages.DashboardPage;
 import com.giangnth.pages.LeadsPage;
@@ -6,7 +6,6 @@ import com.giangnth.pages.TasksPage;
 import keywords.WebUI;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.testng.asserts.SoftAssert;
 
 public class BasePage {
     private WebDriver driver;

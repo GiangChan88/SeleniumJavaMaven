@@ -1,6 +1,6 @@
 package com.giangnth.testcases;
 
-import common.BaseTest;
+import com.giangnth.common.BaseTest;
 import org.testng.annotations.Test;
 import com.giangnth.pages.LoginPage;
 

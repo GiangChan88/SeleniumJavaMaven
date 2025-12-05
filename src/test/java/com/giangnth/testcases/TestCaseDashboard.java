@@ -3,7 +3,7 @@ package com.giangnth.testcases;
 import com.giangnth.pages.DashboardPage;
 import com.giangnth.pages.LeadsPage;
 import com.giangnth.pages.LoginPage;
-import common.BaseTest;
+import com.giangnth.common.BaseTest;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 

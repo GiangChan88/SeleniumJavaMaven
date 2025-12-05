@@ -5,11 +5,9 @@ import com.giangnth.pages.DashboardPage;
 import com.giangnth.pages.LoginPage;
 import keywords.WebUI;
 import com.giangnth.pages.LeadsPage;
-import common.BaseTest;
-import org.openqa.selenium.Alert;
+import com.giangnth.common.BaseTest;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.interactions.Actions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 

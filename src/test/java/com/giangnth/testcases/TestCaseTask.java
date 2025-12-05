@@ -4,18 +4,8 @@ import com.giangnth.pages.DashboardPage;
 import com.giangnth.pages.LoginPage;
 import keywords.WebUI;
 import com.giangnth.pages.TasksPage;
-import common.BaseTest;
-import org.openqa.selenium.By;
-import org.openqa.selenium.Keys;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.interactions.Actions;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.testng.Assert;
-import org.testng.annotations.BeforeMethod;
+import com.giangnth.common.BaseTest;
 import org.testng.annotations.Test;
-
-import java.util.List;
 
 public class TestCaseTask extends BaseTest {
     String taskName = "";

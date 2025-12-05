@@ -1,4 +1,4 @@
-package common;
+package com.giangnth.common;
 
 import com.giangnth.pages.LoginPage;
 import org.openqa.selenium.WebDriver;

@@ -1,6 +1,6 @@
 package com.giangnth.pages;
 
-import common.BasePage;
+import com.giangnth.common.BasePage;
 import keywords.WebUI;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
@@ -9,8 +9,6 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.testng.Assert;
 import org.testng.asserts.SoftAssert;
-
-import java.sql.Driver;
 
 public class LeadsPage extends BasePage {
     private WebDriver driver;
