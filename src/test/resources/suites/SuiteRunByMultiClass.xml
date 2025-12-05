@@ -1,23 +1,19 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
 
 <suite name="CRM Test" verbose="1">
-    <test name="TestLeadLead">
+    <test name="TestLeadAndTask">
         <classes>
             <class name="com.giangnth.testcases.TestCaseLead">
                 <methods>
-                    <include name="testAddNewLeadSuccess"/>
-                    <include name="testEditLeadSuccess"/>
+                    <exclude name="testAddNewLeadFailEmailAlreadyExists"/>
                 </methods>
             </class>
-        </classes>
-    </test>
-    <test name="TestTask">
-        <classes>
             <class name="com.giangnth.testcases.TestCaseTask">
                 <methods>
-                    <include name="testEditTaskSuccess"/>
+                    <exclude name="testViewEditTaskSuccess"/>
                 </methods>
             </class>
         </classes>
     </test>
+
 </suite>

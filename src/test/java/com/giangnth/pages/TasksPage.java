@@ -15,11 +15,13 @@ import java.util.List;
 public class TasksPage extends BasePage{
 
     private WebDriver driver;
+    private SoftAssert softAssert;
 
-    public TasksPage(WebDriver driver) {
+    public TasksPage(WebDriver driver, SoftAssert softAssert) {
         super(driver);
         this.driver = driver;
-        softAssert = new SoftAssert();
+        this.softAssert = softAssert;
+        
     }
     //locators menu tasks
     private By btnAddTasks = By.xpath("//a[normalize-space() = 'New Task']");
@@ -153,28 +155,28 @@ public class TasksPage extends BasePage{
     private By headerEdit = By.xpath("//div[@id='task-modal']//div[contains(@class,'modal-header')]//h4");
 
 
-    public void verifyMenuTask() throws InterruptedException {
-        Thread.sleep(1000);
+    public void verifyMenuTask() {
+        WebUI.threadSleep(1);
         //Truyền text vào xpath nên không cần check Text
         boolean checkHeaderTaskSummary = WebUI.checkExitsElement(driver, headerTasksSummary);
         Assert.assertTrue(checkHeaderTaskSummary, "FAILED!!! Không truy cập được vào trang Tasks");
     }
 
-    public void clickBtnAddTask() throws InterruptedException {
+    public void clickBtnAddTask() {
         //click button New Lead
         WebUI.clickElement(driver, btnAddTasks);
         System.out.println("Click button Add Task");
     }
 
-    public void verifyBtnAddTask() throws InterruptedException {
-        Thread.sleep(2000);
+    public void verifyBtnAddTask() {
+        WebUI.threadSleep(2);
         //Truyền text vào xpath nên không cần check Text
         boolean checkTitleAddNewTask = WebUI.checkExitsElement(driver, titleAddNewTask);
         Assert.assertTrue(checkTitleAddNewTask, "FAILED!!! Không mở được pop-up Add new Tasks");
     }
 
     public void addNewTask(String taskName, String hourlyRate, String startDate, String duaDate, String priority, String repeatEvery, String totalCycles,
-                           String relatedTo, String searchValueRelatedTo, String valueRelatedTo, String assignees, String assignees2, String followers, String followers2, String tags, String bodyIframeDescription) throws InterruptedException {
+                           String relatedTo, String searchValueRelatedTo, String valueRelatedTo, String assignees, String assignees2, String followers, String followers2, String tags, String bodyIframeDescription) {
 
         //Checkbox public
         WebElement chcPublic = WebUI.getWebElement(driver, checkboxPublic);
@@ -242,7 +244,7 @@ public class TasksPage extends BasePage{
         Actions actions = new Actions(driver);
         WebUI.clickElement(driver, dropdownForRelatedTo);
         WebUI.setTextElement(driver, inputSearchOfForRelatedTo, searchValueRelatedTo);
-        Thread.sleep(1000);
+        WebUI.threadSleep(1);
         WebUI.setTextElement(driver, inputSearchOfForRelatedTo," ");
         //WebUI.setTextElement(driver, LocatorsTasks.inputSearchOfForRelatedTo, searchValueRelatedTo);
         WebUI.clickElement(driver, getValueForRelatedTo(valueRelatedTo));
@@ -311,16 +313,16 @@ public class TasksPage extends BasePage{
         System.out.println("Thêm mới thành công Tasks");
     }
 
-    public void closePopupDetail() throws InterruptedException {
-        Thread.sleep(2000);
+    public void closePopupDetail() {
+        WebUI.threadSleep(2);
         WebUI.clickElement(driver, iconClosePopupDetail);
     }
 
     //search Lead
-    public void searchTaskSuccess(String expectedTaskName) throws InterruptedException {
+    public void searchTaskSuccess(String expectedTaskName) {
         WebUI.clearElement(driver, inputSearch);
         WebUI.setTextElement(driver, inputSearch, expectedTaskName);
-
+        WebUI.threadSleep(1);
         boolean rows = WebUI.checkExitsElement(driver, getRows(expectedTaskName));
         //Sai khi không có bản ghi
         //Assert.assertFalse(rows.size() == 0, "Không tìm thấy Task '" + expectedTaskName + "' sau khi search!");
@@ -330,12 +332,13 @@ public class TasksPage extends BasePage{
         System.out.println("Tìm kiếm thành công Task: " + expectedTaskName);
     }
 
-    public void searchTaskSuccessNoData(String expectedTaskName) throws InterruptedException {
+    public void searchTaskSuccessNoData(String expectedTaskName) {
         WebUI.clearElement(driver, inputSearch);
         WebUI.setTextElement(driver, inputSearch, expectedTaskName);
 
 //        List<WebElement> actualTaskName = driver.findElements("//table[@id='tasks']//tbody/tr/td[contains(normalize-space(),'"+expectedTaskName+"')]");
 //        Assert.assertTrue(actualTaskName.size() == 0, "Còn dữ liệu");
+        WebUI.threadSleep(1);
         boolean rows = WebUI.checkExitsElement(driver, getRows(expectedTaskName));
         Assert.assertFalse(rows, "Không mong muốn: vẫn còn bản ghi '" + expectedTaskName + "' trong bảng!");//trả về true => có bản ghi (test fail). trả về false => không còn bản ghi (test pass)
         System.out.println("Tìm kiếm thành công: 0 bản ghi");
@@ -365,21 +368,22 @@ public class TasksPage extends BasePage{
         Assert.assertEquals(actual.trim(), expectedValue.trim(), "FAIL: Giá trị mong muốn là: " + expectedValue + " nhưng thực tế là: " + actual);
     }
 
-    public void clickBtnEdit(String taskName) throws InterruptedException {
+    public void clickBtnEdit(String taskName) {
         WebElement firstRow = WebUI.getWebElement(driver, firstRowItem);
 
         //Hover chuột vào dòng đầu tiên
         Actions actions = new Actions(driver);
         actions.moveToElement(firstRow).perform();
         WebUI.clickElement(driver, buttonEdit(taskName));
+        WebUI.threadSleep(1);
         boolean checkTitleEditTask = WebUI.checkExitsElement(driver, titleEditTask(taskName));
-        Thread.sleep(1000);
+        WebUI.threadSleep(1);
         Assert.assertTrue(checkTitleEditTask, "FAILED!!! Không mở được pop-up Edit Tasks");
         System.out.println("Mở pop-up Edit Task thành công");
     }
 
     public void viewEditTaskSuccess(String taskName, String hourlyRate, String startDate, String duaDate, String priority, String repeatEvery, String totalCycles,
-                                    String relatedTo, String valueRelatedTo, String tags, String bodyIframeDescription) throws InterruptedException {
+                                    String relatedTo, String valueRelatedTo, String tags, String bodyIframeDescription) {
         verifyCheckboxSelected(checkboxPublic);
         verifyCheckboxSelected(checkboxBillsble);
         compareFieldAttribute(inputSubject, taskName, "value");
@@ -397,7 +401,7 @@ public class TasksPage extends BasePage{
     }
 
     public void editTaskSuccess(String hourlyRate, String startDate, String duaDate, String priority, String repeatEvery, String totalCycles,
-                                String relatedTo, String searchValueRelatedTo, String valueRelatedTo, String tags, String bodyIframeDescription) throws InterruptedException {
+                                String relatedTo, String searchValueRelatedTo, String valueRelatedTo, String tags, String bodyIframeDescription) {
         Actions actions = new Actions(driver);
 
         WebElement labelCheckboxPublic = WebUI.getWebElement(driver, labelPublic);

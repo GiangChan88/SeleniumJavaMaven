@@ -11,13 +11,12 @@ import java.time.Duration;
 
 public class BaseTest {
     public static WebDriver driver;
-    public SoftAssert softAssert;
+    public static SoftAssert softAssert;
 
     @BeforeMethod
-    public void createDriver() throws InterruptedException {
+    public void createDriver() {
         driver = new ChromeDriver();
         driver.manage().window().maximize();
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
         System.out.println("Mở trình duyệt Chrome");
         softAssert = new SoftAssert();
     }

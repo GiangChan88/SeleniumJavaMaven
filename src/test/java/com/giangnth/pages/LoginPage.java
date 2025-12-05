@@ -29,7 +29,7 @@ public class LoginPage extends BasePage {
     private By errorMessageInvalidEmailorPassword = By.xpath("//div[@id='alerts']/div");
     private By errorMessageEmailRequired = By.xpath("//div[normalize-space() = 'The Email Address field is required.']");
     private By errorMessagePasswordRequired = By.xpath("//div[normalize-space() = 'The Password field is required.']");
-
+    private By menuDashboard = By.xpath("//ul[@id='side-menu']//span[@class = 'menu-text' and normalize-space() = 'Dashboard']");
     //khai báo các hàm xử lý trong nội bộ trang login
     public void navigateToLoginPage() {
         WebUI.openURL(driver, url_login_admin);
@@ -46,7 +46,8 @@ public class LoginPage extends BasePage {
         WebUI.clickElement(driver, buttonLogin);
     }
 
-    public void verifyHeaderLogin() {
+    public void verifyHeaderLogin(){
+        WebUI.threadSleep(1);
         boolean checkHeaderLogin = WebUI.checkExitsElement(driver, headerLogin);
         Assert.assertTrue(checkHeaderLogin, "Check Header Login is not displayed");
     }
@@ -70,23 +71,28 @@ public class LoginPage extends BasePage {
     }
 
     //dashboard
-    public void verifyLoginSuccess(){
-        boolean checkMenuDashboard = driver.findElements(By.xpath("//ul[@id='side-menu']//span[@class = 'menu-text' and normalize-space() = 'Dashboard']")).size()>0;
+    public void verifyLoginSuccess() {
+        WebUI.threadSleep(1);
+        boolean checkMenuDashboard = WebUI.checkExitsElement(driver, menuDashboard);
+//        boolean checkMenuDashboard = driver.findElements(By.xpath("//ul[@id='side-menu']//span[@class = 'menu-text' and normalize-space() = 'Dashboard']")).size()>0;
         Assert.assertTrue(checkMenuDashboard, "Login Failed or DashBoard not displayed");
     }
 
-    public void verifyLoginFailureWithEmailOrPasswordInvalid(){
-        boolean isElementErrorMessage = driver.findElements(errorMessageInvalidEmailorPassword).size()>0;
+    public void verifyLoginFailureWithEmailOrPasswordInvalid()  {
+        WebUI.threadSleep(1);
+        boolean isElementErrorMessage = WebUI.checkExitsElement(driver, errorMessageInvalidEmailorPassword);
         Assert.assertTrue(isElementErrorMessage, "Error massage for invalid email not display");
     }
 
-    public void verifyLoginFailureWithEmailNull(){
-        boolean isElementErrorMessage = driver.findElements(errorMessageEmailRequired).size()>0;
+    public void verifyLoginFailureWithEmailNull()  {
+        WebUI.threadSleep(1);
+        boolean isElementErrorMessage = WebUI.checkExitsElement(driver, errorMessageEmailRequired);
         Assert.assertTrue(isElementErrorMessage, "Error massage for required password not display");
     }
 
-    public void verifyLoginFailureWithPasswordNull(){
-        boolean isElementErrorMessage = driver.findElements(errorMessagePasswordRequired).size()>0;
+    public void verifyLoginFailureWithPasswordNull()  {
+        WebUI.threadSleep(1);
+        boolean isElementErrorMessage = WebUI.checkExitsElement(driver, errorMessagePasswordRequired);
         Assert.assertTrue(isElementErrorMessage, "Error massage for required password not display");
     }
 }

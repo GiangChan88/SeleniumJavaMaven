@@ -14,11 +14,12 @@ import java.sql.Driver;
 
 public class LeadsPage extends BasePage {
     private WebDriver driver;
+    private SoftAssert softAssert;
 
-    public LeadsPage(WebDriver driver){
+    public LeadsPage(WebDriver driver, SoftAssert softAssert) {
         super(driver);
-        this.driver=driver;
-        softAssert = new SoftAssert();
+        this.driver = driver;
+        this.softAssert = softAssert;
     }
 
     //pages for Leads Page
@@ -184,12 +185,29 @@ public class LeadsPage extends BasePage {
     //private By buttonClose = By.xpath("//button[@id = 'lead-form-submit']/following-sibling::button[normalize-space()='Close']");
     private By buttonSave = By.xpath("//button[@id = 'lead-form-submit']");
 
+    private By labelLeadActive = By.xpath("//h4[normalize-space()='Leads Summary']/following-sibling::div//span[normalize-space()='Active']//preceding-sibling::span");
+    private By labelLeadCustomer = By.xpath("//h4[normalize-space()='Leads Summary']/following-sibling::div//span[normalize-space()='Customer']//preceding-sibling::span");
+    private By labelActiveOfTable = By.xpath("//table[@id='leads']/tbody/tr/td/span[contains(text(), 'Active') and contains(@class, 'lead-status')]");
+
     private By getRows(String value) {
         return By.xpath("//table[@id='leads']//tbody/tr/td/a[normalize-space()='" + value + "']");
     }
 
-    public void verifyMenuLead() throws InterruptedException {
-        Thread.sleep(1000);
+    public String getTotalLeadActive() {
+        return WebUI.getElementText(driver, labelLeadActive);
+    }
+
+    public String getTotalLeadCustomers() {
+        return WebUI.getElementText(driver, labelLeadCustomer);
+    }
+
+    public int getTotalLeadConverted() {
+        int totalLeadConverted = Integer.parseInt(getTotalLeadActive()) + Integer.parseInt(getTotalLeadCustomers());
+        return totalLeadConverted;
+    }
+
+    public void verifyMenuLead() {
+        WebUI.threadSleep(1);
         //do truyền text vào xpath nên là kh cần get text để so sánh nữa
         boolean checkHeaderLeadSummary = WebUI.checkExitsElement(driver, titleLeadsSummary);
         Assert.assertTrue(checkHeaderLeadSummary, "FAILED!!! Không truy cập được vào trang Leads");
@@ -207,8 +225,8 @@ public class LeadsPage extends BasePage {
         System.out.println("Click Button Close popup Add New Lead");
     }
 
-    public void verifyBtnAddNewLead() throws InterruptedException {
-        Thread.sleep(1000);
+    public void verifyBtnAddNewLead() {
+        WebUI.threadSleep(1);
         boolean checktitleAddNewLead = WebUI.checkExitsElement(driver, titleAddNewLead);
         Assert.assertTrue(checktitleAddNewLead, "FAILED!!! Không mở được pop-up Add new lead");
         System.out.println("Verify: Mở pop-up Add new lead thành công");
@@ -220,10 +238,10 @@ public class LeadsPage extends BasePage {
     }
 
     //search Lead
-    public void searchLeadSuccess(String expectedLeadName) throws InterruptedException {
+    public void searchLeadSuccess(String expectedLeadName) {
         WebUI.clearElement(driver, inputSearch);
         WebUI.setTextElement(driver, inputSearch, expectedLeadName);
-        Thread.sleep(2000);
+        WebUI.threadSleep(2);
 
         boolean rows = WebUI.checkExitsElement(driver, getRows(expectedLeadName));
         //Sai khi không có bản ghi (không mong muốn rows.size() == 0 => đúng)
@@ -234,10 +252,10 @@ public class LeadsPage extends BasePage {
         System.out.println("Tìm kiếm thành công Lead: " + expectedLeadName);
     }
 
-    public void searchLeadSuccessNoData(String expectedLeadName) throws InterruptedException {
+    public void searchLeadSuccessNoData(String expectedLeadName) {
         WebUI.clearElement(driver, inputSearch);
         WebUI.setTextElement(driver, inputSearch, expectedLeadName);
-        Thread.sleep(1000);
+        WebUI.threadSleep(1);
 
 //        List<WebElement> actualLeadName = driver.findElements("//table[@id='leads']//tbody/tr[text()='"+expectedLeadName+"']");
 //        Assert.assertTrue(actualLeadName.size() == 0, "Còn dữ liệu");
@@ -276,7 +294,7 @@ public class LeadsPage extends BasePage {
 
     public void addAndEditLeadSuccess(String status, String source, String assigned, String tags, String leadName, String address, String position, String city,
                                       String emailAddress, String state, String website, String country, String phone, String zipcode, String leadValue, String language,
-                                      String company, String description, String dateContacted, int flagEdit) throws InterruptedException {
+                                      String company, String description, String dateContacted, int flagEdit) {
 
 
         //dropdown Status
@@ -355,12 +373,12 @@ public class LeadsPage extends BasePage {
 
         //checkbox contactedToday
         //flagEdit = 0 => Thêm mới
-        if (flagEdit == 0){
+        if (flagEdit == 0) {
             //checkbox public
             WebUI.clickElement(driver, labelPublic);
             WebUI.clickElement(driver, labelContactedToday);
             WebUI.setTextElement(driver, inputDateContacted, dateContacted);
-        }else {
+        } else {
             WebUI.clearElement(driver, inputLastContact);
             WebUI.setTextElement(driver, inputLastContact, dateContacted);
         }
@@ -405,9 +423,9 @@ public class LeadsPage extends BasePage {
         WebUI.clickElement(driver, buttonDelete(leadName));
     }
 
-    public void confirmDeleteLeadSuccess(String leadName, int flag) throws InterruptedException {
+    public void confirmDeleteLeadSuccess(String leadName, int flag) {
         System.out.println("Confirm Delete Lead Success");
-        Thread.sleep(2000);
+        WebUI.threadSleep(2);
         Alert alert = driver.switchTo().alert();
         String alertText = alert.getText();
         softAssert.assertEquals(alertText, "Are you sure you want to perform this action?", "Nội dung trong alert Delete không đúng");
@@ -416,7 +434,7 @@ public class LeadsPage extends BasePage {
         if (flag == 1) {
             alert.accept();
             System.out.println("Xóa thành công");
-        }else {
+        } else {
             alert.dismiss();
             System.out.println("Bỏ xóa thành công");
         }

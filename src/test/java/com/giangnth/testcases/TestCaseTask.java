@@ -12,6 +12,7 @@ import org.openqa.selenium.interactions.Actions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.Assert;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import java.util.List;
@@ -38,8 +39,9 @@ public class TestCaseTask extends BaseTest {
     private TasksPage tasksPage;
     private DashboardPage dashboardPage;
 
+
     @Test(priority = 1)
-    public void testAddNewTask() throws InterruptedException {
+    public void testAddNewTask() {
         TestCaseTask tasks = new TestCaseTask();
         tasks.taskName = "GTest2111";
         tasks.hourlyRate = "24";
@@ -57,7 +59,7 @@ public class TestCaseTask extends BaseTest {
         tasks.followers2 = "Admin Anh Tester";
         tasks.tags = "Giang";
         tasks.bodyIframeDescription = "Giang Add Tasks";
-        Thread.sleep(1000);
+        WebUI.threadSleep(1);
 
         //click menu Task
         loginPage = new LoginPage(driver);
@@ -70,17 +72,17 @@ public class TestCaseTask extends BaseTest {
         tasksPage.verifyBtnAddTask();
 
         tasksPage.addNewTask(tasks.taskName, tasks.hourlyRate, tasks.startDate, tasks.duaDate, tasks.priority, tasks.repeatEvery, tasks.totalCycles, tasks.relatedTo, tasks.searchValueRelatedTo, tasks.valueRelatedTo, tasks.assignees, tasks.assignees2, tasks.followers, tasks.followers2, tasks.tags, tasks.bodyIframeDescription);
-        Thread.sleep(3000);
+        WebUI.threadSleep(2);
 
         tasksPage.closePopupDetail();
-        Thread.sleep(1000);
+        WebUI.threadSleep(1);
 
         //verify
         tasksPage.searchTaskSuccess(tasks.taskName);
     }
 
     @Test(priority = 2)
-    public void testViewEditTaskSuccess() throws InterruptedException {
+    public void testViewEditTaskSuccess() {
         TestCaseTask tasks = new TestCaseTask();
         tasks.taskName = "GTest3";
         tasks.hourlyRate = "24";
@@ -98,7 +100,7 @@ public class TestCaseTask extends BaseTest {
         tasks.followers2 = "Admin Anh Tester";
         tasks.tags = "Giang";
         tasks.bodyIframeDescription = "Giang Add Tasks2";
-        Thread.sleep(1000);
+        WebUI.threadSleep(1);
 
         //click menu Task
         loginPage = new LoginPage(driver);
@@ -111,10 +113,10 @@ public class TestCaseTask extends BaseTest {
         tasksPage.verifyBtnAddTask();
 
         tasksPage.addNewTask(tasks.taskName, tasks.hourlyRate, tasks.startDate, tasks.duaDate, tasks.priority, tasks.repeatEvery, tasks.totalCycles, tasks.relatedTo, tasks.searchValueRelatedTo, tasks.valueRelatedTo, tasks.assignees, tasks.assignees2, tasks.followers, tasks.followers2, tasks.tags, tasks.bodyIframeDescription);
-        Thread.sleep(3000);
+        WebUI.threadSleep(2);
 
         tasksPage.closePopupDetail();
-        Thread.sleep(1000);
+        WebUI.threadSleep(1);
 
         //verify
         tasksPage.searchTaskSuccess(tasks.taskName);
@@ -126,7 +128,7 @@ public class TestCaseTask extends BaseTest {
     }
 
     @Test(priority = 3)
-    public void testEditTaskSuccess() throws InterruptedException {
+    public void testEditTaskSuccess() {
         //Data Add
         TestCaseTask tasks = new TestCaseTask();
         tasks.taskName = "GTest111";
@@ -158,14 +160,14 @@ public class TestCaseTask extends BaseTest {
 
         //Tạo data
         tasksPage.addNewTask(tasks.taskName, tasks.hourlyRate, tasks.startDate, tasks.duaDate, tasks.priority, tasks.repeatEvery, tasks.totalCycles, tasks.relatedTo, tasks.searchValueRelatedTo, tasks.valueRelatedTo, tasks.assignees, tasks.assignees2, tasks.followers, tasks.followers2, tasks.tags, tasks.bodyIframeDescription);
-        Thread.sleep(3000);
+        WebUI.threadSleep(2);
 
         tasksPage.closePopupDetail();
-        Thread.sleep(1000);
+        WebUI.threadSleep(1);
 
         //verify
         tasksPage.searchTaskSuccess(tasks.taskName);
-        Thread.sleep(2000);
+        WebUI.threadSleep(2);
 
         //Edit Lead
         tasksPage.clickBtnEdit(tasks.taskName);
@@ -178,14 +180,14 @@ public class TestCaseTask extends BaseTest {
         tasks.bodyIframeDescription = "Giang Update Tasks";
 
         tasksPage.editTaskSuccess(tasks.hourlyRate, tasks.startDate, tasks.duaDate, tasks.priority, tasks.repeatEvery, tasks.totalCycles, tasks.relatedTo, tasks.searchValueRelatedTo, tasks.valueRelatedTo, tasks.tags, tasks.bodyIframeDescription);
-        Thread.sleep(1000);
+        WebUI.threadSleep(1);
 
         tasksPage.closePopupDetail();
-        Thread.sleep(1000);
+        WebUI.threadSleep(1);
 
         //verifyLeadAddNew
         tasksPage.searchTaskSuccess(tasks.taskName);
-        Thread.sleep(1000);
+        WebUI.threadSleep(1);
 
         //verify edit
         tasksPage.clickBtnEdit(tasks.taskName);

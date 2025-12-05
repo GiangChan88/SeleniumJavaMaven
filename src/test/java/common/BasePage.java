@@ -9,7 +9,6 @@ import org.openqa.selenium.WebDriver;
 import org.testng.asserts.SoftAssert;
 
 public class BasePage {
-    public SoftAssert softAssert;
     private WebDriver driver;
 
     public BasePage(WebDriver driver) {
@@ -30,18 +29,19 @@ public class BasePage {
     public void clickMenuProjects(){
         WebUI.clickElement(driver, menuProject);
     }
+
     public LeadsPage clickMenuLead() {
         //click menu Lead
         WebUI.clickElement(driver, menuLeads);
         System.out.println("Click Lead Menu");
-        return new LeadsPage(driver);
+        return new LeadsPage(driver, BaseTest.softAssert);
     }
 
-    public TasksPage clickMenuTask() throws InterruptedException {
+    public TasksPage clickMenuTask() {
         //click menu Lead
         WebUI.clickElement(driver, menuTasks);
         System.out.println("Click menu Task");
-        return new TasksPage(driver);
+        return new TasksPage(driver, BaseTest.softAssert);
     }
 
 

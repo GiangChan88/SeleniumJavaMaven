@@ -42,10 +42,8 @@ public class TestCaseLead extends BaseTest {
     private DashboardPage dashboardPage;
     private LeadsPage leadsPage;
 
-
-
     @Test(priority = 1)
-    public void testAddNewLeadSuccess() throws InterruptedException {
+    public void testAddNewLeadSuccess() {
         TestCaseLead lead = new TestCaseLead();
 
         lead.status = "Active";
@@ -80,20 +78,20 @@ public class TestCaseLead extends BaseTest {
         leadsPage.verifyBtnAddNewLead();
 
         leadsPage.addAndEditLeadSuccess(lead.status, lead.source, lead.assigned, lead.tags, lead.leadName, lead.address, lead.position, lead.city, lead.emailAddress, lead.state, lead.website, lead.country, lead.phone, lead.zipcode, lead.leadValue, lead.language, lead.company, lead.description, lead.dateContacted, 0);
-        Thread.sleep(1000);
+        WebUI.threadSleep(1);
         System.out.println("Tạo data thành công");
 
         leadsPage.closePopupDetail();
-        Thread.sleep(2000);
+        WebUI.threadSleep(2);
 
         //verifyLeadAddNew
         leadsPage.searchLeadSuccess(lead.leadName);
-        Thread.sleep(1000);
+        WebUI.threadSleep(1);
     }
 
     //Set Email đã tồn tại
     @Test(priority = 2)
-    public void testAddNewLeadFailEmailAlreadyExists() throws InterruptedException {
+    public void testAddNewLeadFailEmailAlreadyExists() {
         TestCaseLead lead = new TestCaseLead();
         lead.status = "Active";
         lead.source = "Facebook";
@@ -127,7 +125,7 @@ public class TestCaseLead extends BaseTest {
         leadsPage.verifyBtnAddNewLead();
 
         leadsPage.addAndEditLeadSuccess(lead.status, lead.source, lead.assigned, lead.tags, lead.leadName, lead.address, lead.position, lead.city, lead.emailAddress, lead.state, lead.website, lead.country, lead.phone, lead.zipcode, lead.leadValue, lead.language, lead.company, lead.description, lead.dateContacted, 0);
-        Thread.sleep(1000);
+        WebUI.threadSleep(1);
 
         //verify lỗi
         List<WebElement> checkMessageErrorEmail = driver.findElements(By.xpath("//p[@id='email-error']"));
@@ -147,7 +145,7 @@ public class TestCaseLead extends BaseTest {
     }
 
     @Test(priority = 3)
-    public void testEditLeadSuccess() throws InterruptedException {
+    public void testEditLeadSuccess() {
         //Data Add
         TestCaseLead lead = new TestCaseLead();
         lead.status = "Active";
@@ -183,14 +181,14 @@ public class TestCaseLead extends BaseTest {
 
         //Tạo data
         leadsPage.addAndEditLeadSuccess(lead.status, lead.source, lead.assigned, lead.tags, lead.leadName, lead.address, lead.position, lead.city, lead.emailAddress, lead.state, lead.website, lead.country, lead.phone, lead.zipcode, lead.leadValue, lead.language, lead.company, lead.description, lead.dateContacted, 0);
-        Thread.sleep(1000);
+        WebUI.threadSleep(1);
 
         leadsPage.closePopupDetail();
-        Thread.sleep(2000);
+        WebUI.threadSleep(2);
 
         //verifyLeadAddNew
         leadsPage.searchLeadSuccess(lead.leadName);
-        Thread.sleep(1000);
+        WebUI.threadSleep(1);
 
         //click btn edit
         leadsPage.clickBtnEdit(lead.leadName);
@@ -204,14 +202,14 @@ public class TestCaseLead extends BaseTest {
 
         //Edit Lead
         leadsPage.addAndEditLeadSuccess(lead.status, lead.source, lead.assigned, lead.tags, lead.leadName, lead.address, lead.position, lead.city, lead.emailAddress, lead.state, lead.website, lead.country, lead.phone, lead.zipcode, lead.leadValue, lead.language, lead.company, lead.description, lead.dateContacted, 1);
-        Thread.sleep(1000);
+        WebUI.threadSleep(1);
 
         leadsPage.closePopupDetail();
-        Thread.sleep(2000);
+        WebUI.threadSleep(2);
 
         //verifyLeadAddNew
         leadsPage.searchLeadSuccess(lead.leadName);
-        Thread.sleep(2000);
+        WebUI.threadSleep(2);
 
         //verify edit
         leadsPage.clickBtnEdit(lead.leadName);
@@ -220,7 +218,7 @@ public class TestCaseLead extends BaseTest {
 
 
     @Test(priority = 4)
-    public void testViewEditLeadSuccess() throws InterruptedException {
+    public void testViewEditLeadSuccess() {
         TestCaseLead lead = new TestCaseLead();
         lead.status = "Active";
         lead.source = "Facebook";
@@ -255,22 +253,22 @@ public class TestCaseLead extends BaseTest {
 
         //Tạo data
         leadsPage.addAndEditLeadSuccess(lead.status, lead.source, lead.assigned, lead.tags, lead.leadName, lead.address, lead.position, lead.city, lead.emailAddress, lead.state, lead.website, lead.country, lead.phone, lead.zipcode, lead.leadValue, lead.language, lead.company, lead.description, lead.dateContacted, 0);
-        Thread.sleep(1000);
+        WebUI.threadSleep(1);
 
         leadsPage.closePopupDetail();
-        Thread.sleep(2000);
+        WebUI.threadSleep(2);
 
         //verifyLeadAddNew
         leadsPage.searchLeadSuccess(lead.leadName);
-        Thread.sleep(500);
+        WebUI.threadSleep(1);
 
         leadsPage.clickBtnEdit(lead.leadName);
         leadsPage.viewEditLead(lead.status, lead.source, lead.assigned, lead.tags, lead.leadName, lead.address, lead.position, lead.city, lead.emailAddress, lead.state, lead.website, lead.country, lead.phone, lead.zipcode, lead.leadValue, lead.language, lead.company, lead.description, lead.dateContacted);
-        Thread.sleep(2000);
+        WebUI.threadSleep(2);
     }
 
     @Test(priority = 5)
-    public void testDeleteLeadSuccess() throws InterruptedException {
+    public void testDeleteLeadSuccess() {
         TestCaseLead lead = new TestCaseLead();
         lead.status = "Active";
         lead.source = "Facebook";
@@ -298,21 +296,20 @@ public class TestCaseLead extends BaseTest {
         dashboardPage = loginPage.loginCRM();
         leadsPage = dashboardPage.clickMenuLead();
         leadsPage.verifyMenuLead();
-
         //click btn addnewLead
         leadsPage.clickBtnAddNewLead();
         leadsPage.verifyBtnAddNewLead();
 
         //Tạo data
         leadsPage.addAndEditLeadSuccess(lead.status, lead.source, lead.assigned, lead.tags, lead.leadName, lead.address, lead.position, lead.city, lead.emailAddress, lead.state, lead.website, lead.country, lead.phone, lead.zipcode, lead.leadValue, lead.language, lead.company, lead.description, lead.dateContacted, 0);
-        Thread.sleep(1000);
+        WebUI.threadSleep(1);
 
         leadsPage.closePopupDetail();
-        Thread.sleep(1000);
+        WebUI.threadSleep(1);
 
         //verifyLeadAddNew
         leadsPage.searchLeadSuccess(lead.leadName);
-        Thread.sleep(500);
+        WebUI.threadSleep(1);
 
         //click btn delete
         leadsPage.deleteLeadSuccess(lead.leadName);

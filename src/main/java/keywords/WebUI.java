@@ -65,6 +65,14 @@ public class WebUI {
         wait.until(ExpectedConditions.elementToBeClickable(by));
     }
 
+    public static void threadSleep(double second) {
+        try {
+            Thread.sleep((long) second * 1000);
+        } catch (InterruptedException ie) {
+            throw new RuntimeException(ie);
+        }
+    }
+
     //click dựa vào wait động điền giá trij
     public static void clickElement(WebDriver driver, By by, int seconds) {
         waitForElementClick(driver, by, seconds);
