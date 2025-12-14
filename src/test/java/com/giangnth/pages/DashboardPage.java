@@ -12,6 +12,7 @@ public class DashboardPage extends BasePage {
     public DashboardPage(WebDriver driver) {
         super(driver);
         this.driver = driver;
+        new WebUI(driver);
     }
 
     private By btnDashboardOption = By.xpath("//dic[@class='screen-options-btn']");
@@ -20,7 +21,7 @@ public class DashboardPage extends BasePage {
     private LeadsPage leadsPage;
 
     public String getTextTotalConvertedLeads() {
-        String totalConvertedLeadsText = WebUI.getElementText(driver, convertedLeads);
+        String totalConvertedLeadsText = WebUI.getElementText(convertedLeads);
         return totalConvertedLeadsText;
     }
 

@@ -21,7 +21,7 @@ public class TasksPage extends BasePage{
         super(driver);
         this.driver = driver;
         this.softAssert = softAssert;
-        
+        new WebUI(driver);
     }
     //locators menu tasks
     private By btnAddTasks = By.xpath("//a[normalize-space() = 'New Task']");
@@ -158,20 +158,20 @@ public class TasksPage extends BasePage{
     public void verifyMenuTask() {
         WebUI.threadSleep(1);
         //Truyền text vào xpath nên không cần check Text
-        boolean checkHeaderTaskSummary = WebUI.checkExitsElement(driver, headerTasksSummary);
+        boolean checkHeaderTaskSummary = WebUI.checkExitsElement(headerTasksSummary);
         Assert.assertTrue(checkHeaderTaskSummary, "FAILED!!! Không truy cập được vào trang Tasks");
     }
 
     public void clickBtnAddTask() {
         //click button New Lead
-        WebUI.clickElement(driver, btnAddTasks);
+        WebUI.clickElement(btnAddTasks);
         System.out.println("Click button Add Task");
     }
 
     public void verifyBtnAddTask() {
         WebUI.threadSleep(2);
         //Truyền text vào xpath nên không cần check Text
-        boolean checkTitleAddNewTask = WebUI.checkExitsElement(driver, titleAddNewTask);
+        boolean checkTitleAddNewTask = WebUI.checkExitsElement(titleAddNewTask);
         Assert.assertTrue(checkTitleAddNewTask, "FAILED!!! Không mở được pop-up Add new Tasks");
     }
 
@@ -179,83 +179,83 @@ public class TasksPage extends BasePage{
                            String relatedTo, String searchValueRelatedTo, String valueRelatedTo, String assignees, String assignees2, String followers, String followers2, String tags, String bodyIframeDescription) {
 
         //Checkbox public
-        WebElement chcPublic = WebUI.getWebElement(driver, checkboxPublic);
+        WebElement chcPublic = WebUI.getWebElement(checkboxPublic);
         if (!chcPublic.isSelected()) {
             chcPublic.click();
         }
         softAssert.assertTrue(chcPublic.isSelected(), "Checkbox public chưa được tích sau khi click");
 
         //Checkbox Billable
-        WebElement chcBillsble = WebUI.getWebElement(driver, checkboxBillsble);
+        WebElement chcBillsble = WebUI.getWebElement(checkboxBillsble);
         if (!chcBillsble.isSelected()) {
             chcBillsble.click();
         }
         softAssert.assertTrue(chcBillsble.isSelected(), "Checkbox Billable chưa được tích sau khi click");
 
         //check attachment
-        WebUI.clickElement(driver, linkAttachFile);
+        WebUI.clickElement(linkAttachFile);
 
         //sendKeys input
-        WebUI.setTextElement(driver, inputSubject, taskName);
-        WebUI.clearElement(driver, inputHourlyRate);
-        WebUI.setTextElement(driver, inputHourlyRate, hourlyRate);
-        WebUI.clearElement(driver, inputStartDate);
-        WebUI.setTextElement(driver, inputStartDate, startDate);
-        WebUI.clickElement(driver, inputStartDate);
-        WebUI.clearElement(driver, inputDuaDate);
-        WebUI.setTextElement(driver, inputDuaDate, duaDate);
-        WebUI.clickElement(driver, inputDuaDate);
+        WebUI.setTextElement(inputSubject, taskName);
+        WebUI.clearElement(inputHourlyRate);
+        WebUI.setTextElement(inputHourlyRate, hourlyRate);
+        WebUI.clearElement(inputStartDate);
+        WebUI.setTextElement(inputStartDate, startDate);
+        WebUI.clickElement(inputStartDate);
+        WebUI.clearElement(inputDuaDate);
+        WebUI.setTextElement(inputDuaDate, duaDate);
+        WebUI.clickElement(inputDuaDate);
 
         //dropdown Priority
-        WebUI.clickElement(driver, dropdownPriority);
-        WebUI.clickElement(driver, getValuePriority(priority));
+        WebUI.clickElement(dropdownPriority);
+        WebUI.clickElement(getValuePriority(priority));
 
         //dropdown Repeat every and input Total cycle (cho if)
-        WebUI.clickElement(driver, dropdownRepeatEvery);
-        WebUI.clickElement(driver, getValueRepeatEvery(repeatEvery));
+        WebUI.clickElement(dropdownRepeatEvery);
+        WebUI.clickElement(getValueRepeatEvery(repeatEvery));
         if (repeatEvery.equals("Custom")) {
             //input
-            WebUI.clearElement(driver, repeatEveryCustom);
-            WebUI.setTextElement(driver, repeatEveryCustom, "100");
+            WebUI.clearElement(repeatEveryCustom);
+            WebUI.setTextElement(repeatEveryCustom, "100");
 
             //dropdown
-            WebUI.clickElement(driver, dropdownRepeatEveryCustom);
-            WebUI.clickElement(driver, getRepeatEveryCustom("Week(s)"));
+            WebUI.clickElement(dropdownRepeatEveryCustom);
+            WebUI.clickElement(getRepeatEveryCustom("Week(s)"));
 
             //input Total
-            WebUI.clickElement(driver, labelCheckboxInfinity); // - click bỏ chọn
-            WebUI.clearElement(driver, inputTotalCycles);
-            WebUI.setTextElement(driver, inputTotalCycles, "100000");
+            WebUI.clickElement(labelCheckboxInfinity); // - click bỏ chọn
+            WebUI.clearElement(inputTotalCycles);
+            WebUI.setTextElement(inputTotalCycles, "100000");
         } else if (repeatEvery.equals("Week") || repeatEvery.equals("2 Weeks") || repeatEvery.equals("1 Month") || repeatEvery.equals("2 Months") ||
                 repeatEvery.equals("3 Months") || repeatEvery.equals("6 Months") || repeatEvery.equals("1 Year")) {
 
-            WebUI.clickElement(driver, labelCheckboxInfinity); // - click bỏ chọn
-            WebUI.clearElement(driver, inputTotalCycles);
-            WebUI.setTextElement(driver, inputTotalCycles, "100000");
+            WebUI.clickElement(labelCheckboxInfinity); // - click bỏ chọn
+            WebUI.clearElement(inputTotalCycles);
+            WebUI.setTextElement(inputTotalCycles, "100000");
         } else {
             System.out.println("Không tồn tại");
         }
 
         //dropdown Related to
-        WebUI.clickElement(driver, dropdownRelatedTo);
-        WebUI.clickElement(driver, getValueRelatedTo(relatedTo));
+        WebUI.clickElement(dropdownRelatedTo);
+        WebUI.clickElement(getValueRelatedTo(relatedTo));
 
         //Click vô hàm valueDropdown Related to chọn giá trị
         Actions actions = new Actions(driver);
-        WebUI.clickElement(driver, dropdownForRelatedTo);
-        WebUI.setTextElement(driver, inputSearchOfForRelatedTo, searchValueRelatedTo);
+        WebUI.clickElement(dropdownForRelatedTo);
+        WebUI.setTextElement(inputSearchOfForRelatedTo, searchValueRelatedTo);
         WebUI.threadSleep(1);
-        WebUI.setTextElement(driver, inputSearchOfForRelatedTo," ");
-        //WebUI.setTextElement(driver, LocatorsTasks.inputSearchOfForRelatedTo, searchValueRelatedTo);
-        WebUI.clickElement(driver, getValueForRelatedTo(valueRelatedTo));
+        WebUI.setTextElement(inputSearchOfForRelatedTo," ");
+        //WebUI.setTextElement(LocatorsTasks.inputSearchOfForRelatedTo, searchValueRelatedTo);
+        WebUI.clickElement(getValueForRelatedTo(valueRelatedTo));
 
         //scroll kéo xuống dưới
-        WebUI.scrollAtBottom(driver, btnSave);
+        WebUI.scrollAtBottom(btnSave);
 
         //dropdown Assignees
         //bỏ click
-        WebUI.clickElement(driver, dropdownAssignees);
-        List<WebElement> listDataAssignees = WebUI.getWebElements(driver, listAssignees);
+        WebUI.clickElement(dropdownAssignees);
+        List<WebElement> listDataAssignees = WebUI.getWebElements(listAssignees);
         //bỏ click
         for (WebElement assignee : listDataAssignees) {
             if (assignee.isSelected()) {
@@ -263,67 +263,67 @@ public class TasksPage extends BasePage{
             }
         }
 
-        WebUI.setTextElement(driver, inputSearchOffAssignees, assignees);
-        WebUI.clickElement(driver, getValueAssignees(assignees));
+        WebUI.setTextElement(inputSearchOffAssignees, assignees);
+        WebUI.clickElement(getValueAssignees(assignees));
 
-        WebUI.clearElement(driver, inputSearchOffAssignees);
-        WebUI.setTextElement(driver, inputSearchOffAssignees, assignees2);
-        WebUI.clickElement(driver, getValueAssignees(assignees2));
+        WebUI.clearElement(inputSearchOffAssignees);
+        WebUI.setTextElement(inputSearchOffAssignees, assignees2);
+        WebUI.clickElement(getValueAssignees(assignees2));
 
         //dropdown Followers Mutip (tạo chọn data trước)
-        WebUI.clickElement(driver, dropdownFollowers);
-        WebUI.setTextElement(driver, inputSearchOffFollowers, followers);
-        WebUI.clickElement(driver, getValueFollowers(followers));
-        WebUI.clickElement(driver, dropdownFollowers);
+        WebUI.clickElement(dropdownFollowers);
+        WebUI.setTextElement(inputSearchOffFollowers, followers);
+        WebUI.clickElement(getValueFollowers(followers));
+        WebUI.clickElement(dropdownFollowers);
 
         //bỏ click
         driver.findElement(dropdownFollowers).click();
-        List<WebElement> listDataFollowers = WebUI.getWebElements(driver, listFollowers);
+        List<WebElement> listDataFollowers = WebUI.getWebElements(listFollowers);
         for (WebElement follower : listDataFollowers) {
             if (follower.isSelected()) {
                 follower.click();
             }
         }
-        WebUI.setTextElement(driver, inputSearchOffFollowers, followers);
-        WebUI.clickElement(driver, getValueFollowers(followers));
+        WebUI.setTextElement(inputSearchOffFollowers, followers);
+        WebUI.clickElement(getValueFollowers(followers));
 
-        WebUI.clearElement(driver, inputSearchOffFollowers);
-        WebUI.setTextElement(driver, inputSearchOffFollowers, followers2);
-        WebUI.clickElement(driver, getValueFollowers(followers2));
+        WebUI.clearElement(inputSearchOffFollowers);
+        WebUI.setTextElement(inputSearchOffFollowers, followers2);
+        WebUI.clickElement(getValueFollowers(followers2));
 
         //Tags
-        WebUI.setTextElement(driver, inputAddTags, tags);
+        WebUI.setTextElement(inputAddTags, tags);
 
         //Tắt tags
-        WebUI.clickElement(driver, labelTag);
-        WebUI.clickElement(driver, labelTag);
+        WebUI.clickElement(labelTag);
+        WebUI.clickElement(labelTag);
 
         //iframe
-        WebUI.clickElement(driver, areaDescription);
-        WebUI.switchToFrame(driver, By.id("description_ifr"));
+        WebUI.clickElement(areaDescription);
+        WebUI.switchToFrame(By.id("description_ifr"));
         //driver.switchTo().frame("description_ifr");
 
-        WebUI.clearElement(driver, bodyIframe);
-        WebUI.setTextElement(driver, bodyIframe, bodyIframeDescription);
+        WebUI.clearElement(bodyIframe);
+        WebUI.setTextElement(bodyIframe, bodyIframeDescription);
 
         driver.switchTo().parentFrame();
 
         //click btn Save
-        WebUI.clickElement(driver, btnSave);
+        WebUI.clickElement(btnSave);
         System.out.println("Thêm mới thành công Tasks");
     }
 
     public void closePopupDetail() {
         WebUI.threadSleep(2);
-        WebUI.clickElement(driver, iconClosePopupDetail);
+        WebUI.clickElement(iconClosePopupDetail);
     }
 
     //search Lead
     public void searchTaskSuccess(String expectedTaskName) {
-        WebUI.clearElement(driver, inputSearch);
-        WebUI.setTextElement(driver, inputSearch, expectedTaskName);
+        WebUI.clearElement(inputSearch);
+        WebUI.setTextElement(inputSearch, expectedTaskName);
         WebUI.threadSleep(1);
-        boolean rows = WebUI.checkExitsElement(driver, getRows(expectedTaskName));
+        boolean rows = WebUI.checkExitsElement(getRows(expectedTaskName));
         //Sai khi không có bản ghi
         //Assert.assertFalse(rows.size() == 0, "Không tìm thấy Task '" + expectedTaskName + "' sau khi search!");
 
@@ -333,13 +333,13 @@ public class TasksPage extends BasePage{
     }
 
     public void searchTaskSuccessNoData(String expectedTaskName) {
-        WebUI.clearElement(driver, inputSearch);
-        WebUI.setTextElement(driver, inputSearch, expectedTaskName);
+        WebUI.clearElement(inputSearch);
+        WebUI.setTextElement(inputSearch, expectedTaskName);
 
 //        List<WebElement> actualTaskName = driver.findElements("//table[@id='tasks']//tbody/tr/td[contains(normalize-space(),'"+expectedTaskName+"')]");
 //        Assert.assertTrue(actualTaskName.size() == 0, "Còn dữ liệu");
         WebUI.threadSleep(1);
-        boolean rows = WebUI.checkExitsElement(driver, getRows(expectedTaskName));
+        boolean rows = WebUI.checkExitsElement(getRows(expectedTaskName));
         Assert.assertFalse(rows, "Không mong muốn: vẫn còn bản ghi '" + expectedTaskName + "' trong bảng!");//trả về true => có bản ghi (test fail). trả về false => không còn bản ghi (test pass)
         System.out.println("Tìm kiếm thành công: 0 bản ghi");
     }
@@ -347,12 +347,12 @@ public class TasksPage extends BasePage{
     //Hàm so sánh giá trị đã thêm mới trong màn edit
     public void compareFieldAttribute(By xpathActual, String expectedValue, String attributeActual) {
         //String actual = driver.findElement(xpathActual).getAttribute(attributeActual);
-        String actual = WebUI.getElementAttribute(driver, xpathActual, attributeActual);
+        String actual = WebUI.getElementAttribute(xpathActual, attributeActual);
         Assert.assertEquals(actual.trim(), expectedValue.trim(), "FAIL: Giá trị mong muốn là: " + expectedValue + " nhưng giá trị thực tế là: " + actual);
     }
 
     public void compareFieldText(By xpathActual, String expectedValue) {
-        String actual = WebUI.getElementText(driver, xpathActual);
+        String actual = WebUI.getElementText(xpathActual);
         Assert.assertEquals(actual.trim(), expectedValue.trim(), "FAIL: Giá trị mong muốn là: " + expectedValue + " nhưng giá trị thực tế là: " + actual);
     }
 
@@ -363,20 +363,20 @@ public class TasksPage extends BasePage{
 
     public void compareIframeValue(String expectedValue) {
         driver.switchTo().frame("description_ifr");
-        String actual = WebUI.getElementText(driver, bodyIframe);
+        String actual = WebUI.getElementText(bodyIframe);
         driver.switchTo().defaultContent();
         Assert.assertEquals(actual.trim(), expectedValue.trim(), "FAIL: Giá trị mong muốn là: " + expectedValue + " nhưng thực tế là: " + actual);
     }
 
     public void clickBtnEdit(String taskName) {
-        WebElement firstRow = WebUI.getWebElement(driver, firstRowItem);
+        WebElement firstRow = WebUI.getWebElement(firstRowItem);
 
         //Hover chuột vào dòng đầu tiên
         Actions actions = new Actions(driver);
         actions.moveToElement(firstRow).perform();
-        WebUI.clickElement(driver, buttonEdit(taskName));
+        WebUI.clickElement(buttonEdit(taskName));
         WebUI.threadSleep(1);
-        boolean checkTitleEditTask = WebUI.checkExitsElement(driver, titleEditTask(taskName));
+        boolean checkTitleEditTask = WebUI.checkExitsElement(titleEditTask(taskName));
         WebUI.threadSleep(1);
         Assert.assertTrue(checkTitleEditTask, "FAILED!!! Không mở được pop-up Edit Tasks");
         System.out.println("Mở pop-up Edit Task thành công");
@@ -404,10 +404,10 @@ public class TasksPage extends BasePage{
                                 String relatedTo, String searchValueRelatedTo, String valueRelatedTo, String tags, String bodyIframeDescription) {
         Actions actions = new Actions(driver);
 
-        WebElement labelCheckboxPublic = WebUI.getWebElement(driver, labelPublic);
-        WebElement chcPublic = WebUI.getWebElement(driver, checkboxPublic);
-        WebElement labelCheckboxBillsble = WebUI.getWebElement(driver, labelBillsble);
-        WebElement chcBillsble = WebUI.getWebElement(driver, checkboxBillsble);
+        WebElement labelCheckboxPublic = WebUI.getWebElement(labelPublic);
+        WebElement chcPublic = WebUI.getWebElement(checkboxPublic);
+        WebElement labelCheckboxBillsble = WebUI.getWebElement(labelBillsble);
+        WebElement chcBillsble = WebUI.getWebElement(checkboxBillsble);
 
         //Checkbox public
         if (!chcPublic.isSelected()) {
@@ -422,44 +422,44 @@ public class TasksPage extends BasePage{
         softAssert.assertTrue(chcBillsble.isSelected(), "Checkbox Billable chưa được tích sau khi click");
 
         //sendKeys input
-        WebElement inputtHourlyRate = WebUI.getWebElement(driver, inputHourlyRate);
+        WebElement inputtHourlyRate = WebUI.getWebElement(inputHourlyRate);
         actions.click(inputtHourlyRate).perform();
         actions.keyDown(Keys.CONTROL).sendKeys("a").keyUp(Keys.CONTROL).keyDown(Keys.DELETE).keyUp(Keys.DELETE).build().perform();
         actions.sendKeys(inputtHourlyRate, hourlyRate).perform();
 
-        WebElement inputtStartDate = WebUI.getWebElement(driver, inputStartDate);
+        WebElement inputtStartDate = WebUI.getWebElement(inputStartDate);
         actions.click(inputtStartDate).perform();
         actions.keyDown(Keys.CONTROL).sendKeys("a").keyUp(Keys.CONTROL).keyDown(Keys.DELETE).keyUp(Keys.DELETE).build().perform();
         actions.sendKeys(inputtStartDate, startDate).perform();
         actions.click(inputtStartDate).perform();
 
-        WebElement inputtDuaDate = WebUI.getWebElement(driver, inputDuaDate);
+        WebElement inputtDuaDate = WebUI.getWebElement(inputDuaDate);
         actions.click(inputtDuaDate).perform();
         actions.keyDown(Keys.CONTROL).sendKeys("a").keyUp(Keys.CONTROL).keyDown(Keys.DELETE).keyUp(Keys.DELETE).build().perform();
         actions.sendKeys(inputtDuaDate, duaDate).perform();
         actions.click(inputtDuaDate).perform();
 
         //dropdown Priority
-        actions.click(WebUI.getWebElement(driver, dropdownPriority)).perform();
-        actions.click(WebUI.getWebElement(driver, getValuePriority(priority))).perform();
+        actions.click(WebUI.getWebElement(dropdownPriority)).perform();
+        actions.click(WebUI.getWebElement(getValuePriority(priority))).perform();
 
         //dropdown Repeat every and input Total cycle (cho if)
-        actions.click(WebUI.getWebElement(driver, dropdownRepeatEvery)).perform();
-        actions.click(WebUI.getWebElement(driver, getValueRepeatEvery(repeatEvery))).perform();
+        actions.click(WebUI.getWebElement(dropdownRepeatEvery)).perform();
+        actions.click(WebUI.getWebElement(getValueRepeatEvery(repeatEvery))).perform();
         if (repeatEvery.equals("Custom")) {
             //input
-            WebElement valueRepeatEveryCustom = WebUI.getWebElement(driver, repeatEveryCustom);
+            WebElement valueRepeatEveryCustom = WebUI.getWebElement(repeatEveryCustom);
             actions.click(valueRepeatEveryCustom).perform();
             actions.keyDown(Keys.CONTROL).sendKeys("a").keyUp(Keys.CONTROL).keyDown(Keys.DELETE).keyUp(Keys.DELETE).build().perform();
             actions.sendKeys(valueRepeatEveryCustom, "100").perform();
 
             //dropdown
-            actions.click(WebUI.getWebElement(driver, dropdownRepeatEveryCustom)).perform();
-            actions.click(WebUI.getWebElement(driver, getRepeatEveryCustom("Day(s)")));
+            actions.click(WebUI.getWebElement(dropdownRepeatEveryCustom)).perform();
+            actions.click(WebUI.getWebElement(getRepeatEveryCustom("Day(s)")));
 
             //input Total
-            actions.click(WebUI.getWebElement(driver, checkboxInfinity)).perform(); //click (bỏ chọn)
-            WebElement inputtTotalCycles = WebUI.getWebElement(driver, inputTotalCycles);
+            actions.click(WebUI.getWebElement(checkboxInfinity)).perform(); //click (bỏ chọn)
+            WebElement inputtTotalCycles = WebUI.getWebElement(inputTotalCycles);
             actions.click(inputtTotalCycles).perform();
             actions.keyDown(Keys.CONTROL).sendKeys("a").keyUp(Keys.CONTROL).keyDown(Keys.DELETE).keyUp(Keys.DELETE).build().perform();
             actions.sendKeys(inputtTotalCycles, totalCycles).perform();
@@ -467,7 +467,7 @@ public class TasksPage extends BasePage{
         } else if (repeatEvery.equals("Week") || repeatEvery.equals("2 Weeks") || repeatEvery.equals("1 Month") || repeatEvery.equals("2 Months") ||
                 repeatEvery.equals("3 Months") || repeatEvery.equals("6 Months") || repeatEvery.equals("1 Year")) {
             //actions.click(driver.findElement(LocatorsTasks.checkboxInfinity)).perform(); //click (bỏ chọn)
-            WebElement inputtTotalCycles = WebUI.getWebElement(driver, inputTotalCycles);
+            WebElement inputtTotalCycles = WebUI.getWebElement(inputTotalCycles);
             actions.click(inputtTotalCycles).perform();
             actions.keyDown(Keys.CONTROL).sendKeys("a").keyUp(Keys.CONTROL).keyDown(Keys.DELETE).keyUp(Keys.DELETE).build().perform();
             actions.sendKeys(inputtTotalCycles, totalCycles).perform();
@@ -476,32 +476,32 @@ public class TasksPage extends BasePage{
         }
 
         //dropdown Related to
-        actions.click(WebUI.getWebElement(driver, dropdownRelatedTo)).perform();
-        actions.click(WebUI.getWebElement(driver, getValueRelatedTo(relatedTo))).perform();
+        actions.click(WebUI.getWebElement(dropdownRelatedTo)).perform();
+        actions.click(WebUI.getWebElement(getValueRelatedTo(relatedTo))).perform();
 
         //Click vô hàm valueDropdown Related to chọn giá trị
-        actions.click(WebUI.getWebElement(driver, dropdownForRelatedTo)).perform();
-        actions.sendKeys(WebUI.getWebElement(driver, inputSearchOfForRelatedTo), searchValueRelatedTo).perform();
-        actions.click(WebUI.getWebElement(driver, getValueForRelatedTo(valueRelatedTo))).perform();
+        actions.click(WebUI.getWebElement(dropdownForRelatedTo)).perform();
+        actions.sendKeys(WebUI.getWebElement(inputSearchOfForRelatedTo), searchValueRelatedTo).perform();
+        actions.click(WebUI.getWebElement(getValueForRelatedTo(valueRelatedTo))).perform();
 
         //scroll kéo xuống dưới
-        WebUI.scrollAtBottom(driver, btnSave);
+        WebUI.scrollAtBottom(btnSave);
 
         //Tag
-        WebElement elementCloseTags = WebUI.getWebElement(driver, iconCloseTags);
+        WebElement elementCloseTags = WebUI.getWebElement(iconCloseTags);
         actions.click(elementCloseTags).perform();
-        actions.sendKeys(WebUI.getWebElement(driver, inputAddTags), tags).perform();
+        actions.sendKeys(WebUI.getWebElement(inputAddTags), tags).perform();
 
         //click ra input name để đóng tag
-        WebElement labelTags = WebUI.getWebElement(driver, labelTag);
+        WebElement labelTags = WebUI.getWebElement(labelTag);
         actions.click(labelTags).perform();;
         actions.click(labelTags).perform();
 
         //iframe
         //driver.findElement(LocatorsTasks.areaDescription).click();
-        WebUI.switchToFrame(driver, By.id("description_ifr"));
+        WebUI.switchToFrame(By.id("description_ifr"));
 
-        WebElement bodyIframes = WebUI.getWebElement(driver, bodyIframe);
+        WebElement bodyIframes = WebUI.getWebElement(bodyIframe);
         actions.click(bodyIframes).perform();
         actions.keyDown(Keys.CONTROL).sendKeys("a").keyUp(Keys.CONTROL).keyDown(Keys.DELETE).keyUp(Keys.DELETE).build().perform();
         actions.sendKeys(bodyIframes, bodyIframeDescription).perform();
@@ -509,7 +509,7 @@ public class TasksPage extends BasePage{
         driver.switchTo().parentFrame();
 
         //click btn Save
-        WebElement buttonSave = WebUI.getWebElement(driver, btnSave);
+        WebElement buttonSave = WebUI.getWebElement(btnSave);
         actions.click(buttonSave).perform();
         System.out.println("Sửa Task thành công");
     }

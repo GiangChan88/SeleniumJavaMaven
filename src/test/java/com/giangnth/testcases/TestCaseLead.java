@@ -317,5 +317,61 @@ public class TestCaseLead extends BaseTest {
         leadsPage.searchLeadSuccessNoData(lead.leadName);
     }
 
+    @Test
+    public void verifyLeadActive(){
+        TestCaseLead lead = new TestCaseLead();
+        lead.status = "Active";
+        lead.source = "Facebook";
+        lead.assigned = "Admin Anh Tester";
+        lead.tags = "GTest123";
+        lead.leadName = "Giang Test Active";
+        lead.address = "230 Mễ Trì, Hà Nội";
+        lead.position = "Mễ Trì";
+        lead.city = "Hà Nội";
+        lead.emailAddress = "giangtestactive001@gmail.com";
+        lead.state = "123";
+        lead.website = "https://8080:21";
+        lead.country = "Angola";
+        lead.phone = "0772627627";
+        lead.zipcode = "7789";
+        lead.leadValue = "100000";
+        lead.language = "English";
+        lead.company = "ND";
+        lead.description = "Không";
+        lead.dateContacted = "05-11-2025 00:00:00";
+
+        //click menu Lead
+        loginPage = new LoginPage(driver);
+
+        dashboardPage = loginPage.loginCRM();
+        leadsPage = dashboardPage.clickMenuLead();
+        leadsPage.verifyMenuLead();
+
+        //click btnleadsumary
+        leadsPage.clickBtnLeadSumary();
+        Integer totalLeadActiveBeforeAdd = Integer.parseInt(leadsPage.getTotalLeadActive());
+
+        //click btn addnewLead
+        leadsPage.clickBtnAddNewLead();
+        leadsPage.verifyBtnAddNewLead();
+
+        //Tạo data
+        leadsPage.addAndEditLeadSuccess(lead.status, lead.source, lead.assigned, lead.tags, lead.leadName, lead.address, lead.position, lead.city, lead.emailAddress, lead.state, lead.website, lead.country, lead.phone, lead.zipcode, lead.leadValue, lead.language, lead.company, lead.description, lead.dateContacted, 0);
+        WebUI.threadSleep(1);
+
+        leadsPage.closePopupDetail();
+        WebUI.threadSleep(1);
+
+        //verifyLeadAddNew
+        leadsPage.searchLeadSuccess(lead.leadName);
+        WebUI.threadSleep(1);
+
+        driver.navigate().refresh();
+
+        leadsPage.clickBtnLeadSumary();
+        String totalLeadActiveAfterAdd = leadsPage.getTotalLeadActive();
+        Assert.assertEquals(totalLeadActiveBeforeAdd + 1, totalLeadActiveAfterAdd, "Active không tăng sau khi add");
+    }
+
 
 }

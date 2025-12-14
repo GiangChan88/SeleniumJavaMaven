@@ -11,7 +11,7 @@ public class TestCaseLogin extends BaseTest {
     @Test(priority = 1)
     public void testLoginSuccess() {
         loginPage = new LoginPage(driver);
-        loginPage.loginCRM("admin@example.com", "123456");
+        loginPage.loginCRM();
         loginPage.verifyLoginSuccess();
     }
 

@@ -1,0 +1,24 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+
+<suite name="CRM Test" verbose="1">
+<!--    <test name="TestLoginSuccess">-->
+<!--        <parameter name="browser" value="chrome"/>-->
+<!--        <classes>-->
+<!--            <class name="com.giangnth.testcases.TestCaseLogin">-->
+<!--                <methods>-->
+<!--                    <include name="testLoginSuccess"/>-->
+<!--                </methods>-->
+<!--            </class>-->
+<!--        </classes>-->
+<!--    </test>-->
+    <test name="TestLoginSuccess">
+        <parameter name="browser" value="edge"/>
+        <classes>
+            <class name="com.giangnth.testcases.TestCaseLogin">
+                <methods>
+                    <exclude name="testLoginSuccess"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+</suite>

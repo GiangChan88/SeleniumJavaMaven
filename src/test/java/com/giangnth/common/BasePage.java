@@ -1,5 +1,6 @@
 package com.giangnth.common;
 
+import com.giangnth.pages.CustomerPage;
 import com.giangnth.pages.DashboardPage;
 import com.giangnth.pages.LeadsPage;
 import com.giangnth.pages.TasksPage;
@@ -17,28 +18,34 @@ public class BasePage {
     public By menuDashboard = By.xpath("//ul[@id='side-menu']//span[@class = 'menu-text' and normalize-space() = 'Dashboard']");
     public By menuProject = By.xpath("//ul[@id='side-menu']//span[@class = 'menu-text' and normalize-space() = 'Projects']");
     public By menuLeads = By.xpath("//span[@class = 'menu-text' and normalize-space() = 'Leads']");
+    public By menuCustomer = By.xpath("//span[@class = 'menu-text' and normalize-space() = 'Customers']");
     public By menuTasks = By.xpath("//span[normalize-space()='Tasks']");
 
     public DashboardPage clickMenuDashboard(){
-        WebUI.clickElement(driver, menuDashboard);
+        WebUI.clickElement(menuDashboard);
         System.out.println("Click menu Dashboard");
         return new DashboardPage(driver);
     }
 
     public void clickMenuProjects(){
-        WebUI.clickElement(driver, menuProject);
+        WebUI.clickElement(menuProject);
+    }
+
+    public CustomerPage clickMenuCustomer(){
+        WebUI.clickElement(menuCustomer);
+        return new CustomerPage(driver, BaseTest.softAssert);
     }
 
     public LeadsPage clickMenuLead() {
         //click menu Lead
-        WebUI.clickElement(driver, menuLeads);
+        WebUI.clickElement(menuLeads);
         System.out.println("Click Lead Menu");
         return new LeadsPage(driver, BaseTest.softAssert);
     }
 
     public TasksPage clickMenuTask() {
         //click menu Lead
-        WebUI.clickElement(driver, menuTasks);
+        WebUI.clickElement(menuTasks);
         System.out.println("Click menu Task");
         return new TasksPage(driver, BaseTest.softAssert);
     }
