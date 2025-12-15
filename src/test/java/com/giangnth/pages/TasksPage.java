@@ -143,6 +143,7 @@ public class TasksPage extends BasePage{
     private By btnClose = By.xpath("//form[@id='task-form']//button[normalize-space()='Close']");
     //private By btnClose = By.xpath("//h4[@id='myModalLabel']/parent::div/following-sibling::div[@class='modal-footer']/button[normalize-space()='Close']");
     private By btnSave = By.xpath("//button[normalize-space()='Save']");
+    private By idFrame = By.id("description_ifr");
 
     private By getRows(String value){
         return By.xpath("//table[@id='tasks']//tbody/tr/td/a[normalize-space()='"+value+"']");
@@ -357,23 +358,20 @@ public class TasksPage extends BasePage{
     }
 
     public void verifyCheckboxSelected(By xpathCheckbox) {
-        boolean checked = driver.findElement(xpathCheckbox).isSelected();
+        boolean checked = WebUI.checkSeletedElement(xpathCheckbox);
         Assert.assertTrue(checked, "Checkbox chưa được tích sau khi click");
     }
 
     public void compareIframeValue(String expectedValue) {
-        driver.switchTo().frame("description_ifr");
+        WebUI.switchToFrame(idFrame);
         String actual = WebUI.getElementText(bodyIframe);
-        driver.switchTo().defaultContent();
+        WebUI.switchToDefaultContentFrame();
         Assert.assertEquals(actual.trim(), expectedValue.trim(), "FAIL: Giá trị mong muốn là: " + expectedValue + " nhưng thực tế là: " + actual);
     }
 
     public void clickBtnEdit(String taskName) {
-        WebElement firstRow = WebUI.getWebElement(firstRowItem);
-
         //Hover chuột vào dòng đầu tiên
-        Actions actions = new Actions(driver);
-        actions.moveToElement(firstRow).perform();
+        WebUI.moveToElement(firstRowItem);
         WebUI.clickElement(buttonEdit(taskName));
         WebUI.threadSleep(1);
         boolean checkTitleEditTask = WebUI.checkExitsElement(titleEditTask(taskName));

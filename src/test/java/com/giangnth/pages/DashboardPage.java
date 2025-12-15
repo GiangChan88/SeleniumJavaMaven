@@ -15,7 +15,7 @@ public class DashboardPage extends BasePage {
         new WebUI(driver);
     }
 
-    private By btnDashboardOption = By.xpath("//dic[@class='screen-options-btn']");
+    private By btnDashboardOption = By.xpath("//div[@class='screen-options-btn']");
     private By convertedLeads = By.xpath("(//span[normalize-space()='Converted Leads']/parent::div)/following-sibling::span");
 
     private LeadsPage leadsPage;
@@ -26,7 +26,8 @@ public class DashboardPage extends BasePage {
     }
 
     public void verifyDashboardPageDisplayed(){
-        boolean checkMenuDashboard = driver.findElements(btnDashboardOption).size()>0;
+        WebUI.threadSleep(1);
+        boolean checkMenuDashboard = WebUI.checkExitsElement(btnDashboardOption);;
         Assert.assertTrue(checkMenuDashboard, "Login Failed or DashBoard not displayed");
     }
 }

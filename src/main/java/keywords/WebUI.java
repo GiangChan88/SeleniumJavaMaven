@@ -264,7 +264,6 @@ public class WebUI {
 
     //click dựa vào wait động điền giá trị
     public static void clickElement(By by, int seconds) {
-        threadSleep(STEP_TIME);
         waitForElementClick(by, seconds).click(); //hàm wait đã bao gồm tìm kiếm + chờ và trả ra webelement để click
         System.out.println("Click element: " + by);
     }
@@ -278,13 +277,11 @@ public class WebUI {
 
     //click dựa vào wait cố định 10s
     public static void clickElement(By by) {
-        threadSleep(STEP_TIME);
         waitForElementClick(by).click();
         System.out.println("Click element: " + by);
     }
 
     public static void clearElement(By by) {
-        threadSleep(STEP_TIME);
         waitForElementVisible(by).clear();
         System.out.println("Clear text element: " + by);
     }
@@ -351,6 +348,18 @@ public class WebUI {
         driver.switchTo().defaultContent();
     }
 
+    public static void switchToAlert(){
+        driver.switchTo().alert();
+    }
+
+    public static void acceptAlert(){
+        driver.switchTo().alert().accept();
+    }
+
+    public static void dismissAlert(){
+        driver.switchTo().alert().dismiss();
+    }
+
     public static Actions actionClickBase(By by, Keys key, String text) {
         WebElement element = waitForElementVisible(by);
         Actions action = new Actions(driver).moveToElement(element).click();
@@ -376,5 +385,16 @@ public class WebUI {
 
     public static Actions actionClickAndSetKeys(By by, Keys key) {
         return actionClickBase(by, key, null);
+    }
+
+    public static boolean moveToElement(By by) {
+        try {
+            Actions action = new Actions(driver);
+            action.moveToElement(getWebElement(by)).release(getWebElement(by)).build().perform();
+            return true;
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return false;
+        }
     }
 }

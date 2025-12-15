@@ -22,21 +22,25 @@ public class BasePage {
     public By menuTasks = By.xpath("//span[normalize-space()='Tasks']");
 
     public DashboardPage clickMenuDashboard(){
+        WebUI.waitForPageLoaded();
         WebUI.clickElement(menuDashboard);
         System.out.println("Click menu Dashboard");
         return new DashboardPage(driver);
     }
 
     public void clickMenuProjects(){
+        WebUI.waitForPageLoaded();
         WebUI.clickElement(menuProject);
     }
 
     public CustomerPage clickMenuCustomer(){
+        WebUI.waitForPageLoaded();
         WebUI.clickElement(menuCustomer);
         return new CustomerPage(driver, BaseTest.softAssert);
     }
 
     public LeadsPage clickMenuLead() {
+        WebUI.waitForPageLoaded();
         //click menu Lead
         WebUI.clickElement(menuLeads);
         System.out.println("Click Lead Menu");
@@ -44,11 +48,10 @@ public class BasePage {
     }
 
     public TasksPage clickMenuTask() {
+        WebUI.waitForPageLoaded();
         //click menu Lead
         WebUI.clickElement(menuTasks);
         System.out.println("Click menu Task");
         return new TasksPage(driver, BaseTest.softAssert);
     }
-
-
 }

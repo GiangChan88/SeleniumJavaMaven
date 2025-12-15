@@ -31,11 +31,8 @@ public class CustomerPage extends BasePage {
     }
 
     public void deleteCustomerSuccess(String customerName) {
-        WebElement firstRow = WebUI.getWebElement(firstRowItem);
-
         //Hover chuột vào dòng đầu tiên
-        Actions actions = new Actions(driver);
-        actions.moveToElement(firstRow).perform();
+        WebUI.moveToElement(firstRowItem);
         WebUI.threadSleep(1);
         WebUI.clickElement(buttonDelete);
     }
@@ -74,10 +71,10 @@ public class CustomerPage extends BasePage {
         System.out.println("Nội dung trong alert Delete hợp lệ");
         //check text trên alert
         if (flag == 1) {
-            alert.accept();
+            WebUI.acceptAlert();
             System.out.println("Xóa thành công");
         } else {
-            alert.dismiss();
+            WebUI.dismissAlert();
             System.out.println("Bỏ xóa thành công");
         }
 

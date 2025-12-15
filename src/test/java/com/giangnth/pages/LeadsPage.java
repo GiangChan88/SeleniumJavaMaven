@@ -281,16 +281,13 @@ public class LeadsPage extends BasePage {
     }
 
     public void verifyCheckboxSelected(By checkbox) {
-        boolean checked = driver.findElement(checkbox).isSelected();
+        boolean checked = WebUI.checkSeletedElement(checkbox);
         Assert.assertTrue(checked, "Checkbox chưa được tích sau khi click");
     }
 
     public void clickBtnEdit(String leadName) {
-        WebElement firstRow = driver.findElement(firstRowItem);
-
         //Hover chuột vào dòng đầu tiên
-        Actions actions = new Actions(driver);
-        actions.moveToElement(firstRow).perform();
+        WebUI.moveToElement(firstRowItem);
         WebUI.clickElement(buttonEdit(leadName));
         System.out.println("Mở pop-up Edit Lead thành công");
     }
@@ -418,11 +415,8 @@ public class LeadsPage extends BasePage {
     }
 
     public void deleteLeadSuccess(String leadName) {
-        WebElement firstRow = driver.findElement(firstRowItem);
-
         //Hover chuột vào dòng đầu tiên
-        Actions actions = new Actions(driver);
-        actions.moveToElement(firstRow).perform();
+        WebUI.moveToElement(firstRowItem);
         WebUI.clickElement(buttonDelete(leadName));
     }
 
@@ -435,10 +429,10 @@ public class LeadsPage extends BasePage {
         System.out.println("Nội dung trong alert Delete hợp lệ");
         //check text trên alert
         if (flag == 1) {
-            alert.accept();
+            WebUI.acceptAlert();
             System.out.println("Xóa thành công");
         } else {
-            alert.dismiss();
+            WebUI.dismissAlert();
             System.out.println("Bỏ xóa thành công");
         }
     }
