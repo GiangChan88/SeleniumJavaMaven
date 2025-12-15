@@ -1,24 +1,19 @@
 package com.giangnth.pages;
 
 import com.giangnth.common.BasePage;
-import keywords.WebUI;
+import com.giangnth.drivers.DriverManager;
+import com.giangnth.keywords.WebUI;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.interactions.Actions;
 import org.testng.Assert;
 import org.testng.asserts.SoftAssert;
 
 public class CustomerPage extends BasePage {
-    private WebDriver driver;
     private SoftAssert softAssert;
 
-    public CustomerPage(WebDriver driver,SoftAssert softAssert) {
-        super(driver);
-        this.driver = driver;
+    public CustomerPage(SoftAssert softAssert) {
         this.softAssert = softAssert;
-        new WebUI(driver);
     }
 
     private By inputSearch = By.xpath("//div[@id='clients_filter']//input[@type='search']");
@@ -65,7 +60,7 @@ public class CustomerPage extends BasePage {
     public void confirmDeleteCustomerSuccess(String customer, int flag) {
         System.out.println("Confirm Delete Customer Success");
         WebUI.threadSleep(2);
-        Alert alert = driver.switchTo().alert();
+        Alert alert = DriverManager.getDriver().switchTo().alert();
         String alertText = alert.getText();
         softAssert.assertEquals(alertText, "Are you sure you want to perform this action?", "Nội dung trong alert Delete không đúng");
         System.out.println("Nội dung trong alert Delete hợp lệ");

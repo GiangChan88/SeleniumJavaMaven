@@ -14,17 +14,17 @@ public class TestCaseDashboard extends BaseTest {
 
     @Test
     public void testDashboardDisplayedSuccesAfterLogin() throws InterruptedException {
-        loginPage = new LoginPage(driver);
+        loginPage = new LoginPage();
         loginPage.loginCRM("admin@example.com", "123456");
         loginPage.verifyLoginSuccess();
 
-        dashboardPage = new DashboardPage(driver);
+        dashboardPage = new DashboardPage();
         dashboardPage.verifyDashboardPageDisplayed();
     }
 
     @Test
     public void testVerifyTotalConvertedLead() throws InterruptedException {
-        loginPage = new LoginPage(driver);
+        loginPage = new LoginPage();
         dashboardPage = loginPage.loginCRM();
         leadsPage = dashboardPage.clickMenuLead();
 

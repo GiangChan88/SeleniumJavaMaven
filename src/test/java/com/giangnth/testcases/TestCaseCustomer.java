@@ -21,7 +21,7 @@ public class TestCaseCustomer extends BaseTest {
         TestCaseCustomer tc = new TestCaseCustomer();
         tc.customerName = "test";
 
-        loginPage = new LoginPage(driver);
+        loginPage = new LoginPage();
         dashboardPage = loginPage.loginCRM();
         customerPage = dashboardPage.clickMenuCustomer();
         //Verify menuCustomer

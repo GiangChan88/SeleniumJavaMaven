@@ -1,20 +1,12 @@
 package com.giangnth.pages;
 
 import com.giangnth.common.BasePage;
-import keywords.WebUI;
+import com.giangnth.keywords.WebUI;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.testng.Assert;
 
 public class DashboardPage extends BasePage {
-    private WebDriver driver;
-
-    public DashboardPage(WebDriver driver) {
-        super(driver);
-        this.driver = driver;
-        new WebUI(driver);
-    }
-
     private By btnDashboardOption = By.xpath("//div[@class='screen-options-btn']");
     private By convertedLeads = By.xpath("(//span[normalize-space()='Converted Leads']/parent::div)/following-sibling::span");
 

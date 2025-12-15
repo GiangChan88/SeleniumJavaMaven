@@ -1,0 +1,31 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+
+<suite name="CRM Test" verbose="1">
+
+    <test name="TestLogin" parallel="methods" thread-count="3">
+        <parameter name="browser" value="chrome"/>
+        <classes>
+            <class name="com.giangnth.testcases.TestCaseLogin"/>
+        </classes>
+    </test>
+
+    <test name="LeadTest" parallel="methods" thread-count="2">
+        <parameter name="browser" value="chrome"/>
+        <classes>
+            <class name="com.giangnth.testcases.TestCaseLead">
+                <methods>
+                    <exclude name="testAddNewLeadFailEmailAlreadyExists"/>
+                    <exclude name="verifyLeadActive"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+    <test name="TaskTest" parallel="methods" thread-count="2">
+        <parameter name="browser" value="chrome"/>
+        <classes>
+            <class name="com.giangnth.testcases.TestCaseTask"/>
+        </classes>
+    </test>
+
+</suite>

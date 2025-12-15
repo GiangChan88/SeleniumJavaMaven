@@ -1,5 +1,6 @@
-package keywords;
+package com.giangnth.keywords;
 
+import com.giangnth.drivers.DriverManager;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedCondition;
@@ -15,11 +16,7 @@ public class WebUI {
     private static int WAIT_TIMEOUT = 10;
     private static double STEP_TIME = 1;
     private static int PAGE_LOAD_TIMEOUT = 20;
-    private static WebDriver driver;
 
-    public WebUI(WebDriver driver){
-        WebUI.driver = driver;
-    }
 
     public static void threadSleep(double second) {
         try {
@@ -31,22 +28,22 @@ public class WebUI {
 
     public static void highlightElement(By by) {
         String script = "arguments[0].style.border='3px solid red'";
-        ((JavascriptExecutor) driver).executeScript(script, getWebElement(by));
+        ((JavascriptExecutor) DriverManager.getDriver()).executeScript(script, getWebElement(by));
     }
 
     public static void highlightElement(By by, String color) {
         String script = "arguments[0].style.border='3px solid " + color + "'";
-        ((JavascriptExecutor) driver).executeScript(script, getWebElement(by));
+        ((JavascriptExecutor) DriverManager.getDriver()).executeScript(script, getWebElement(by));
     }
 
     public static void highlightElement(WebElement element) {
         String script = "arguments[0].style.border='3px solid red'";
-        ((JavascriptExecutor) driver).executeScript(script, element);
+        ((JavascriptExecutor) DriverManager.getDriver()).executeScript(script, element);
     }
 
     public static void highlightElement(WebElement element, String color) {
         String script = "arguments[0].style.border='3px solid " + color + "'";
-        ((JavascriptExecutor) driver).executeScript(script, element);
+        ((JavascriptExecutor) DriverManager.getDriver()).executeScript(script, element);
     }
 
     // chờ hiển thị có chứa highlight
@@ -54,7 +51,7 @@ public class WebUI {
         WebElement element = null;
         try {
             //System.out.println("Driver in WebUI: " +driver);
-            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(WAIT_TIMEOUT), Duration.ofMillis(500));
+            WebDriverWait wait = new WebDriverWait(DriverManager.getDriver(), Duration.ofSeconds(WAIT_TIMEOUT), Duration.ofMillis(500));
             element = wait.until(ExpectedConditions.visibilityOfElementLocated(by)); //đã đợi và tìm element rồi nên sẽ thay thế cho
             // driver.findElement(by)và nó đã trả về Webelement
             highlightElement(element);
@@ -70,7 +67,7 @@ public class WebUI {
     public static WebElement waitForElementVisible(By by, int seconds){
         WebElement element = null;
         try{
-            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(seconds), Duration.ofMillis(500));
+            WebDriverWait wait = new WebDriverWait(DriverManager.getDriver(), Duration.ofSeconds(seconds), Duration.ofMillis(500));
             element = wait.until(ExpectedConditions.visibilityOfElementLocated(by)); //đã đợi và tìm element rồi nên sẽ thay thế cho
             // driver.findElement(by)và nó đã trả về Webelement
             highlightElement(element);
@@ -86,7 +83,7 @@ public class WebUI {
     public static List<WebElement> waitForAllElementsVisible(By by) {
         List<WebElement> element = null;
         try {
-            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(WAIT_TIMEOUT), Duration.ofMillis(500));
+            WebDriverWait wait = new WebDriverWait(DriverManager.getDriver(), Duration.ofSeconds(WAIT_TIMEOUT), Duration.ofMillis(500));
             element = wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(by));//đã đợi và tìm element rồi nên sẽ thay thế cho
             // driver.findElement(by)và nó đã trả về Webelement
             highlightElement(by);
@@ -102,7 +99,7 @@ public class WebUI {
     public static List<WebElement> waitForAllElementsVisible(By by, int seconds) {
         List<WebElement> element = null;
         try {
-            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(seconds), Duration.ofMillis(500));
+            WebDriverWait wait = new WebDriverWait(DriverManager.getDriver(), Duration.ofSeconds(seconds), Duration.ofMillis(500));
             element = wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(by));//đã đợi và tìm element rồi nên sẽ thay thế cho
             // driver.findElement(by)và nó đã trả về Webelement
             highlightElement(by);
@@ -118,7 +115,7 @@ public class WebUI {
     public static WebElement waitForElementClick(By by){
         WebElement element = null;
         try {
-            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(WAIT_TIMEOUT), Duration.ofMillis(500));
+            WebDriverWait wait = new WebDriverWait(DriverManager.getDriver(), Duration.ofSeconds(WAIT_TIMEOUT), Duration.ofMillis(500));
             element = wait.until(ExpectedConditions.elementToBeClickable(by));//đã đợi và tìm element rồi nên sẽ thay thế cho
             // driver.findElement(by)và nó đã trả về Webelement
             highlightElement(element);
@@ -134,7 +131,7 @@ public class WebUI {
     public static WebElement waitForElementClick(By by, int seconds){
         WebElement element = null;
         try {
-            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(seconds), Duration.ofMillis(500));
+            WebDriverWait wait = new WebDriverWait(DriverManager.getDriver(), Duration.ofSeconds(seconds), Duration.ofMillis(500));
             element = wait.until(ExpectedConditions.elementToBeClickable(by));//đã đợi và tìm element rồi nên sẽ thay thế cho
             // driver.findElement(by)và nó đã trả về Webelement
             highlightElement(element);
@@ -150,7 +147,7 @@ public class WebUI {
     public static WebElement waitForElementPresent(By by, int seconds){
         WebElement element = null;
         try {
-            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(seconds), Duration.ofMillis(500));
+            WebDriverWait wait = new WebDriverWait(DriverManager.getDriver(), Duration.ofSeconds(seconds), Duration.ofMillis(500));
             element = wait.until(ExpectedConditions.presenceOfElementLocated(by));//đã đợi và tìm element rồi nên sẽ thay thế cho
             // driver.findElement(by)và nó đã trả về Webelement
             highlightElement(element);
@@ -166,7 +163,7 @@ public class WebUI {
     public static WebElement waitForElementPresent(By by){
         WebElement element = null;
         try {
-            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(WAIT_TIMEOUT), Duration.ofMillis(500));
+            WebDriverWait wait = new WebDriverWait(DriverManager.getDriver(), Duration.ofSeconds(WAIT_TIMEOUT), Duration.ofMillis(500));
             element = wait.until(ExpectedConditions.presenceOfElementLocated(by));//đã đợi và tìm element rồi nên sẽ thay thế cho
             // driver.findElement(by)và nó đã trả về Webelement
             highlightElement(element);
@@ -180,28 +177,25 @@ public class WebUI {
 
     //chờ load trang
     public static void waitForPageLoaded() {
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(PAGE_LOAD_TIMEOUT), Duration.ofMillis(500));
-        JavascriptExecutor js = (JavascriptExecutor) driver;
+        WebDriverWait wait = new WebDriverWait(DriverManager.getDriver(), Duration.ofSeconds(PAGE_LOAD_TIMEOUT), Duration.ofMillis(500));
+        JavascriptExecutor js = (JavascriptExecutor) DriverManager.getDriver();
 
-        //Wait for Javascript to load
-        ExpectedCondition< Boolean > jsLoad = new ExpectedCondition < Boolean > () {
-            @Override
-            public Boolean apply(WebDriver driver) {
-                return js.executeScript("return document.readyState").toString().equals("complete");
-            }
-        };
-        //Check JS is Ready
+        // wait for Javascript to loaded
+        ExpectedCondition<Boolean> jsLoad = driver -> ((JavascriptExecutor) DriverManager.getDriver()).executeScript("return document.readyState")
+                .toString().equals("complete");
+
+        //Get JS is Ready
         boolean jsReady = js.executeScript("return document.readyState").toString().equals("complete");
 
         //Wait Javascript until it is Ready!
         if (!jsReady) {
-            //System.out.println("Javascript is NOT Ready.");
+            System.out.println("Javascript in NOT Ready!");
             //Wait for Javascript to load
             try {
                 wait.until(jsLoad);
             } catch (Throwable error) {
                 error.printStackTrace();
-                Assert.fail("FAILED. Timeout waiting for page load.");
+                Assert.fail("Timeout waiting for page load (Javascript). (" + PAGE_LOAD_TIMEOUT + "s)");
             }
         }
     }
@@ -243,23 +237,23 @@ public class WebUI {
     }
 
     public static void openURL(String url) {
-        driver.get(url);
+        DriverManager.getDriver().get(url);
         System.out.println("URL: " + url);
     }
 
     public static String getCurrentURL() {
         threadSleep(STEP_TIME);
-        String currentUrl = driver.getCurrentUrl();
+        String currentUrl = DriverManager.getDriver().getCurrentUrl();
         System.out.println("Current URL: " + currentUrl);
         return currentUrl;
     }
 
     public static WebElement getWebElement(By by){
-        return driver.findElement(by);
+        return DriverManager.getDriver().findElement(by);
     }
 
     public static List<WebElement> getWebElements(By by) {
-        return driver.findElements(by);
+        return DriverManager.getDriver().findElements(by);
     }
 
     //click dựa vào wait động điền giá trị
@@ -321,18 +315,18 @@ public class WebUI {
     }
 
     public static void scrollAtTop(By by) {
-        JavascriptExecutor js = (JavascriptExecutor) driver;
-        js.executeScript("arguments[0].scrollIntoView(true)", driver.findElement(by));
+        JavascriptExecutor js = (JavascriptExecutor) DriverManager.getDriver();
+        js.executeScript("arguments[0].scrollIntoView(true)", DriverManager.getDriver().findElement(by));
     }
 
     public static void scrollAtBottom(By by) {
-        JavascriptExecutor js = (JavascriptExecutor) driver;
-        js.executeScript("arguments[0].scrollIntoView(false)", driver.findElement(by));
+        JavascriptExecutor js = (JavascriptExecutor) DriverManager.getDriver();
+        js.executeScript("arguments[0].scrollIntoView(false)", DriverManager.getDriver().findElement(by));
     }
 
     public static void switchToFrame(By by){
         try{
-            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10), Duration.ofMillis(500));
+            WebDriverWait wait = new WebDriverWait(DriverManager.getDriver(), Duration.ofSeconds(10), Duration.ofMillis(500));
             wait.until(ExpectedConditions.frameToBeAvailableAndSwitchToIt(by));
         }catch (Throwable error){
             System.out.println("Timeout waiting for Switch To Frame. " + by.toString());
@@ -341,28 +335,28 @@ public class WebUI {
     }
 
     public static void switchToParentFrame(){
-        driver.switchTo().parentFrame();
+        DriverManager.getDriver().switchTo().parentFrame();
     }
 
     public static void switchToDefaultContentFrame(){
-        driver.switchTo().defaultContent();
+        DriverManager.getDriver().switchTo().defaultContent();
     }
 
     public static void switchToAlert(){
-        driver.switchTo().alert();
+        DriverManager.getDriver().switchTo().alert();
     }
 
     public static void acceptAlert(){
-        driver.switchTo().alert().accept();
+        DriverManager.getDriver().switchTo().alert().accept();
     }
 
     public static void dismissAlert(){
-        driver.switchTo().alert().dismiss();
+        DriverManager.getDriver().switchTo().alert().dismiss();
     }
 
     public static Actions actionClickBase(By by, Keys key, String text) {
         WebElement element = waitForElementVisible(by);
-        Actions action = new Actions(driver).moveToElement(element).click();
+        Actions action = new Actions(DriverManager.getDriver()).moveToElement(element).click();
 
         if (key != null) {
             action.sendKeys(key);
@@ -389,7 +383,7 @@ public class WebUI {
 
     public static boolean moveToElement(By by) {
         try {
-            Actions action = new Actions(driver);
+            Actions action = new Actions(DriverManager.getDriver());
             action.moveToElement(getWebElement(by)).release(getWebElement(by)).build().perform();
             return true;
         } catch (Exception e) {

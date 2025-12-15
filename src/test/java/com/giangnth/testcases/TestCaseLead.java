@@ -1,9 +1,10 @@
 package com.giangnth.testcases;
 
 
+import com.giangnth.drivers.DriverManager;
 import com.giangnth.pages.DashboardPage;
 import com.giangnth.pages.LoginPage;
-import keywords.WebUI;
+import com.giangnth.keywords.WebUI;
 import com.giangnth.pages.LeadsPage;
 import com.giangnth.common.BaseTest;
 import org.openqa.selenium.By;
@@ -65,7 +66,7 @@ public class TestCaseLead extends BaseTest {
         lead.dateContacted = "05-11-2025 00:00:00";
 
         //click menu Lead
-        loginPage = new LoginPage(driver);
+        loginPage = new LoginPage();
 
         dashboardPage = loginPage.loginCRM();
         leadsPage = dashboardPage.clickMenuLead();
@@ -112,7 +113,7 @@ public class TestCaseLead extends BaseTest {
         lead.dateContacted = "05-11-2025 00:00:00";
 
         //click menu Lead
-        loginPage = new LoginPage(driver);
+        loginPage = new LoginPage();
 
         dashboardPage = loginPage.loginCRM();
         leadsPage = dashboardPage.clickMenuLead();
@@ -126,11 +127,11 @@ public class TestCaseLead extends BaseTest {
         WebUI.threadSleep(1);
 
         //verify lỗi
-        List<WebElement> checkMessageErrorEmail = driver.findElements(By.xpath("//p[@id='email-error']"));
-        Assert.assertTrue(checkMessageErrorEmail.size() > 0, "Check Message Error Email is not Displayed");
+        boolean checkMessageErrorEmail = WebUI.checkExitsElement(By.xpath("//p[@id='email-error']"));
+        Assert.assertTrue(checkMessageErrorEmail, "Check Message Error Email is not Displayed");
 
         //verify message
-        String messageErrorEmail = driver.findElement(By.xpath("//p[@id='email-error']")).getText();
+        String messageErrorEmail = WebUI.getElementText(By.xpath("//p[@id='email-error']"));
         softAssert.assertEquals(messageErrorEmail, "Email already exists", "Message Error Email is not correct");
 
         System.out.println("❌ Add Lead Failed as expected: Duplicate Email detected!");
@@ -167,7 +168,7 @@ public class TestCaseLead extends BaseTest {
         lead.dateContacted = "05-11-2025 00:00:00";
 
         //click menu Lead
-        loginPage = new LoginPage(driver);
+        loginPage = new LoginPage();
 
         dashboardPage = loginPage.loginCRM();
         leadsPage = dashboardPage.clickMenuLead();
@@ -239,7 +240,7 @@ public class TestCaseLead extends BaseTest {
         lead.dateContacted = "05-11-2025 00:00:00";
 
         //click menu Lead
-        loginPage = new LoginPage(driver);
+        loginPage = new LoginPage();
 
         dashboardPage = loginPage.loginCRM();
         leadsPage = dashboardPage.clickMenuLead();
@@ -289,7 +290,7 @@ public class TestCaseLead extends BaseTest {
         lead.dateContacted = "05-11-2025 00:00:00";
 
         //click menu Lead
-        loginPage = new LoginPage(driver);
+        loginPage = new LoginPage();
 
         dashboardPage = loginPage.loginCRM();
         leadsPage = dashboardPage.clickMenuLead();
@@ -310,11 +311,12 @@ public class TestCaseLead extends BaseTest {
         WebUI.threadSleep(1);
 
         //click btn delete
-        leadsPage.deleteLeadSuccess(lead.leadName);
-        leadsPage.confirmDeleteLeadSuccess(lead.leadName, 1); //1 là xóa
+        leadsPage.clickBtnDeleteLead(lead.leadName);
+        leadsPage.confirmDeleteLead(1); //1 là xóa
 
         //Verify Deleted
-        leadsPage.searchLeadSuccessNoData(lead.leadName);
+        leadsPage.verifyDeleteSuccessMessage(1); //1 là hiển thị message xóa thành công
+        leadsPage.verifyAfterDeleteLead(lead.leadName, 1); //tìm kiếm lại sau khi xóa
     }
 
     @Test
@@ -341,7 +343,7 @@ public class TestCaseLead extends BaseTest {
         lead.dateContacted = "05-11-2025 00:00:00";
 
         //click menu Lead
-        loginPage = new LoginPage(driver);
+        loginPage = new LoginPage();
 
         dashboardPage = loginPage.loginCRM();
         leadsPage = dashboardPage.clickMenuLead();
@@ -366,7 +368,7 @@ public class TestCaseLead extends BaseTest {
         leadsPage.searchLeadSuccess(lead.leadName);
         WebUI.threadSleep(1);
 
-        driver.navigate().refresh();
+        DriverManager.getDriver().navigate().refresh();
 
         leadsPage.clickBtnLeadSumary();
         String totalLeadActiveAfterAdd = leadsPage.getTotalLeadActive();

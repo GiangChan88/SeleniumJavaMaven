@@ -3,7 +3,7 @@ package com.giangnth.testcases;
 import com.giangnth.pages.DashboardPage;
 import com.giangnth.pages.LeadsPage;
 import com.giangnth.pages.LoginPage;
-import keywords.WebUI;
+import com.giangnth.keywords.WebUI;
 import com.giangnth.pages.TasksPage;
 import com.giangnth.common.BaseTest;
 import org.testng.annotations.Test;
@@ -54,7 +54,7 @@ public class TestCaseTask extends BaseTest {
         WebUI.threadSleep(1);
 
         //click menu Task
-        loginPage = new LoginPage(driver);
+        loginPage = new LoginPage();
         dashboardPage = loginPage.loginCRM();
         tasksPage = dashboardPage.clickMenuTask();
         tasksPage.verifyMenuTask();
@@ -95,7 +95,7 @@ public class TestCaseTask extends BaseTest {
         WebUI.threadSleep(1);
 
         //click menu Task
-        loginPage = new LoginPage(driver);
+        loginPage = new LoginPage();
         dashboardPage = loginPage.loginCRM();
         tasksPage = dashboardPage.clickMenuTask();
         tasksPage.verifyMenuTask();
@@ -141,7 +141,7 @@ public class TestCaseTask extends BaseTest {
         tasks.bodyIframeDescription = "Giang Add Tasks2";
 
         //click menu Task
-        loginPage = new LoginPage(driver);
+        loginPage = new LoginPage();
         dashboardPage = loginPage.loginCRM();
         tasksPage = dashboardPage.clickMenuTask();
         tasksPage.verifyMenuTask();
@@ -212,7 +212,8 @@ public class TestCaseTask extends BaseTest {
         lead.dateContacted = "05-11-2025 00:00:00";
 
         //click menu Lead
-        loginPage = new LoginPage(driver);
+        //click menu Lead
+        loginPage = new LoginPage();
 
         dashboardPage = loginPage.loginCRM();
         leadsPage = dashboardPage.clickMenuLead();
@@ -222,16 +223,43 @@ public class TestCaseTask extends BaseTest {
         leadsPage.clickBtnAddNewLead();
         leadsPage.verifyBtnAddNewLead();
 
-        //add lead
+        //Tạo data
         leadsPage.addAndEditLeadSuccess(lead.status, lead.source, lead.assigned, lead.tags, lead.leadName, lead.address, lead.position, lead.city, lead.emailAddress, lead.state, lead.website, lead.country, lead.phone, lead.zipcode, lead.leadValue, lead.language, lead.company, lead.description, lead.dateContacted, 0);
         WebUI.threadSleep(1);
-        System.out.println("Tạo data thành công");
 
         leadsPage.closePopupDetail();
         WebUI.threadSleep(2);
 
         //verifyLeadAddNew
         leadsPage.searchLeadSuccess(lead.leadName);
+        WebUI.threadSleep(1);
+
+        //click btn edit
+        leadsPage.clickBtnEdit(lead.leadName);
+
+        //Data Update
+        lead.address = "231 Hoonag Mai, Hà Nội";
+        lead.position = "Hoàng Mai";
+        lead.city = "Hà Nội";
+        lead.emailAddress = "giangedit08@gmail.com";
+        lead.company = "VN";
+
+        //Edit Lead
+        leadsPage.addAndEditLeadSuccess(lead.status, lead.source, lead.assigned, lead.tags, lead.leadName, lead.address, lead.position, lead.city, lead.emailAddress, lead.state, lead.website, lead.country, lead.phone, lead.zipcode, lead.leadValue, lead.language, lead.company, lead.description, lead.dateContacted, 1);
+        WebUI.threadSleep(1);
+
+        leadsPage.closePopupDetail();
+        WebUI.threadSleep(2);
+
+        //verifyLeadAddNew
+        leadsPage.searchLeadSuccess(lead.leadName);
+        WebUI.threadSleep(2);
+
+        //verify edit
+        leadsPage.clickBtnEdit(lead.leadName);
+        leadsPage.viewEditLead(lead.status, lead.source, lead.assigned, lead.tags, lead.leadName, lead.address, lead.position, lead.city, lead.emailAddress, lead.state, lead.website, lead.country, lead.phone, lead.zipcode, lead.leadValue, lead.language, lead.company, lead.description, lead.dateContacted);
+
+        leadsPage.closePopupDetail();
         WebUI.threadSleep(1);
 
         //click menuTask
@@ -271,6 +299,31 @@ public class TestCaseTask extends BaseTest {
         //verify
         tasksPage.searchTaskSuccess(tasks.taskName);
         WebUI.threadSleep(2);
+
+        //Edit Lead
+        tasksPage.clickBtnEdit(tasks.taskName);
+
+        //Data Update
+        tasks.duaDate = "21-12-2025";
+        tasks.priority = "Low";
+        tasks.totalCycles = "6666";
+        tasks.tags = "Giang12";
+        tasks.bodyIframeDescription = "Giang Update Tasks";
+
+        tasksPage.editTaskSuccess(tasks.hourlyRate, tasks.startDate, tasks.duaDate, tasks.priority, tasks.repeatEvery, tasks.totalCycles, tasks.relatedTo, tasks.searchValueRelatedTo, tasks.valueRelatedTo, tasks.tags, tasks.bodyIframeDescription);
+        WebUI.threadSleep(1);
+
+        tasksPage.closePopupDetail();
+        WebUI.threadSleep(1);
+
+        //verifyLeadAddNew
+        tasksPage.searchTaskSuccess(tasks.taskName);
+        WebUI.threadSleep(1);
+
+        //verify edit
+        tasksPage.clickBtnEdit(tasks.taskName);
+        tasksPage.viewEditTaskSuccess(tasks.taskName, tasks.hourlyRate +".00", tasks.startDate, tasks.duaDate, tasks.priority, tasks.repeatEvery, tasks.totalCycles, tasks.relatedTo, tasks.valueRelatedTo, tasks.tags, tasks.bodyIframeDescription);
+
     }
 
 }

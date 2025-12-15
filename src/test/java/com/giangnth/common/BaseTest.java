@@ -1,6 +1,6 @@
 package com.giangnth.common;
 
-import com.giangnth.pages.LoginPage;
+import com.giangnth.drivers.DriverManager;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -12,10 +12,7 @@ import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.asserts.SoftAssert;
 
-import java.time.Duration;
-
 public class BaseTest {
-    public static WebDriver driver;
     public static SoftAssert softAssert;
 
 //    @BeforeMethod
@@ -29,6 +26,7 @@ public class BaseTest {
     @BeforeMethod
     @Parameters({"browser"})
     public void creatDriver(@Optional("chrome") String browserName){
+        WebDriver driver;
         switch (browserName.trim().toLowerCase()) {
             case "chrome":
                 System.out.println("Khoi tao trinh duyet chrome");
@@ -48,14 +46,16 @@ public class BaseTest {
                 System.out.println("Khoi tao trinh duyet chrome");
                 driver = new ChromeDriver();
         }
-        driver.manage().window().maximize();
+        DriverManager.setDriver(driver);
+        //driver == DriverManager.getDriver
+        DriverManager.getDriver().manage().window().maximize();
         softAssert = new SoftAssert();
     }
 
     @AfterMethod
     public void closeDriver() {
-        if(driver != null){
-            driver.quit();
+        if(DriverManager.getDriver() != null){
+            DriverManager.quit();
             System.out.println("Đóng trình duyệt Chrome");
             System.out.println("__________________________________");
         }

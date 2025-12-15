@@ -1,7 +1,8 @@
 package com.giangnth.pages;
 
 import com.giangnth.common.BasePage;
-import keywords.WebUI;
+import com.giangnth.drivers.DriverManager;
+import com.giangnth.keywords.WebUI;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
@@ -14,14 +15,10 @@ import java.util.List;
 
 public class TasksPage extends BasePage{
 
-    private WebDriver driver;
     private SoftAssert softAssert;
 
-    public TasksPage(WebDriver driver, SoftAssert softAssert) {
-        super(driver);
-        this.driver = driver;
+    public TasksPage(SoftAssert softAssert) {
         this.softAssert = softAssert;
-        new WebUI(driver);
     }
     //locators menu tasks
     private By btnAddTasks = By.xpath("//a[normalize-space() = 'New Task']");
@@ -242,7 +239,6 @@ public class TasksPage extends BasePage{
         WebUI.clickElement(getValueRelatedTo(relatedTo));
 
         //Click vô hàm valueDropdown Related to chọn giá trị
-        Actions actions = new Actions(driver);
         WebUI.clickElement(dropdownForRelatedTo);
         WebUI.setTextElement(inputSearchOfForRelatedTo, searchValueRelatedTo);
         WebUI.threadSleep(1);
@@ -278,7 +274,7 @@ public class TasksPage extends BasePage{
         WebUI.clickElement(dropdownFollowers);
 
         //bỏ click
-        driver.findElement(dropdownFollowers).click();
+        WebUI.clickElement(dropdownFollowers);
         List<WebElement> listDataFollowers = WebUI.getWebElements(listFollowers);
         for (WebElement follower : listDataFollowers) {
             if (follower.isSelected()) {
@@ -307,7 +303,7 @@ public class TasksPage extends BasePage{
         WebUI.clearElement(bodyIframe);
         WebUI.setTextElement(bodyIframe, bodyIframeDescription);
 
-        driver.switchTo().parentFrame();
+        WebUI.switchToParentFrame();
 
         //click btn Save
         WebUI.clickElement(btnSave);
@@ -400,7 +396,7 @@ public class TasksPage extends BasePage{
 
     public void editTaskSuccess(String hourlyRate, String startDate, String duaDate, String priority, String repeatEvery, String totalCycles,
                                 String relatedTo, String searchValueRelatedTo, String valueRelatedTo, String tags, String bodyIframeDescription) {
-        Actions actions = new Actions(driver);
+        Actions actions = new Actions(DriverManager.getDriver());
 
         WebElement labelCheckboxPublic = WebUI.getWebElement(labelPublic);
         WebElement chcPublic = WebUI.getWebElement(checkboxPublic);
@@ -504,7 +500,7 @@ public class TasksPage extends BasePage{
         actions.keyDown(Keys.CONTROL).sendKeys("a").keyUp(Keys.CONTROL).keyDown(Keys.DELETE).keyUp(Keys.DELETE).build().perform();
         actions.sendKeys(bodyIframes, bodyIframeDescription).perform();
 
-        driver.switchTo().parentFrame();
+        WebUI.switchToParentFrame();
 
         //click btn Save
         WebElement buttonSave = WebUI.getWebElement(btnSave);

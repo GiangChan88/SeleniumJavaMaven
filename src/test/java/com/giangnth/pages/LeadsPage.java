@@ -1,24 +1,19 @@
 package com.giangnth.pages;
 
 import com.giangnth.common.BasePage;
-import keywords.WebUI;
+import com.giangnth.drivers.DriverManager;
+import com.giangnth.keywords.WebUI;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.interactions.Actions;
 import org.testng.Assert;
 import org.testng.asserts.SoftAssert;
 
 public class LeadsPage extends BasePage {
-    private WebDriver driver;
     private SoftAssert softAssert;
 
-    public LeadsPage(WebDriver driver, SoftAssert softAssert) {
-        super(driver);
-        this.driver = driver;
+    public LeadsPage(SoftAssert softAssert) {
         this.softAssert = softAssert;
-        new WebUI(driver);
     }
 
     //pages for Leads Page
@@ -192,6 +187,13 @@ public class LeadsPage extends BasePage {
         return By.xpath("//table[@id='leads']//tbody/tr/td/a[normalize-space()='" + value + "']");
     }
 
+    private String deleteLeadSuccessMessage = "Lead deleted";
+
+    private By getDeleteLeadSuccessMessage() {
+        String xpathDeleteLeadMessage = "//div[@id='alert_float_1']/descendant::span[@class='alert-title' and normalize-space()='" + deleteLeadSuccessMessage + "']";
+        return By.xpath(xpathDeleteLeadMessage);
+    }
+
     public String getTotalLeadActive() {
         return WebUI.getElementText(labelLeadActive);
     }
@@ -245,13 +247,7 @@ public class LeadsPage extends BasePage {
         WebUI.clearElement(inputSearch);
         WebUI.setTextElement(inputSearch, expectedLeadName);
         WebUI.threadSleep(2);
-
-        boolean rows = WebUI.checkExitsElement(getRows(expectedLeadName));
-        //Sai khi không có bản ghi (không mong muốn rows.size() == 0 => đúng)
-        //Assert.assertFalse(rows.size() == 0, "Không tìm thấy Lead '" + expectedLeadName + "' sau khi search!");
-
-        //Mong muốn rows.size() > 0 => đúng, nếu rows.size() == 0 thì hiển thị message kia
-        Assert.assertTrue(rows, "Không tìm thấy Lead '" + expectedLeadName + "' sau khi search!");
+        Assert.assertTrue(WebUI.checkExitsElement(getRows(expectedLeadName)), "Không tìm thấy Lead '" + expectedLeadName + "' sau khi search!");
         System.out.println("Tìm kiếm thành công Lead: " + expectedLeadName);
     }
 
@@ -259,13 +255,7 @@ public class LeadsPage extends BasePage {
         WebUI.clearElement(inputSearch);
         WebUI.setTextElement(inputSearch, expectedLeadName);
         WebUI.threadSleep(1);
-
-//        List<WebElement> actualLeadName = driver.findElements("//table[@id='leads']//tbody/tr[text()='"+expectedLeadName+"']");
-//        Assert.assertTrue(actualLeadName.size() == 0, "Còn dữ liệu");
-        //hoặc
-        boolean rows = WebUI.checkExitsElement(getRows(expectedLeadName));
-        //Sai khi có bản ghi (không mong muốn rows.size() > 0 => đúng)
-        Assert.assertFalse(rows, "Không mong muốn: vẫn còn bản ghi '" + expectedLeadName + "' trong bảng!");  // Test pass
+        Assert.assertFalse(WebUI.checkExitsElement(getRows(expectedLeadName)), "Không mong muốn: vẫn còn bản ghi '" + expectedLeadName + "' trong bảng!");  // Test pass
         System.out.println("Tìm kiếm thành công: 0 bản ghi");
     }
 
@@ -295,7 +285,6 @@ public class LeadsPage extends BasePage {
     public void addAndEditLeadSuccess(String status, String source, String assigned, String tags, String leadName, String address, String position, String city,
                                       String emailAddress, String state, String website, String country, String phone, String zipcode, String leadValue, String language,
                                       String company, String description, String dateContacted, int flagEdit) {
-
 
         //dropdown Status
         WebUI.clickElement(dropdownStatus);
@@ -414,27 +403,48 @@ public class LeadsPage extends BasePage {
         System.out.println("Tất cả các trường dữ liệu Lead đã được Verify thành công");
     }
 
-    public void deleteLeadSuccess(String leadName) {
+    public void clickBtnDeleteLead(String leadName) {
         //Hover chuột vào dòng đầu tiên
         WebUI.moveToElement(firstRowItem);
         WebUI.clickElement(buttonDelete(leadName));
     }
 
-    public void confirmDeleteLeadSuccess(String leadName, int flag) {
-        System.out.println("Confirm Delete Lead Success");
+    public void confirmDeleteLead(int flag) {
+        System.out.println("Confirm Delete Lead");
         WebUI.threadSleep(2);
-        Alert alert = driver.switchTo().alert();
-        String alertText = alert.getText();
-        softAssert.assertEquals(alertText, "Are you sure you want to perform this action?", "Nội dung trong alert Delete không đúng");
-        System.out.println("Nội dung trong alert Delete hợp lệ");
+        Alert alert = DriverManager.getDriver().switchTo().alert();
         //check text trên alert
         if (flag == 1) {
+            //xóa
             WebUI.acceptAlert();
-            System.out.println("Xóa thành công");
         } else {
+            //hủy xóa
             WebUI.dismissAlert();
-            System.out.println("Bỏ xóa thành công");
         }
+    }
+
+    public void verifyDeleteSuccessMessage(int flag){
+        if (flag == 1) {
+            Assert.assertTrue(WebUI.checkExitsElement(getDeleteLeadSuccessMessage()), "Không hiển thị message Xóa thành công sau khi Xóa");
+        }else {
+            Assert.assertFalse(WebUI.checkExitsElement(getDeleteLeadSuccessMessage()), "Hiển thị message Xóa thành công sau khi Hủy xóa");
+        }
+    }
+
+    public void verifyAfterDeleteLead(String leadName, int flag) {
+        WebUI.clearElement(inputSearch);
+        WebUI.setTextElement(inputSearch, leadName);
+        WebUI.threadSleep(1);
+        if (flag == 1) {
+            //xóa nhưng vẫn còn bản ghi
+            Assert.assertFalse(WebUI.checkExitsElement(getRows(leadName)), "Xóa không thành công: vẫn còn bản ghi '" + leadName + "' trong bảng!");  // Test pass
+            System.out.println("Tìm kiếm thành công: 0 bản ghi");
+        }else {
+            //Hủy xóa nhưng lại bị mất bản ghi
+            Assert.assertTrue(WebUI.checkExitsElement(getRows(leadName)), "Hủy xóa Lead không thành công. Không tìm thấy Lead '" + leadName + "' sau khi search!");
+            System.out.println("Tìm kiếm thành công Lead: " + leadName);
+        }
+
     }
 
 }

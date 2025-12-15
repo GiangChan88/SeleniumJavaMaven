@@ -1,23 +1,14 @@
 package com.giangnth.pages;
 
 import com.giangnth.common.BasePage;
-import keywords.WebUI;
+import com.giangnth.keywords.WebUI;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.testng.Assert;
 
 public class LoginPage extends BasePage {
 
-    //khai báo driver trong từng trang
-    private WebDriver driver;
     public String url_login_admin = "https://crm.anhtester.com/admin/authentication";
-
-    //khai báo hàm xây dựng trong từng trang
-    public LoginPage(WebDriver driver) {
-        super(driver);
-        this.driver = driver;
-        new WebUI(driver);
-    }
 
     //khai báo đối tượng element thuộc về trang login
     //Locators Login
@@ -71,7 +62,7 @@ public class LoginPage extends BasePage {
         clickLogin();
         WebUI.waitForPageLoaded();
         verifyLoginSuccess();
-        return new DashboardPage(driver);
+        return new DashboardPage();
     }
 
     //dashboard
