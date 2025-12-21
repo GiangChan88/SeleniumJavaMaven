@@ -307,12 +307,13 @@ public class TasksPage extends BasePage{
 
         //click btn Save
         WebUI.clickElement(btnSave);
-        System.out.println("Thêm mới thành công Tasks");
+        WebUI.threadSleep(2);
     }
 
     public void closePopupDetail() {
         WebUI.threadSleep(2);
         WebUI.clickElement(iconClosePopupDetail);
+        WebUI.threadSleep(1);
     }
 
     //search Lead
@@ -327,6 +328,7 @@ public class TasksPage extends BasePage{
         //Mong muốn rows.size() > 0 => đúng, nếu rows.size() == 0 thì hiển thị message kia
         Assert.assertTrue(rows, "Không tìm thấy Task '" + expectedTaskName + "' sau khi search!");
         System.out.println("Tìm kiếm thành công Task: " + expectedTaskName);
+        WebUI.threadSleep(2);
     }
 
     public void searchTaskSuccessNoData(String expectedTaskName) {
@@ -505,7 +507,7 @@ public class TasksPage extends BasePage{
         //click btn Save
         WebElement buttonSave = WebUI.getWebElement(btnSave);
         actions.click(buttonSave).perform();
-        System.out.println("Sửa Task thành công");
+        WebUI.threadSleep(1);
     }
 
 }

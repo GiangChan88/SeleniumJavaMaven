@@ -1,6 +1,7 @@
 package com.giangnth.pages;
 
 import com.giangnth.common.BasePage;
+import com.giangnth.helpers.PropertiesHelper;
 import com.giangnth.keywords.WebUI;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -24,7 +25,8 @@ public class LoginPage extends BasePage {
     private By menuDashboard = By.xpath("//ul[@id='side-menu']//span[@class = 'menu-text' and normalize-space() = 'Dashboard']");
     //khai báo các hàm xử lý trong nội bộ trang login
     public void navigateToLoginPage() {
-        WebUI.openURL(url_login_admin);
+        WebUI.openURL(PropertiesHelper.getValue("url"));
+        WebUI.waitForPageLoaded();
     }
     public void enterEmail(String email) {
         WebUI.setTextElement(inputEmail, email);
@@ -54,11 +56,10 @@ public class LoginPage extends BasePage {
     }
 
     public DashboardPage loginCRM() {
-        WebUI.waitForPageLoaded();
         navigateToLoginPage();
         verifyHeaderLogin();
-        enterEmail("admin@example.com");
-        enterPassword("123456");
+        enterEmail(PropertiesHelper.getValue("email"));
+        enterPassword(PropertiesHelper.getValue("password"));
         clickLogin();
         WebUI.waitForPageLoaded();
         verifyLoginSuccess();

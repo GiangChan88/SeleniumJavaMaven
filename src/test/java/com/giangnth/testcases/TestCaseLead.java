@@ -16,25 +16,25 @@ import java.util.List;
 
 public class TestCaseLead extends BaseTest {
 
-    String status = "";
-    String source = "";
-    String assigned = "";
-    String tags = "";
-    String leadName = "";
-    String address = "";
-    String position = "";
-    String city = "";
-    String emailAddress = "";
-    String state = "";
-    String website = "";
-    String country = "";
-    String phone = "";
-    String zipcode = "";
-    String leadValue = "";
-    String language = "";
-    String company = "";
-    String description = "";
-    String dateContacted = "";
+    String status = "Active";
+    String source = "Facebook";
+    String assigned = "Admin Anh Tester";
+    String tags = "Giang12";
+    String leadName = "GiangTest";
+    String address = "230 Mễ Trì, Hà Nội";
+    String position = "Mễ Trì";
+    String city = "Hà Nội";
+    String emailAddress = "giangtest08@gmail.com";
+    String state = "123";
+    String website = "https://8080:21";
+    String country = "Angola";
+    String phone = "0772627627";
+    String zipcode = "7789";
+    String leadValue = "100000";
+    String language = "English";
+    String company = "ND";
+    String description = "Không";
+    String dateContacted = "05-11-2025 00:00:00";
 
 
     private LoginPage loginPage;
@@ -45,25 +45,8 @@ public class TestCaseLead extends BaseTest {
     public void testAddNewLeadSuccess() {
         TestCaseLead lead = new TestCaseLead();
 
-        lead.status = "Active";
-        lead.source = "Facebook";
-        lead.assigned = "Admin Anh Tester";
-        lead.tags = "Giang12345";
-        lead.leadName = "Giang Chan1";
-        lead.address = "230 Mễ Trì, Hà Nội";
-        lead.position = "Mễ Trì";
-        lead.city = "Hà Nội";
-        lead.emailAddress = "giang081@gmail.com";
-        lead.state = "123";
-        lead.website = "https://8080:21";
-        lead.country = "Angola";
-        lead.phone = "0772627627";
-        lead.zipcode = "7789";
-        lead.leadValue = "100000";
-        lead.language = "English";
-        lead.company = "ND";
-        lead.description = "Không";
-        lead.dateContacted = "05-11-2025 00:00:00";
+        lead.leadName = "Giang Test AddNewLead";
+        lead.emailAddress = "giang@gmail.com";
 
         //click menu Lead
         loginPage = new LoginPage();
@@ -77,40 +60,20 @@ public class TestCaseLead extends BaseTest {
         leadsPage.verifyBtnAddNewLead();
 
         leadsPage.addAndEditLeadSuccess(lead.status, lead.source, lead.assigned, lead.tags, lead.leadName, lead.address, lead.position, lead.city, lead.emailAddress, lead.state, lead.website, lead.country, lead.phone, lead.zipcode, lead.leadValue, lead.language, lead.company, lead.description, lead.dateContacted, 0);
-        WebUI.threadSleep(1);
-        System.out.println("Tạo data thành công");
 
         leadsPage.closePopupDetail();
-        WebUI.threadSleep(2);
 
         //verifyLeadAddNew
         leadsPage.searchLeadSuccess(lead.leadName);
-        WebUI.threadSleep(1);
+        System.out.println("Tạo data thành công");
     }
 
     //Set Email đã tồn tại
     @Test(priority = 2)
     public void testAddNewLeadFailEmailAlreadyExists() {
         TestCaseLead lead = new TestCaseLead();
-        lead.status = "Active";
-        lead.source = "Facebook";
-        lead.assigned = "Admin Anh Tester";
-        lead.tags = "Giang12345";
         lead.leadName = "Giang Test EmailAlreadyExists";
-        lead.address = "230 Mễ Trì, Hà Nội";
-        lead.position = "Mễ Trì";
-        lead.city = "Hà Nội";
-        lead.emailAddress = "giang08@gmail.com";
-        lead.state = "123";
-        lead.website = "https://8080:21";
-        lead.country = "Angola";
-        lead.phone = "0772627627";
-        lead.zipcode = "7789";
-        lead.leadValue = "100000";
-        lead.language = "English";
-        lead.company = "ND";
-        lead.description = "Không";
-        lead.dateContacted = "05-11-2025 00:00:00";
+        lead.emailAddress = "giangtestEmailAlreadyExists@gmail.com";
 
         //click menu Lead
         loginPage = new LoginPage();
@@ -124,7 +87,6 @@ public class TestCaseLead extends BaseTest {
         leadsPage.verifyBtnAddNewLead();
 
         leadsPage.addAndEditLeadSuccess(lead.status, lead.source, lead.assigned, lead.tags, lead.leadName, lead.address, lead.position, lead.city, lead.emailAddress, lead.state, lead.website, lead.country, lead.phone, lead.zipcode, lead.leadValue, lead.language, lead.company, lead.description, lead.dateContacted, 0);
-        WebUI.threadSleep(1);
 
         //verify lỗi
         boolean checkMessageErrorEmail = WebUI.checkExitsElement(By.xpath("//p[@id='email-error']"));
@@ -147,25 +109,8 @@ public class TestCaseLead extends BaseTest {
     public void testEditLeadSuccess() {
         //Data Add
         TestCaseLead lead = new TestCaseLead();
-        lead.status = "Active";
-        lead.source = "Facebook";
-        lead.assigned = "Admin Anh Tester";
-        lead.tags = "Giang12";
-        lead.leadName = "Giang Test";
-        lead.address = "230 Mễ Trì, Hà Nội";
-        lead.position = "Mễ Trì";
-        lead.city = "Hà Nội";
-        lead.emailAddress = "giangtestedit08@gmail.com";
-        lead.state = "123";
-        lead.website = "https://8080:21";
-        lead.country = "Angola";
-        lead.phone = "0772627627";
-        lead.zipcode = "7789";
-        lead.leadValue = "100000";
-        lead.language = "English";
-        lead.company = "ND";
-        lead.description = "Không";
-        lead.dateContacted = "05-11-2025 00:00:00";
+        lead.leadName = "Giang Test Edit";
+        lead.emailAddress = "giangadd08@gmail.com";
 
         //click menu Lead
         loginPage = new LoginPage();
@@ -180,14 +125,11 @@ public class TestCaseLead extends BaseTest {
 
         //Tạo data
         leadsPage.addAndEditLeadSuccess(lead.status, lead.source, lead.assigned, lead.tags, lead.leadName, lead.address, lead.position, lead.city, lead.emailAddress, lead.state, lead.website, lead.country, lead.phone, lead.zipcode, lead.leadValue, lead.language, lead.company, lead.description, lead.dateContacted, 0);
-        WebUI.threadSleep(1);
 
         leadsPage.closePopupDetail();
-        WebUI.threadSleep(2);
 
         //verifyLeadAddNew
         leadsPage.searchLeadSuccess(lead.leadName);
-        WebUI.threadSleep(1);
 
         //click btn edit
         leadsPage.clickBtnEdit(lead.leadName);
@@ -201,14 +143,11 @@ public class TestCaseLead extends BaseTest {
 
         //Edit Lead
         leadsPage.addAndEditLeadSuccess(lead.status, lead.source, lead.assigned, lead.tags, lead.leadName, lead.address, lead.position, lead.city, lead.emailAddress, lead.state, lead.website, lead.country, lead.phone, lead.zipcode, lead.leadValue, lead.language, lead.company, lead.description, lead.dateContacted, 1);
-        WebUI.threadSleep(1);
 
         leadsPage.closePopupDetail();
-        WebUI.threadSleep(2);
 
         //verifyLeadAddNew
         leadsPage.searchLeadSuccess(lead.leadName);
-        WebUI.threadSleep(2);
 
         //verify edit
         leadsPage.clickBtnEdit(lead.leadName);
@@ -219,25 +158,8 @@ public class TestCaseLead extends BaseTest {
     @Test(priority = 4)
     public void testViewEditLeadSuccess() {
         TestCaseLead lead = new TestCaseLead();
-        lead.status = "Active";
-        lead.source = "Facebook";
-        lead.assigned = "Admin Anh Tester";
-        lead.tags = "GTest123";
         lead.leadName = "Giang Test 001";
-        lead.address = "230 Mễ Trì, Hà Nội";
-        lead.position = "Mễ Trì";
-        lead.city = "Hà Nội";
         lead.emailAddress = "giang001Nodo@gmail.com";
-        lead.state = "123";
-        lead.website = "https://8080:21";
-        lead.country = "Angola";
-        lead.phone = "0772627627";
-        lead.zipcode = "7789";
-        lead.leadValue = "100000";
-        lead.language = "English";
-        lead.company = "ND";
-        lead.description = "Không";
-        lead.dateContacted = "05-11-2025 00:00:00";
 
         //click menu Lead
         loginPage = new LoginPage();
@@ -252,42 +174,21 @@ public class TestCaseLead extends BaseTest {
 
         //Tạo data
         leadsPage.addAndEditLeadSuccess(lead.status, lead.source, lead.assigned, lead.tags, lead.leadName, lead.address, lead.position, lead.city, lead.emailAddress, lead.state, lead.website, lead.country, lead.phone, lead.zipcode, lead.leadValue, lead.language, lead.company, lead.description, lead.dateContacted, 0);
-        WebUI.threadSleep(1);
 
         leadsPage.closePopupDetail();
-        WebUI.threadSleep(2);
 
         //verifyLeadAddNew
         leadsPage.searchLeadSuccess(lead.leadName);
-        WebUI.threadSleep(1);
 
         leadsPage.clickBtnEdit(lead.leadName);
         leadsPage.viewEditLead(lead.status, lead.source, lead.assigned, lead.tags, lead.leadName, lead.address, lead.position, lead.city, lead.emailAddress, lead.state, lead.website, lead.country, lead.phone, lead.zipcode, lead.leadValue, lead.language, lead.company, lead.description, lead.dateContacted);
-        WebUI.threadSleep(2);
     }
 
     @Test(priority = 5)
     public void testDeleteLeadSuccess() {
         TestCaseLead lead = new TestCaseLead();
-        lead.status = "Active";
-        lead.source = "Facebook";
-        lead.assigned = "Admin Anh Tester";
-        lead.tags = "GTest123";
         lead.leadName = "Giang Test Deleted";
-        lead.address = "230 Mễ Trì, Hà Nội";
-        lead.position = "Mễ Trì";
-        lead.city = "Hà Nội";
         lead.emailAddress = "giangtestdelete001@gmail.com";
-        lead.state = "123";
-        lead.website = "https://8080:21";
-        lead.country = "Angola";
-        lead.phone = "0772627627";
-        lead.zipcode = "7789";
-        lead.leadValue = "100000";
-        lead.language = "English";
-        lead.company = "ND";
-        lead.description = "Không";
-        lead.dateContacted = "05-11-2025 00:00:00";
 
         //click menu Lead
         loginPage = new LoginPage();
@@ -301,14 +202,11 @@ public class TestCaseLead extends BaseTest {
 
         //Tạo data
         leadsPage.addAndEditLeadSuccess(lead.status, lead.source, lead.assigned, lead.tags, lead.leadName, lead.address, lead.position, lead.city, lead.emailAddress, lead.state, lead.website, lead.country, lead.phone, lead.zipcode, lead.leadValue, lead.language, lead.company, lead.description, lead.dateContacted, 0);
-        WebUI.threadSleep(1);
 
         leadsPage.closePopupDetail();
-        WebUI.threadSleep(1);
 
         //verifyLeadAddNew
         leadsPage.searchLeadSuccess(lead.leadName);
-        WebUI.threadSleep(1);
 
         //click btn delete
         leadsPage.clickBtnDeleteLead(lead.leadName);
@@ -323,24 +221,8 @@ public class TestCaseLead extends BaseTest {
     public void verifyLeadActive(){
         TestCaseLead lead = new TestCaseLead();
         lead.status = "Active";
-        lead.source = "Facebook";
-        lead.assigned = "Admin Anh Tester";
-        lead.tags = "GTest123";
         lead.leadName = "Giang Test Active";
-        lead.address = "230 Mễ Trì, Hà Nội";
-        lead.position = "Mễ Trì";
-        lead.city = "Hà Nội";
         lead.emailAddress = "giangtestactive001@gmail.com";
-        lead.state = "123";
-        lead.website = "https://8080:21";
-        lead.country = "Angola";
-        lead.phone = "0772627627";
-        lead.zipcode = "7789";
-        lead.leadValue = "100000";
-        lead.language = "English";
-        lead.company = "ND";
-        lead.description = "Không";
-        lead.dateContacted = "05-11-2025 00:00:00";
 
         //click menu Lead
         loginPage = new LoginPage();
@@ -359,14 +241,11 @@ public class TestCaseLead extends BaseTest {
 
         //Tạo data
         leadsPage.addAndEditLeadSuccess(lead.status, lead.source, lead.assigned, lead.tags, lead.leadName, lead.address, lead.position, lead.city, lead.emailAddress, lead.state, lead.website, lead.country, lead.phone, lead.zipcode, lead.leadValue, lead.language, lead.company, lead.description, lead.dateContacted, 0);
-        WebUI.threadSleep(1);
 
         leadsPage.closePopupDetail();
-        WebUI.threadSleep(1);
 
         //verifyLeadAddNew
         leadsPage.searchLeadSuccess(lead.leadName);
-        WebUI.threadSleep(1);
 
         DriverManager.getDriver().navigate().refresh();
 
@@ -374,6 +253,4 @@ public class TestCaseLead extends BaseTest {
         String totalLeadActiveAfterAdd = leadsPage.getTotalLeadActive();
         Assert.assertEquals(totalLeadActiveBeforeAdd + 1, totalLeadActiveAfterAdd, "Active không tăng sau khi add");
     }
-
-
 }

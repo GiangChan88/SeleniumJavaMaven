@@ -240,6 +240,7 @@ public class LeadsPage extends BasePage {
     //close Popup Detail
     public void closePopupDetail() {
         WebUI.clickElement(iconClosePopupDetail);
+        WebUI.threadSleep(2);
     }
 
     //search Lead
@@ -249,6 +250,7 @@ public class LeadsPage extends BasePage {
         WebUI.threadSleep(2);
         Assert.assertTrue(WebUI.checkExitsElement(getRows(expectedLeadName)), "Không tìm thấy Lead '" + expectedLeadName + "' sau khi search!");
         System.out.println("Tìm kiếm thành công Lead: " + expectedLeadName);
+        WebUI.threadSleep(1);
     }
 
     public void searchLeadSuccessNoData(String expectedLeadName) {
@@ -374,6 +376,7 @@ public class LeadsPage extends BasePage {
 
         //click btn Save
         WebUI.clickElement(buttonSave);
+        WebUI.threadSleep(1);
     }
 
     public void viewEditLead(String status, String source, String assigned, String tags, String leadName, String address, String position, String city,

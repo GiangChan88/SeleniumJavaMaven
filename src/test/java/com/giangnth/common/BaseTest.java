@@ -1,35 +1,42 @@
 package com.giangnth.common;
 
 import com.giangnth.drivers.DriverManager;
+import com.giangnth.helpers.PropertiesHelper;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Optional;
-import org.testng.annotations.Parameters;
+import org.testng.annotations.*;
 import org.testng.asserts.SoftAssert;
 
 public class BaseTest {
     public static SoftAssert softAssert;
 
-//    @BeforeMethod
-//    public void createDriver() {
-//        driver = new ChromeDriver();
-//        driver.manage().window().maximize();
-//        System.out.println("Mở trình duyệt Chrome");
-//        softAssert = new SoftAssert();
-//    }
+    @BeforeSuite
+    public void setupBeforeSuite() {
+        //chạy trước 1 lần, đọc file properties đầu tiên
+        PropertiesHelper.loadAllFiles();
+    }
 
     @BeforeMethod
     @Parameters({"browser"})
     public void creatDriver(@Optional("chrome") String browserName){
         WebDriver driver;
+
+        if(PropertiesHelper.getValue("browser").isEmpty() || PropertiesHelper.getValue("browser") == null){
+            browserName = browserName;
+        }else {
+            browserName = PropertiesHelper.getValue("browser");
+        }
+
         switch (browserName.trim().toLowerCase()) {
             case "chrome":
                 System.out.println("Khoi tao trinh duyet chrome");
+
+                //ChromeOptions options = new ChromeOptions();
+
                 driver = new ChromeDriver();
                 break;
             case "firefox":
