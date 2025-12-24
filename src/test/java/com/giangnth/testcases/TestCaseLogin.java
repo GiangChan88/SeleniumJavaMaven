@@ -1,6 +1,7 @@
 package com.giangnth.testcases;
 
 import com.giangnth.common.BaseTest;
+import com.giangnth.helpers.ExcelHelper;
 import org.testng.annotations.Test;
 import com.giangnth.pages.LoginPage;
 
@@ -18,8 +19,14 @@ public class TestCaseLogin extends BaseTest {
     @Test(priority = 2)
     public void testLoginFailureWithEmailInvalid() {
         loginPage = new LoginPage();
-        loginPage.loginCRM("admin234@example.com", "123456");
+        ExcelHelper excelHelper = new ExcelHelper();
+        excelHelper.setExcelFile("src/test/resources/testdata/DataCRM.xlsx", "Login");
+        loginPage.loginCRM(
+                excelHelper.getCellData("EMAIL", 1),
+                excelHelper.getCellData("PASSWORD", 1)
+        );
         loginPage.verifyLoginFailureWithEmailOrPasswordInvalid();
+        excelHelper.setCellData("PASS","TEST_RESULT", 1);
     }
 
     @Test(priority = 3)

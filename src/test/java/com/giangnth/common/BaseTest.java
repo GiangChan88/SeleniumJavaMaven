@@ -25,9 +25,7 @@ public class BaseTest {
     public void creatDriver(@Optional("chrome") String browserName){
         WebDriver driver;
 
-        if(PropertiesHelper.getValue("browser").isEmpty() || PropertiesHelper.getValue("browser") == null){
-            browserName = browserName;
-        }else {
+        if (PropertiesHelper.getValue("browser") != null && !PropertiesHelper.getValue("browser").isBlank()) {
             browserName = PropertiesHelper.getValue("browser");
         }
 
