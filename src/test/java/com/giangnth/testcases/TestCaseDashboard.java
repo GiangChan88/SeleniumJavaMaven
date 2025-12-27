@@ -1,5 +1,7 @@
 package com.giangnth.testcases;
 
+import com.giangnth.data.LoginDataFactory;
+import com.giangnth.models.LoginDTO;
 import com.giangnth.pages.DashboardPage;
 import com.giangnth.pages.LeadsPage;
 import com.giangnth.pages.LoginPage;
@@ -15,7 +17,8 @@ public class TestCaseDashboard extends BaseTest {
     @Test
     public void testDashboardDisplayedSuccesAfterLogin() throws InterruptedException {
         loginPage = new LoginPage();
-        loginPage.loginCRM("admin@example.com", "123456");
+        LoginDTO loginData = LoginDataFactory.getLoginDataFromExcel(1);
+        loginPage.loginCRM(loginData);
         loginPage.verifyLoginSuccess();
 
         dashboardPage = new DashboardPage();

@@ -1,7 +1,10 @@
 package com.giangnth.testcases;
 
 
+import com.giangnth.data.LeadDataFactory;
 import com.giangnth.drivers.DriverManager;
+import com.giangnth.helpers.ExcelHelper;
+import com.giangnth.models.LeadDTO;
 import com.giangnth.pages.DashboardPage;
 import com.giangnth.pages.LoginPage;
 import com.giangnth.keywords.WebUI;
@@ -16,27 +19,6 @@ import java.util.List;
 
 public class TestCaseLead extends BaseTest {
 
-    String status = "Active";
-    String source = "Facebook";
-    String assigned = "Admin Anh Tester";
-    String tags = "Giang12";
-    String leadName = "GiangTest";
-    String address = "230 Mễ Trì, Hà Nội";
-    String position = "Mễ Trì";
-    String city = "Hà Nội";
-    String emailAddress = "giangtest08@gmail.com";
-    String state = "123";
-    String website = "https://8080:21";
-    String country = "Angola";
-    String phone = "0772627627";
-    String zipcode = "7789";
-    String leadValue = "100000";
-    String language = "English";
-    String company = "ND";
-    String description = "Không";
-    String dateContacted = "05-11-2025 00:00:00";
-
-
     private LoginPage loginPage;
     private DashboardPage dashboardPage;
     private LeadsPage leadsPage;
@@ -44,9 +26,8 @@ public class TestCaseLead extends BaseTest {
     @Test(priority = 1)
     public void testAddNewLeadSuccess() {
         TestCaseLead lead = new TestCaseLead();
-
-        lead.leadName = "Giang Test AddNewLead";
-        lead.emailAddress = "giang@gmail.com";
+        LeadDTO leadData = LeadDataFactory.getLeadDataFromExcel(1);
+        leadData.setLeadName(leadData.getLeadName() + "_AddNewLead");
 
         //click menu Lead
         loginPage = new LoginPage();
@@ -59,12 +40,13 @@ public class TestCaseLead extends BaseTest {
         leadsPage.clickBtnAddNewLead();
         leadsPage.verifyBtnAddNewLead();
 
-        leadsPage.addAndEditLeadSuccess(lead.status, lead.source, lead.assigned, lead.tags, lead.leadName, lead.address, lead.position, lead.city, lead.emailAddress, lead.state, lead.website, lead.country, lead.phone, lead.zipcode, lead.leadValue, lead.language, lead.company, lead.description, lead.dateContacted, 0);
+        leadsPage.addAndEditLeadSuccess(leadData);
 
         leadsPage.closePopupDetail();
 
         //verifyLeadAddNew
-        leadsPage.searchLeadSuccess(lead.leadName);
+        leadsPage.searchLeadSuccess(leadData.getLeadName());
+        leadsPage.verifySearchLeadSuccess(leadData.getLeadName());
         System.out.println("Tạo data thành công");
     }
 
@@ -72,8 +54,8 @@ public class TestCaseLead extends BaseTest {
     @Test(priority = 2)
     public void testAddNewLeadFailEmailAlreadyExists() {
         TestCaseLead lead = new TestCaseLead();
-        lead.leadName = "Giang Test EmailAlreadyExists";
-        lead.emailAddress = "giangtestEmailAlreadyExists@gmail.com";
+        //Data test EmailAlreadyExists
+        LeadDTO leadData = LeadDataFactory.getLeadDataFromExcel(2);
 
         //click menu Lead
         loginPage = new LoginPage();
@@ -86,7 +68,7 @@ public class TestCaseLead extends BaseTest {
         leadsPage.clickBtnAddNewLead();
         leadsPage.verifyBtnAddNewLead();
 
-        leadsPage.addAndEditLeadSuccess(lead.status, lead.source, lead.assigned, lead.tags, lead.leadName, lead.address, lead.position, lead.city, lead.emailAddress, lead.state, lead.website, lead.country, lead.phone, lead.zipcode, lead.leadValue, lead.language, lead.company, lead.description, lead.dateContacted, 0);
+        leadsPage.addAndEditLeadSuccess(leadData);
 
         //verify lỗi
         boolean checkMessageErrorEmail = WebUI.checkExitsElement(By.xpath("//p[@id='email-error']"));
@@ -102,15 +84,15 @@ public class TestCaseLead extends BaseTest {
         leadsPage.clickBtnCloseAddLead();
 
         //Kiểm tra lại
-        leadsPage.searchLeadSuccessNoData(lead.leadName);
+        leadsPage.searchLeadSuccessNoData(leadData.getLeadName());
+        leadsPage.verifySearchLeadSuccessNoData(leadData.getLeadName());
     }
 
     @Test(priority = 3)
     public void testEditLeadSuccess() {
         //Data Add
         TestCaseLead lead = new TestCaseLead();
-        lead.leadName = "Giang Test Edit";
-        lead.emailAddress = "giangadd08@gmail.com";
+        LeadDTO leadDataAdd = LeadDataFactory.getLeadDataFromExcel(3);
 
         //click menu Lead
         loginPage = new LoginPage();
@@ -124,42 +106,37 @@ public class TestCaseLead extends BaseTest {
         leadsPage.verifyBtnAddNewLead();
 
         //Tạo data
-        leadsPage.addAndEditLeadSuccess(lead.status, lead.source, lead.assigned, lead.tags, lead.leadName, lead.address, lead.position, lead.city, lead.emailAddress, lead.state, lead.website, lead.country, lead.phone, lead.zipcode, lead.leadValue, lead.language, lead.company, lead.description, lead.dateContacted, 0);
-
+        leadsPage.addAndEditLeadSuccess(leadDataAdd);
         leadsPage.closePopupDetail();
 
         //verifyLeadAddNew
-        leadsPage.searchLeadSuccess(lead.leadName);
+        leadsPage.searchLeadSuccess(leadDataAdd.getLeadName());
+        leadsPage.verifySearchLeadSuccess(leadDataAdd.getLeadName());
 
         //click btn edit
-        leadsPage.clickBtnEdit(lead.leadName);
+        leadsPage.clickBtnEdit(leadDataAdd.getLeadName());
 
-        //Data Update
-        lead.address = "231 Hoonag Mai, Hà Nội";
-        lead.position = "Hoàng Mai";
-        lead.city = "Hà Nội";
-        lead.emailAddress = "giangedit08@gmail.com";
-        lead.company = "VN";
+        LeadDTO leadDataEdit = LeadDataFactory.getLeadDataFromExcel(4);
 
         //Edit Lead
-        leadsPage.addAndEditLeadSuccess(lead.status, lead.source, lead.assigned, lead.tags, lead.leadName, lead.address, lead.position, lead.city, lead.emailAddress, lead.state, lead.website, lead.country, lead.phone, lead.zipcode, lead.leadValue, lead.language, lead.company, lead.description, lead.dateContacted, 1);
+        leadsPage.addAndEditLeadSuccess(leadDataEdit);
 
         leadsPage.closePopupDetail();
 
         //verifyLeadAddNew
-        leadsPage.searchLeadSuccess(lead.leadName);
+        leadsPage.searchLeadSuccess(leadDataEdit.getLeadName());
+        leadsPage.verifySearchLeadSuccess(leadDataEdit.getLeadName());
 
         //verify edit
-        leadsPage.clickBtnEdit(lead.leadName);
-        leadsPage.viewEditLead(lead.status, lead.source, lead.assigned, lead.tags, lead.leadName, lead.address, lead.position, lead.city, lead.emailAddress, lead.state, lead.website, lead.country, lead.phone, lead.zipcode, lead.leadValue, lead.language, lead.company, lead.description, lead.dateContacted);
+        leadsPage.clickBtnEdit(leadDataEdit.getLeadName());
+        leadsPage.viewEditLead(leadDataEdit);
     }
 
 
     @Test(priority = 4)
     public void testViewEditLeadSuccess() {
         TestCaseLead lead = new TestCaseLead();
-        lead.leadName = "Giang Test 001";
-        lead.emailAddress = "giang001Nodo@gmail.com";
+        LeadDTO leadDataAdd = LeadDataFactory.getLeadDataFromExcel(5);
 
         //click menu Lead
         loginPage = new LoginPage();
@@ -173,22 +150,22 @@ public class TestCaseLead extends BaseTest {
         leadsPage.verifyBtnAddNewLead();
 
         //Tạo data
-        leadsPage.addAndEditLeadSuccess(lead.status, lead.source, lead.assigned, lead.tags, lead.leadName, lead.address, lead.position, lead.city, lead.emailAddress, lead.state, lead.website, lead.country, lead.phone, lead.zipcode, lead.leadValue, lead.language, lead.company, lead.description, lead.dateContacted, 0);
+        leadsPage.addAndEditLeadSuccess(leadDataAdd);
 
         leadsPage.closePopupDetail();
 
         //verifyLeadAddNew
-        leadsPage.searchLeadSuccess(lead.leadName);
+        leadsPage.searchLeadSuccess(leadDataAdd.getLeadName());
+        leadsPage.verifySearchLeadSuccess(leadDataAdd.getLeadName());
 
-        leadsPage.clickBtnEdit(lead.leadName);
-        leadsPage.viewEditLead(lead.status, lead.source, lead.assigned, lead.tags, lead.leadName, lead.address, lead.position, lead.city, lead.emailAddress, lead.state, lead.website, lead.country, lead.phone, lead.zipcode, lead.leadValue, lead.language, lead.company, lead.description, lead.dateContacted);
+        leadsPage.clickBtnEdit(leadDataAdd.getLeadName());
+        leadsPage.viewEditLead(leadDataAdd);
     }
 
     @Test(priority = 5)
     public void testDeleteLeadSuccess() {
         TestCaseLead lead = new TestCaseLead();
-        lead.leadName = "Giang Test Deleted";
-        lead.emailAddress = "giangtestdelete001@gmail.com";
+        LeadDTO leadDataAdd = LeadDataFactory.getLeadDataFromExcel(6);
 
         //click menu Lead
         loginPage = new LoginPage();
@@ -201,28 +178,27 @@ public class TestCaseLead extends BaseTest {
         leadsPage.verifyBtnAddNewLead();
 
         //Tạo data
-        leadsPage.addAndEditLeadSuccess(lead.status, lead.source, lead.assigned, lead.tags, lead.leadName, lead.address, lead.position, lead.city, lead.emailAddress, lead.state, lead.website, lead.country, lead.phone, lead.zipcode, lead.leadValue, lead.language, lead.company, lead.description, lead.dateContacted, 0);
+        leadsPage.addAndEditLeadSuccess(leadDataAdd);
 
         leadsPage.closePopupDetail();
 
         //verifyLeadAddNew
-        leadsPage.searchLeadSuccess(lead.leadName);
+        leadsPage.searchLeadSuccess(leadDataAdd.getLeadName());
+        leadsPage.verifySearchLeadSuccess(leadDataAdd.getLeadName());
 
         //click btn delete
-        leadsPage.clickBtnDeleteLead(lead.leadName);
-        leadsPage.confirmDeleteLead(1); //1 là xóa
+        leadsPage.clickBtnDeleteLead(leadDataAdd.getLeadName());
+        leadsPage.confirmDeleteLead(leadDataAdd.getTypeConfirm()); //1 là xóa
 
         //Verify Deleted
-        leadsPage.verifyDeleteSuccessMessage(1); //1 là hiển thị message xóa thành công
-        leadsPage.verifyAfterDeleteLead(lead.leadName, 1); //tìm kiếm lại sau khi xóa
+        leadsPage.verifyDeleteSuccessMessage(leadDataAdd.getTypeConfirm()); //1 là hiển thị message xóa thành công
+        leadsPage.verifyAfterDeleteLead(leadDataAdd.getLeadName(), leadDataAdd.getTypeConfirm()); //tìm kiếm lại sau khi xóa
     }
 
     @Test
     public void verifyLeadActive(){
         TestCaseLead lead = new TestCaseLead();
-        lead.status = "Active";
-        lead.leadName = "Giang Test Active";
-        lead.emailAddress = "giangtestactive001@gmail.com";
+        LeadDTO leadDataAdd = LeadDataFactory.getLeadDataFromExcel(7);
 
         //click menu Lead
         loginPage = new LoginPage();
@@ -240,12 +216,12 @@ public class TestCaseLead extends BaseTest {
         leadsPage.verifyBtnAddNewLead();
 
         //Tạo data
-        leadsPage.addAndEditLeadSuccess(lead.status, lead.source, lead.assigned, lead.tags, lead.leadName, lead.address, lead.position, lead.city, lead.emailAddress, lead.state, lead.website, lead.country, lead.phone, lead.zipcode, lead.leadValue, lead.language, lead.company, lead.description, lead.dateContacted, 0);
-
+        leadsPage.addAndEditLeadSuccess(leadDataAdd);
         leadsPage.closePopupDetail();
 
         //verifyLeadAddNew
-        leadsPage.searchLeadSuccess(lead.leadName);
+        leadsPage.searchLeadSuccess(leadDataAdd.getLeadName());
+        leadsPage.verifySearchLeadSuccess(leadDataAdd.getLeadName());
 
         DriverManager.getDriver().navigate().refresh();
 

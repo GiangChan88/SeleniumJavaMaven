@@ -1,7 +1,10 @@
 package com.giangnth.testcases;
 
 import com.giangnth.common.BaseTest;
+import com.giangnth.data.LoginDataFactory;
+import com.giangnth.helpers.CaptureHelper;
 import com.giangnth.helpers.ExcelHelper;
+import com.giangnth.models.LoginDTO;
 import org.testng.annotations.Test;
 import com.giangnth.pages.LoginPage;
 
@@ -12,41 +15,40 @@ public class TestCaseLogin extends BaseTest {
     @Test(priority = 1)
     public void testLoginSuccess() {
         loginPage = new LoginPage();
-        loginPage.loginCRM();
+        LoginDTO loginData = LoginDataFactory.getLoginDataFromExcel(1);
+        loginPage.loginCRM(loginData);
         loginPage.verifyLoginSuccess();
     }
 
     @Test(priority = 2)
     public void testLoginFailureWithEmailInvalid() {
         loginPage = new LoginPage();
-        ExcelHelper excelHelper = new ExcelHelper();
-        excelHelper.setExcelFile("src/test/resources/testdata/DataCRM.xlsx", "Login");
-        loginPage.loginCRM(
-                excelHelper.getCellData("EMAIL", 1),
-                excelHelper.getCellData("PASSWORD", 1)
-        );
+        LoginDTO loginData = LoginDataFactory.getLoginDataFromExcel(2);
+        loginPage.loginCRM(loginData);
         loginPage.verifyLoginFailureWithEmailOrPasswordInvalid();
-        excelHelper.setCellData("PASS","TEST_RESULT", 1);
     }
 
     @Test(priority = 3)
     public void testLoginFailureWithPasswordInvalid() {
         loginPage = new LoginPage();
-        loginPage.loginCRM("admin@example.com", "123456@@@");
+        LoginDTO loginData = LoginDataFactory.getLoginDataFromExcel(3);
+        loginPage.loginCRM(loginData);
         loginPage.verifyLoginFailureWithEmailOrPasswordInvalid();
     }
 
     @Test(priority = 4)
     public void testLoginFailureWithEmailRequired() {
         loginPage = new LoginPage();
-        loginPage.loginCRM("", "123456@@@");
+        LoginDTO loginData = LoginDataFactory.getLoginDataFromExcel(4);
+        loginPage.loginCRM(loginData);
         loginPage.verifyLoginFailureWithEmailNull();
     }
 
     @Test(priority = 5)
-    public void testLoginFailureWithPasswordRequired() {
+    public void testLoginFailureWithPasswordRequired()  {
         loginPage = new LoginPage();
-        loginPage.loginCRM("admin@example.com", "");
+        LoginDTO loginData = LoginDataFactory.getLoginDataFromExcel(5);
+        loginPage.loginCRM(loginData);
         loginPage.verifyLoginFailureWithPasswordNull();
     }
 }

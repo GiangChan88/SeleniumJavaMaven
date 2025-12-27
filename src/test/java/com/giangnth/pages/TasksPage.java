@@ -2,11 +2,11 @@ package com.giangnth.pages;
 
 import com.giangnth.common.BasePage;
 import com.giangnth.drivers.DriverManager;
+import com.giangnth.helpers.CaptureHelper;
+import com.giangnth.helpers.SystemHelper;
 import com.giangnth.keywords.WebUI;
-import org.openqa.selenium.By;
-import org.openqa.selenium.Keys;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import com.giangnth.models.TaskDTO;
+import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 import org.testng.Assert;
 import org.testng.asserts.SoftAssert;
@@ -142,6 +142,13 @@ public class TasksPage extends BasePage{
     private By btnSave = By.xpath("//button[normalize-space()='Save']");
     private By idFrame = By.id("description_ifr");
 
+    private String deleteTaskSuccessMessage = "Task deleted";
+
+    private By getDeleteTaskSuccessMessage() {
+        String xpathDeleteTaskMessage = "//div[@id='alert_float_1']/descendant::span[@class='alert-title' and normalize-space()='" + deleteTaskSuccessMessage + "']";
+        return By.xpath(xpathDeleteTaskMessage);
+    }
+
     private By getRows(String value){
         return By.xpath("//table[@id='tasks']//tbody/tr/td/a[normalize-space()='"+value+"']");
     }
@@ -152,8 +159,8 @@ public class TasksPage extends BasePage{
 
     private By headerEdit = By.xpath("//div[@id='task-modal']//div[contains(@class,'modal-header')]//h4");
 
-
     public void verifyMenuTask() {
+        CaptureHelper.takeScreenShot("verifyMenuTask" + "_" + SystemHelper.getDateTimeNowFormat());
         WebUI.threadSleep(1);
         //Truyền text vào xpath nên không cần check Text
         boolean checkHeaderTaskSummary = WebUI.checkExitsElement(headerTasksSummary);
@@ -164,17 +171,18 @@ public class TasksPage extends BasePage{
         //click button New Lead
         WebUI.clickElement(btnAddTasks);
         System.out.println("Click button Add Task");
+        CaptureHelper.takeScreenShot("clickBtnAddTask" + "_" + SystemHelper.getDateTimeNowFormat());
     }
 
     public void verifyBtnAddTask() {
+        CaptureHelper.takeScreenShot("verifyBtnAddTask" + "_" + SystemHelper.getDateTimeNowFormat());
         WebUI.threadSleep(2);
         //Truyền text vào xpath nên không cần check Text
         boolean checkTitleAddNewTask = WebUI.checkExitsElement(titleAddNewTask);
         Assert.assertTrue(checkTitleAddNewTask, "FAILED!!! Không mở được pop-up Add new Tasks");
     }
 
-    public void addNewTask(String taskName, String hourlyRate, String startDate, String duaDate, String priority, String repeatEvery, String totalCycles,
-                           String relatedTo, String searchValueRelatedTo, String valueRelatedTo, String assignees, String assignees2, String followers, String followers2, String tags, String bodyIframeDescription) {
+    public void addNewTask(TaskDTO task) {
 
         //Checkbox public
         WebElement chcPublic = WebUI.getWebElement(checkboxPublic);
@@ -194,24 +202,24 @@ public class TasksPage extends BasePage{
         WebUI.clickElement(linkAttachFile);
 
         //sendKeys input
-        WebUI.setTextElement(inputSubject, taskName);
+        WebUI.setTextElement(inputSubject, task.getTaskName());
         WebUI.clearElement(inputHourlyRate);
-        WebUI.setTextElement(inputHourlyRate, hourlyRate);
+        WebUI.setTextElement(inputHourlyRate, task.getHourlyRate());
         WebUI.clearElement(inputStartDate);
-        WebUI.setTextElement(inputStartDate, startDate);
+        WebUI.setTextElement(inputStartDate, task.getStartDate());
         WebUI.clickElement(inputStartDate);
         WebUI.clearElement(inputDuaDate);
-        WebUI.setTextElement(inputDuaDate, duaDate);
+        WebUI.setTextElement(inputDuaDate, task.getDuaDate());
         WebUI.clickElement(inputDuaDate);
 
         //dropdown Priority
         WebUI.clickElement(dropdownPriority);
-        WebUI.clickElement(getValuePriority(priority));
+        WebUI.clickElement(getValuePriority(task.getPriority()));
 
         //dropdown Repeat every and input Total cycle (cho if)
         WebUI.clickElement(dropdownRepeatEvery);
-        WebUI.clickElement(getValueRepeatEvery(repeatEvery));
-        if (repeatEvery.equals("Custom")) {
+        WebUI.clickElement(getValueRepeatEvery(task.getRepeatEvery()));
+        if (task.getRepeatEvery().equals("Custom")) {
             //input
             WebUI.clearElement(repeatEveryCustom);
             WebUI.setTextElement(repeatEveryCustom, "100");
@@ -224,8 +232,8 @@ public class TasksPage extends BasePage{
             WebUI.clickElement(labelCheckboxInfinity); // - click bỏ chọn
             WebUI.clearElement(inputTotalCycles);
             WebUI.setTextElement(inputTotalCycles, "100000");
-        } else if (repeatEvery.equals("Week") || repeatEvery.equals("2 Weeks") || repeatEvery.equals("1 Month") || repeatEvery.equals("2 Months") ||
-                repeatEvery.equals("3 Months") || repeatEvery.equals("6 Months") || repeatEvery.equals("1 Year")) {
+        } else if (task.getRepeatEvery().equals("Week") || task.getRepeatEvery().equals("2 Weeks") || task.getRepeatEvery().equals("1 Month") || task.getRepeatEvery().equals("2 Months") ||
+                task.getRepeatEvery().equals("3 Months") || task.getRepeatEvery().equals("6 Months") || task.getRepeatEvery().equals("1 Year")) {
 
             WebUI.clickElement(labelCheckboxInfinity); // - click bỏ chọn
             WebUI.clearElement(inputTotalCycles);
@@ -236,15 +244,15 @@ public class TasksPage extends BasePage{
 
         //dropdown Related to
         WebUI.clickElement(dropdownRelatedTo);
-        WebUI.clickElement(getValueRelatedTo(relatedTo));
+        WebUI.clickElement(getValueRelatedTo(task.getRelatedTo()));
 
         //Click vô hàm valueDropdown Related to chọn giá trị
         WebUI.clickElement(dropdownForRelatedTo);
-        WebUI.setTextElement(inputSearchOfForRelatedTo, searchValueRelatedTo);
+        WebUI.setTextElement(inputSearchOfForRelatedTo, task.getSearchValueRelatedTo());
         WebUI.threadSleep(1);
         WebUI.setTextElement(inputSearchOfForRelatedTo," ");
         //WebUI.setTextElement(LocatorsTasks.inputSearchOfForRelatedTo, searchValueRelatedTo);
-        WebUI.clickElement(getValueForRelatedTo(valueRelatedTo));
+        WebUI.clickElement(getValueForRelatedTo(task.getValueRelatedTo()));
 
         //scroll kéo xuống dưới
         WebUI.scrollAtBottom(btnSave);
@@ -260,17 +268,17 @@ public class TasksPage extends BasePage{
             }
         }
 
-        WebUI.setTextElement(inputSearchOffAssignees, assignees);
-        WebUI.clickElement(getValueAssignees(assignees));
+        WebUI.setTextElement(inputSearchOffAssignees, task.getAssignees());
+        WebUI.clickElement(getValueAssignees(task.getAssignees()));
 
         WebUI.clearElement(inputSearchOffAssignees);
-        WebUI.setTextElement(inputSearchOffAssignees, assignees2);
-        WebUI.clickElement(getValueAssignees(assignees2));
+        WebUI.setTextElement(inputSearchOffAssignees, task.getAssignees2());
+        WebUI.clickElement(getValueAssignees(task.getAssignees2()));
 
         //dropdown Followers Mutip (tạo chọn data trước)
         WebUI.clickElement(dropdownFollowers);
-        WebUI.setTextElement(inputSearchOffFollowers, followers);
-        WebUI.clickElement(getValueFollowers(followers));
+        WebUI.setTextElement(inputSearchOffFollowers, task.getFollowers());
+        WebUI.clickElement(getValueFollowers(task.getFollowers()));
         WebUI.clickElement(dropdownFollowers);
 
         //bỏ click
@@ -281,15 +289,15 @@ public class TasksPage extends BasePage{
                 follower.click();
             }
         }
-        WebUI.setTextElement(inputSearchOffFollowers, followers);
-        WebUI.clickElement(getValueFollowers(followers));
+        WebUI.setTextElement(inputSearchOffFollowers, task.getFollowers());
+        WebUI.clickElement(getValueFollowers(task.getFollowers()));
 
         WebUI.clearElement(inputSearchOffFollowers);
-        WebUI.setTextElement(inputSearchOffFollowers, followers2);
-        WebUI.clickElement(getValueFollowers(followers2));
+        WebUI.setTextElement(inputSearchOffFollowers, task.getFollowers2());
+        WebUI.clickElement(getValueFollowers(task.getFollowers2()));
 
         //Tags
-        WebUI.setTextElement(inputAddTags, tags);
+        WebUI.setTextElement(inputAddTags, task.getTags());
 
         //Tắt tags
         WebUI.clickElement(labelTag);
@@ -301,7 +309,7 @@ public class TasksPage extends BasePage{
         //driver.switchTo().frame("description_ifr");
 
         WebUI.clearElement(bodyIframe);
-        WebUI.setTextElement(bodyIframe, bodyIframeDescription);
+        WebUI.setTextElement(bodyIframe, task.getBodyIframeDescription());
 
         WebUI.switchToParentFrame();
 
@@ -317,29 +325,26 @@ public class TasksPage extends BasePage{
     }
 
     //search Lead
-    public void searchTaskSuccess(String expectedTaskName) {
+    public void searchTaskSuccess(String taskName) {
         WebUI.clearElement(inputSearch);
-        WebUI.setTextElement(inputSearch, expectedTaskName);
+        WebUI.setTextElement(inputSearch, taskName);
         WebUI.threadSleep(1);
-        boolean rows = WebUI.checkExitsElement(getRows(expectedTaskName));
-        //Sai khi không có bản ghi
-        //Assert.assertFalse(rows.size() == 0, "Không tìm thấy Task '" + expectedTaskName + "' sau khi search!");
+    }
 
-        //Mong muốn rows.size() > 0 => đúng, nếu rows.size() == 0 thì hiển thị message kia
-        Assert.assertTrue(rows, "Không tìm thấy Task '" + expectedTaskName + "' sau khi search!");
-        System.out.println("Tìm kiếm thành công Task: " + expectedTaskName);
+    public void verifySearchTaskSuccess(String taskName) {
+        Assert.assertTrue(WebUI.checkExitsElement(getRows(taskName)), "Không tìm thấy Task '" + taskName + "' sau khi search!");
+        System.out.println("Tìm kiếm thành công Task: " + taskName);
         WebUI.threadSleep(2);
     }
 
-    public void searchTaskSuccessNoData(String expectedTaskName) {
+    public void searchTaskSuccessNoData(String taskName) {
         WebUI.clearElement(inputSearch);
-        WebUI.setTextElement(inputSearch, expectedTaskName);
-
-//        List<WebElement> actualTaskName = driver.findElements("//table[@id='tasks']//tbody/tr/td[contains(normalize-space(),'"+expectedTaskName+"')]");
-//        Assert.assertTrue(actualTaskName.size() == 0, "Còn dữ liệu");
+        WebUI.setTextElement(inputSearch, taskName);
         WebUI.threadSleep(1);
-        boolean rows = WebUI.checkExitsElement(getRows(expectedTaskName));
-        Assert.assertFalse(rows, "Không mong muốn: vẫn còn bản ghi '" + expectedTaskName + "' trong bảng!");//trả về true => có bản ghi (test fail). trả về false => không còn bản ghi (test pass)
+    }
+
+    public void verifySearchTaskSuccessNoData(String taskName) {
+        Assert.assertFalse(WebUI.checkExitsElement(getRows(taskName)), "Không mong muốn: vẫn còn bản ghi '" + taskName + "' trong bảng!");//trả về true => có bản ghi (test fail). trả về false => không còn bản ghi (test pass)
         System.out.println("Tìm kiếm thành công: 0 bản ghi");
     }
 
@@ -356,11 +361,13 @@ public class TasksPage extends BasePage{
     }
 
     public void verifyCheckboxSelected(By xpathCheckbox) {
+        CaptureHelper.takeScreenShot("verifyCheckboxSelected" + "_" + SystemHelper.getDateTimeNowFormat());
         boolean checked = WebUI.checkSeletedElement(xpathCheckbox);
         Assert.assertTrue(checked, "Checkbox chưa được tích sau khi click");
     }
 
     public void compareIframeValue(String expectedValue) {
+        CaptureHelper.takeScreenShot("compareIframeValue" + "_" + SystemHelper.getDateTimeNowFormat());
         WebUI.switchToFrame(idFrame);
         String actual = WebUI.getElementText(bodyIframe);
         WebUI.switchToDefaultContentFrame();
@@ -372,32 +379,35 @@ public class TasksPage extends BasePage{
         WebUI.moveToElement(firstRowItem);
         WebUI.clickElement(buttonEdit(taskName));
         WebUI.threadSleep(1);
+        CaptureHelper.takeScreenShot("clickBtnEdit" + "_" + SystemHelper.getDateTimeNowFormat());
+    }
+
+    public void verifyClickBtnEdit(String taskName){
+        CaptureHelper.takeScreenShot("verifyClickBtnEdit" + "_" + SystemHelper.getDateTimeNowFormat());
         boolean checkTitleEditTask = WebUI.checkExitsElement(titleEditTask(taskName));
         WebUI.threadSleep(1);
         Assert.assertTrue(checkTitleEditTask, "FAILED!!! Không mở được pop-up Edit Tasks");
         System.out.println("Mở pop-up Edit Task thành công");
     }
 
-    public void viewEditTaskSuccess(String taskName, String hourlyRate, String startDate, String duaDate, String priority, String repeatEvery, String totalCycles,
-                                    String relatedTo, String valueRelatedTo, String tags, String bodyIframeDescription) {
+    public void viewEditTaskSuccess(TaskDTO task) {
         verifyCheckboxSelected(checkboxPublic);
         verifyCheckboxSelected(checkboxBillsble);
-        compareFieldAttribute(inputSubject, taskName, "value");
-        compareFieldAttribute(inputHourlyRate, hourlyRate, "value");
-        compareFieldAttribute(inputStartDate, startDate, "value");
-        compareFieldAttribute(inputDuaDate, duaDate, "value");
-        compareFieldText(dropdownPriority, priority);
-        compareFieldText(dropdownRepeatEvery, repeatEvery);
-        compareFieldAttribute(inputTotalCycles, totalCycles, "value");
-        compareFieldText(dropdownRelatedTo, relatedTo);
-        compareFieldText(dropdownForRelatedTo, valueRelatedTo);
-        compareFieldText(inputEditTags, tags);
-        compareIframeValue(bodyIframeDescription);
+        compareFieldAttribute(inputSubject, task.getTaskName(), "value");
+        compareFieldAttribute(inputHourlyRate, task.getHourlyRate(), "value");
+        compareFieldAttribute(inputStartDate, task.getStartDate(), "value");
+        compareFieldAttribute(inputDuaDate, task.getDuaDate(), "value");
+        compareFieldText(dropdownPriority, task.getPriority());
+        compareFieldText(dropdownRepeatEvery, task.getRepeatEvery());
+        compareFieldAttribute(inputTotalCycles, task.getTotalCycles(), "value");
+        compareFieldText(dropdownRelatedTo, task.getRelatedTo());
+        compareFieldText(dropdownForRelatedTo, task.getValueRelatedTo());
+        compareFieldText(inputEditTags, task.getTags());
+        compareIframeValue(task.getBodyIframeDescription());
         System.out.println("Tất cả các trường dữ liệu Task đã được Verify thành công");
     }
 
-    public void editTaskSuccess(String hourlyRate, String startDate, String duaDate, String priority, String repeatEvery, String totalCycles,
-                                String relatedTo, String searchValueRelatedTo, String valueRelatedTo, String tags, String bodyIframeDescription) {
+    public void editTaskSuccess(TaskDTO task) {
         Actions actions = new Actions(DriverManager.getDriver());
 
         WebElement labelCheckboxPublic = WebUI.getWebElement(labelPublic);
@@ -421,28 +431,28 @@ public class TasksPage extends BasePage{
         WebElement inputtHourlyRate = WebUI.getWebElement(inputHourlyRate);
         actions.click(inputtHourlyRate).perform();
         actions.keyDown(Keys.CONTROL).sendKeys("a").keyUp(Keys.CONTROL).keyDown(Keys.DELETE).keyUp(Keys.DELETE).build().perform();
-        actions.sendKeys(inputtHourlyRate, hourlyRate).perform();
+        actions.sendKeys(inputtHourlyRate, task.getHourlyRate()).perform();
 
         WebElement inputtStartDate = WebUI.getWebElement(inputStartDate);
         actions.click(inputtStartDate).perform();
         actions.keyDown(Keys.CONTROL).sendKeys("a").keyUp(Keys.CONTROL).keyDown(Keys.DELETE).keyUp(Keys.DELETE).build().perform();
-        actions.sendKeys(inputtStartDate, startDate).perform();
+        actions.sendKeys(inputtStartDate, task.getStartDate()).perform();
         actions.click(inputtStartDate).perform();
 
         WebElement inputtDuaDate = WebUI.getWebElement(inputDuaDate);
         actions.click(inputtDuaDate).perform();
         actions.keyDown(Keys.CONTROL).sendKeys("a").keyUp(Keys.CONTROL).keyDown(Keys.DELETE).keyUp(Keys.DELETE).build().perform();
-        actions.sendKeys(inputtDuaDate, duaDate).perform();
+        actions.sendKeys(inputtDuaDate, task.getDuaDate()).perform();
         actions.click(inputtDuaDate).perform();
 
         //dropdown Priority
         actions.click(WebUI.getWebElement(dropdownPriority)).perform();
-        actions.click(WebUI.getWebElement(getValuePriority(priority))).perform();
+        actions.click(WebUI.getWebElement(getValuePriority(task.getPriority()))).perform();
 
         //dropdown Repeat every and input Total cycle (cho if)
         actions.click(WebUI.getWebElement(dropdownRepeatEvery)).perform();
-        actions.click(WebUI.getWebElement(getValueRepeatEvery(repeatEvery))).perform();
-        if (repeatEvery.equals("Custom")) {
+        actions.click(WebUI.getWebElement(getValueRepeatEvery(task.getRepeatEvery()))).perform();
+        if (task.getRepeatEvery().equals("Custom")) {
             //input
             WebElement valueRepeatEveryCustom = WebUI.getWebElement(repeatEveryCustom);
             actions.click(valueRepeatEveryCustom).perform();
@@ -458,27 +468,27 @@ public class TasksPage extends BasePage{
             WebElement inputtTotalCycles = WebUI.getWebElement(inputTotalCycles);
             actions.click(inputtTotalCycles).perform();
             actions.keyDown(Keys.CONTROL).sendKeys("a").keyUp(Keys.CONTROL).keyDown(Keys.DELETE).keyUp(Keys.DELETE).build().perform();
-            actions.sendKeys(inputtTotalCycles, totalCycles).perform();
+            actions.sendKeys(inputtTotalCycles, task.getTotalCycles()).perform();
 
-        } else if (repeatEvery.equals("Week") || repeatEvery.equals("2 Weeks") || repeatEvery.equals("1 Month") || repeatEvery.equals("2 Months") ||
-                repeatEvery.equals("3 Months") || repeatEvery.equals("6 Months") || repeatEvery.equals("1 Year")) {
+        } else if (task.getRepeatEvery().equals("Week") || task.getRepeatEvery().equals("2 Weeks") || task.getRepeatEvery().equals("1 Month") || task.getRepeatEvery().equals("2 Months") ||
+                task.getRepeatEvery().equals("3 Months") || task.getRepeatEvery().equals("6 Months") || task.getRepeatEvery().equals("1 Year")) {
             //actions.click(driver.findElement(LocatorsTasks.checkboxInfinity)).perform(); //click (bỏ chọn)
             WebElement inputtTotalCycles = WebUI.getWebElement(inputTotalCycles);
             actions.click(inputtTotalCycles).perform();
             actions.keyDown(Keys.CONTROL).sendKeys("a").keyUp(Keys.CONTROL).keyDown(Keys.DELETE).keyUp(Keys.DELETE).build().perform();
-            actions.sendKeys(inputtTotalCycles, totalCycles).perform();
+            actions.sendKeys(inputtTotalCycles, task.getTotalCycles()).perform();
         } else {
             System.out.println("Không tồn tại");
         }
 
         //dropdown Related to
         actions.click(WebUI.getWebElement(dropdownRelatedTo)).perform();
-        actions.click(WebUI.getWebElement(getValueRelatedTo(relatedTo))).perform();
+        actions.click(WebUI.getWebElement(getValueRelatedTo(task.getRelatedTo()))).perform();
 
         //Click vô hàm valueDropdown Related to chọn giá trị
         actions.click(WebUI.getWebElement(dropdownForRelatedTo)).perform();
-        actions.sendKeys(WebUI.getWebElement(inputSearchOfForRelatedTo), searchValueRelatedTo).perform();
-        actions.click(WebUI.getWebElement(getValueForRelatedTo(valueRelatedTo))).perform();
+        actions.sendKeys(WebUI.getWebElement(inputSearchOfForRelatedTo), task.getSearchValueRelatedTo()).perform();
+        actions.click(WebUI.getWebElement(getValueForRelatedTo(task.getValueRelatedTo()))).perform();
 
         //scroll kéo xuống dưới
         WebUI.scrollAtBottom(btnSave);
@@ -486,7 +496,7 @@ public class TasksPage extends BasePage{
         //Tag
         WebElement elementCloseTags = WebUI.getWebElement(iconCloseTags);
         actions.click(elementCloseTags).perform();
-        actions.sendKeys(WebUI.getWebElement(inputAddTags), tags).perform();
+        actions.sendKeys(WebUI.getWebElement(inputAddTags), task.getTags()).perform();
 
         //click ra input name để đóng tag
         WebElement labelTags = WebUI.getWebElement(labelTag);
@@ -500,7 +510,7 @@ public class TasksPage extends BasePage{
         WebElement bodyIframes = WebUI.getWebElement(bodyIframe);
         actions.click(bodyIframes).perform();
         actions.keyDown(Keys.CONTROL).sendKeys("a").keyUp(Keys.CONTROL).keyDown(Keys.DELETE).keyUp(Keys.DELETE).build().perform();
-        actions.sendKeys(bodyIframes, bodyIframeDescription).perform();
+        actions.sendKeys(bodyIframes, task.getBodyIframeDescription()).perform();
 
         WebUI.switchToParentFrame();
 
@@ -508,6 +518,53 @@ public class TasksPage extends BasePage{
         WebElement buttonSave = WebUI.getWebElement(btnSave);
         actions.click(buttonSave).perform();
         WebUI.threadSleep(1);
+    }
+
+    public void clickBtnDeleteTask(String taskName) {
+        //Hover chuột vào dòng đầu tiên
+        WebUI.moveToElement(firstRowItem);
+        WebUI.clickElement(buttonDelete(taskName));
+        CaptureHelper.takeScreenShot("clickBtnDeleteTask" + "_" + SystemHelper.getDateTimeNowFormat());
+    }
+
+    public void confirmDeleteTask(int flag) {
+        CaptureHelper.takeScreenShot("confirmDeleteTask" + "_" + SystemHelper.getDateTimeNowFormat());
+        System.out.println("Confirm Delete Task");
+        WebUI.threadSleep(2);
+        Alert alert = DriverManager.getDriver().switchTo().alert();
+        //check text trên alert
+        if (flag == 1) {
+            //xóa
+            WebUI.acceptAlert();
+        } else {
+            //hủy xóa
+            WebUI.dismissAlert();
+        }
+    }
+
+    public void verifyDeleteSuccessMessage(int flag){
+        CaptureHelper.takeScreenShot("verifyDeleteSuccessMessage" + "_" + SystemHelper.getDateTimeNowFormat());
+        if (flag == 1) {
+            Assert.assertTrue(WebUI.checkExitsElement(getDeleteTaskSuccessMessage()), "Không hiển thị message Xóa thành công sau khi Xóa");
+        }else {
+            Assert.assertFalse(WebUI.checkExitsElement(getDeleteTaskSuccessMessage()), "Hiển thị message Xóa thành công sau khi Hủy xóa");
+        }
+    }
+
+    public void verifyAfterDeleteTask(String taskName, int flag) {
+        WebUI.clearElement(inputSearch);
+        WebUI.setTextElement(inputSearch, taskName);
+        WebUI.threadSleep(1);
+        CaptureHelper.takeScreenShot("verifyAfterDeleteLead" + "_" + SystemHelper.getDateTimeNowFormat());
+        if (flag == 1) {
+            //xóa nhưng vẫn còn bản ghi
+            Assert.assertFalse(WebUI.checkExitsElement(getRows(taskName)), "Xóa không thành công: vẫn còn bản ghi '" + taskName + "' trong bảng!");  // Test pass
+            System.out.println("Tìm kiếm thành công: 0 bản ghi");
+        }else {
+            //Hủy xóa nhưng lại bị mất bản ghi
+            Assert.assertTrue(WebUI.checkExitsElement(getRows(taskName)), "Hủy xóa Lead không thành công. Không tìm thấy Task '" + taskName + "' sau khi search!");
+            System.out.println("Tìm kiếm thành công Lead: " + taskName);
+        }
     }
 
 }

@@ -1,13 +1,18 @@
 package com.giangnth.common;
 
 import com.giangnth.drivers.DriverManager;
+import com.giangnth.helpers.CaptureHelper;
 import com.giangnth.helpers.PropertiesHelper;
+import com.giangnth.helpers.SystemHelper;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.edge.EdgeDriver;
+import org.openqa.selenium.edge.EdgeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.firefox.FirefoxOptions;
+import org.testng.ITestResult;
 import org.testng.annotations.*;
 import org.testng.asserts.SoftAssert;
 
@@ -29,22 +34,42 @@ public class BaseTest {
             browserName = PropertiesHelper.getValue("browser");
         }
 
+        boolean isHeadless = PropertiesHelper.getValue("headless").equalsIgnoreCase("true");
+
         switch (browserName.trim().toLowerCase()) {
             case "chrome":
                 System.out.println("Khoi tao trinh duyet chrome");
 
-                //ChromeOptions options = new ChromeOptions();
+                ChromeOptions chromeOptions = new ChromeOptions();
 
-                driver = new ChromeDriver();
+                if (isHeadless) {
+                    chromeOptions.addArguments("--headless=new");
+                    chromeOptions.addArguments("--window-size=1920,1080");
+                }
+
+                driver = new ChromeDriver(chromeOptions);
                 break;
             case "firefox":
                 System.out.println("Khoi tao trinh duyet FireFox");
-                driver = new FirefoxDriver();
+
+                FirefoxOptions firefoxOptions = new FirefoxOptions();
+                if (isHeadless) {
+                    firefoxOptions.addArguments("--headless");
+                }
+
+                driver = new FirefoxDriver(firefoxOptions);
                 break;
             case "edge":
                 System.out.println("Khoi tao trinh duyet Edge");
+
+                EdgeOptions edgeOptions = new EdgeOptions();
+                if (isHeadless) {
+                    edgeOptions.addArguments("--headless=new");
+                    edgeOptions.addArguments("--window-size=1920,1080");
+                }
+
                 WebDriverManager.edgedriver().setup(); //tải msedgedriver.exe tương ứng vesion của trình duyệt đang dùng
-                driver = new EdgeDriver();
+                driver = new EdgeDriver(edgeOptions);
                 break;
             default:
                 System.out.println("Browser: " + browserName + " is invalid, Launching Chrome as browser of choice...");
@@ -52,13 +77,26 @@ public class BaseTest {
                 driver = new ChromeDriver();
         }
         DriverManager.setDriver(driver);
-        //driver == DriverManager.getDriver
-        DriverManager.getDriver().manage().window().maximize();
+
+        if (!isHeadless) {
+            DriverManager.getDriver().manage().window().maximize();
+        }
+
         softAssert = new SoftAssert();
     }
 
     @AfterMethod
-    public void closeDriver() {
+    public void closeDriver(ITestResult result) {
+
+        //chụp ảnh khi bị fail
+        if (ITestResult.FAILURE == result.getStatus()) {
+            CaptureHelper.takeScreenShot(
+                    result.getName() + "_" + SystemHelper.getDateTimeNowFormat()
+            );
+        }
+
+        CaptureHelper.stopRecord();
+
         if(DriverManager.getDriver() != null){
             DriverManager.quit();
             System.out.println("Đóng trình duyệt Chrome");
@@ -66,4 +104,5 @@ public class BaseTest {
         }
         softAssert.assertAll();
     }
+
 }
