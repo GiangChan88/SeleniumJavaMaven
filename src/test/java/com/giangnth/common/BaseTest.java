@@ -5,6 +5,7 @@ import com.giangnth.helpers.CaptureHelper;
 import com.giangnth.helpers.PropertiesHelper;
 import com.giangnth.helpers.SystemHelper;
 import com.giangnth.listeners.TestListener;
+import com.giangnth.utils.LogUtils;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -40,8 +41,7 @@ public class BaseTest {
 
         switch (browserName.trim().toLowerCase()) {
             case "chrome":
-                System.out.println("Khởi tạo trình duyệt chrome");
-
+                LogUtils.info("Khởi tạo trình duyệt chrome");
                 ChromeOptions chromeOptions = new ChromeOptions();
 
                 if (isHeadless) {
@@ -52,7 +52,7 @@ public class BaseTest {
                 driver = new ChromeDriver(chromeOptions);
                 break;
             case "firefox":
-                System.out.println("Khởi tạo trình duyệt FireFox");
+                LogUtils.info("Khởi tạo trình duyệt FireFox");
 
                 FirefoxOptions firefoxOptions = new FirefoxOptions();
                 if (isHeadless) {
@@ -62,7 +62,7 @@ public class BaseTest {
                 driver = new FirefoxDriver(firefoxOptions);
                 break;
             case "edge":
-                System.out.println("Khởi tạo trình duyệt Edge");
+                LogUtils.info("Khởi tạo trình duyệt Edge");
 
                 EdgeOptions edgeOptions = new EdgeOptions();
                 if (isHeadless) {
@@ -74,8 +74,8 @@ public class BaseTest {
                 driver = new EdgeDriver(edgeOptions);
                 break;
             default:
-                System.out.println("Browser: " + browserName + " is invalid, Launching Chrome as browser of choice...");
-                System.out.println("Khởi tạo trình duyệt chrome");
+                LogUtils.info("Browser: " + browserName + " is invalid, Launching Chrome as browser of choice...");
+                LogUtils.info("Khởi tạo trình duyệt chrome");
                 driver = new ChromeDriver();
         }
         DriverManager.setDriver(driver);
