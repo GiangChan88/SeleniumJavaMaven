@@ -4,6 +4,7 @@ import com.giangnth.drivers.DriverManager;
 import com.giangnth.helpers.CaptureHelper;
 import com.giangnth.helpers.PropertiesHelper;
 import com.giangnth.helpers.SystemHelper;
+import com.giangnth.listeners.TestListener;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -16,6 +17,7 @@ import org.testng.ITestResult;
 import org.testng.annotations.*;
 import org.testng.asserts.SoftAssert;
 
+@Listeners(TestListener.class) //Nếu chạy listener trong XML thì phải bỏ đi @Listeners(TestListener.class) trong BaseTest và ngược lại
 public class BaseTest {
     public static SoftAssert softAssert;
 
@@ -38,7 +40,7 @@ public class BaseTest {
 
         switch (browserName.trim().toLowerCase()) {
             case "chrome":
-                System.out.println("Khoi tao trinh duyet chrome");
+                System.out.println("Khởi tạo trình duyệt chrome");
 
                 ChromeOptions chromeOptions = new ChromeOptions();
 
@@ -50,7 +52,7 @@ public class BaseTest {
                 driver = new ChromeDriver(chromeOptions);
                 break;
             case "firefox":
-                System.out.println("Khoi tao trinh duyet FireFox");
+                System.out.println("Khởi tạo trình duyệt FireFox");
 
                 FirefoxOptions firefoxOptions = new FirefoxOptions();
                 if (isHeadless) {
@@ -60,7 +62,7 @@ public class BaseTest {
                 driver = new FirefoxDriver(firefoxOptions);
                 break;
             case "edge":
-                System.out.println("Khoi tao trinh duyet Edge");
+                System.out.println("Khởi tạo trình duyệt Edge");
 
                 EdgeOptions edgeOptions = new EdgeOptions();
                 if (isHeadless) {
@@ -73,7 +75,7 @@ public class BaseTest {
                 break;
             default:
                 System.out.println("Browser: " + browserName + " is invalid, Launching Chrome as browser of choice...");
-                System.out.println("Khoi tao trinh duyet chrome");
+                System.out.println("Khởi tạo trình duyệt chrome");
                 driver = new ChromeDriver();
         }
         DriverManager.setDriver(driver);
@@ -87,15 +89,6 @@ public class BaseTest {
 
     @AfterMethod
     public void closeDriver(ITestResult result) {
-
-        //chụp ảnh khi bị fail
-        if (ITestResult.FAILURE == result.getStatus()) {
-            CaptureHelper.takeScreenShot(
-                    result.getName() + "_" + SystemHelper.getDateTimeNowFormat()
-            );
-        }
-
-        CaptureHelper.stopRecord();
 
         if(DriverManager.getDriver() != null){
             DriverManager.quit();

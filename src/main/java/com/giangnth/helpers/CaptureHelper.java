@@ -36,7 +36,6 @@ public class CaptureHelper extends ScreenRecorder {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        System.out.println("Screenshot success !!");
     }
 
     // Record with Monte Media library

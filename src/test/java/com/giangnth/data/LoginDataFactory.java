@@ -5,6 +5,7 @@ import com.giangnth.models.LeadDTO;
 import com.giangnth.models.LoginDTO;
 
 public class LoginDataFactory {
+    //Get 1 dòng data trong file excel được chỉ định
     public static LoginDTO getLoginDataFromExcel(int rowIndex) {
 
         ExcelHelper excel = new ExcelHelper();

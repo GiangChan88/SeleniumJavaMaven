@@ -2,7 +2,6 @@ package com.giangnth.pages;
 
 import com.giangnth.common.BasePage;
 import com.giangnth.drivers.DriverManager;
-import com.giangnth.helpers.CaptureHelper;
 import com.giangnth.helpers.SystemHelper;
 import com.giangnth.keywords.WebUI;
 import com.giangnth.models.LeadDTO;
@@ -211,7 +210,6 @@ public class LeadsPage extends BasePage {
     }
 
     public void verifyMenuLead() {
-        CaptureHelper.takeScreenShot("verifyMenuLead" + "_" + SystemHelper.getDateTimeNowFormat());
         WebUI.threadSleep(1);
         //do truyền text vào xpath nên là kh cần get text để so sánh nữa
         boolean checkHeaderLeadSummary = WebUI.checkExitsElement(titleLeadsSummary);
@@ -235,7 +233,6 @@ public class LeadsPage extends BasePage {
     }
 
     public void verifyBtnAddNewLead() {
-        CaptureHelper.takeScreenShot("verifyBtnAddNewLead" + "_" + SystemHelper.getDateTimeNowFormat());
         WebUI.threadSleep(1);
         boolean checktitleAddNewLead = WebUI.checkExitsElement(titleAddNewLead);
         Assert.assertTrue(checktitleAddNewLead, "FAILED!!! Không mở được pop-up Add new lead");
@@ -253,25 +250,21 @@ public class LeadsPage extends BasePage {
         WebUI.clearElement(inputSearch);
         WebUI.setTextElement(inputSearch, leadName);
         WebUI.threadSleep(2);
-        CaptureHelper.takeScreenShot("searchLeadSuccess" + "_" + SystemHelper.getDateTimeNowFormat());
     }
 
     public void verifySearchLeadSuccess(String leadName) {
-        CaptureHelper.takeScreenShot("verifySearchLeadSuccess" + "_" + SystemHelper.getDateTimeNowFormat());
         Assert.assertTrue(WebUI.checkExitsElement(getRows(leadName)), "Không tìm thấy Lead '" + leadName + "' sau khi search!");
         System.out.println("Tìm kiếm thành công Lead: " + leadName);
         WebUI.threadSleep(1);
     }
 
     public void searchLeadSuccessNoData(String leadName) {
-        CaptureHelper.takeScreenShot("searchLeadSuccessNoData" + "_" + SystemHelper.getDateTimeNowFormat());
         WebUI.clearElement(inputSearch);
         WebUI.setTextElement(inputSearch, leadName);
         WebUI.threadSleep(1);
     }
 
     public void verifySearchLeadSuccessNoData(String leadName) {
-        CaptureHelper.takeScreenShot("verifySearchLeadSuccessNoData" + "_" + SystemHelper.getDateTimeNowFormat());
         Assert.assertFalse(WebUI.checkExitsElement(getRows(leadName)), "Không mong muốn: vẫn còn bản ghi '" + leadName + "' trong bảng!");  // Test pass
         System.out.println("Tìm kiếm thành công: 0 bản ghi");
     }
@@ -289,7 +282,6 @@ public class LeadsPage extends BasePage {
     }
 
     public void verifyCheckboxSelected(By checkbox) {
-        CaptureHelper.takeScreenShot("verifyCheckboxSelected" + "_" + SystemHelper.getDateTimeNowFormat());
         boolean checked = WebUI.checkSeletedElement(checkbox);
         Assert.assertTrue(checked, "Checkbox chưa được tích sau khi click");
     }
@@ -425,11 +417,9 @@ public class LeadsPage extends BasePage {
         //Hover chuột vào dòng đầu tiên
         WebUI.moveToElement(firstRowItem);
         WebUI.clickElement(buttonDelete(leadName));
-        CaptureHelper.takeScreenShot("clickBtnDeleteLead" + "_" + SystemHelper.getDateTimeNowFormat());
     }
 
     public void confirmDeleteLead(int flag) {
-        CaptureHelper.takeScreenShot("confirmDeleteLead" + "_" + SystemHelper.getDateTimeNowFormat());
         System.out.println("Confirm Delete Lead");
         WebUI.threadSleep(2);
         Alert alert = DriverManager.getDriver().switchTo().alert();
@@ -444,7 +434,6 @@ public class LeadsPage extends BasePage {
     }
 
     public void verifyDeleteSuccessMessage(int flag){
-        CaptureHelper.takeScreenShot("verifyDeleteSuccessMessage" + "_" + SystemHelper.getDateTimeNowFormat());
         if (flag == 1) {
             Assert.assertTrue(WebUI.checkExitsElement(getDeleteLeadSuccessMessage()), "Không hiển thị message Xóa thành công sau khi Xóa");
         }else {
@@ -456,7 +445,6 @@ public class LeadsPage extends BasePage {
         WebUI.clearElement(inputSearch);
         WebUI.setTextElement(inputSearch, leadName);
         WebUI.threadSleep(1);
-        CaptureHelper.takeScreenShot("verifyAfterDeleteLead" + "_" + SystemHelper.getDateTimeNowFormat());
         if (flag == 1) {
             //xóa nhưng vẫn còn bản ghi
             Assert.assertFalse(WebUI.checkExitsElement(getRows(leadName)), "Xóa không thành công: vẫn còn bản ghi '" + leadName + "' trong bảng!");  // Test pass

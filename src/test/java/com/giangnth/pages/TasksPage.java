@@ -2,7 +2,6 @@ package com.giangnth.pages;
 
 import com.giangnth.common.BasePage;
 import com.giangnth.drivers.DriverManager;
-import com.giangnth.helpers.CaptureHelper;
 import com.giangnth.helpers.SystemHelper;
 import com.giangnth.keywords.WebUI;
 import com.giangnth.models.TaskDTO;
@@ -160,7 +159,6 @@ public class TasksPage extends BasePage{
     private By headerEdit = By.xpath("//div[@id='task-modal']//div[contains(@class,'modal-header')]//h4");
 
     public void verifyMenuTask() {
-        CaptureHelper.takeScreenShot("verifyMenuTask" + "_" + SystemHelper.getDateTimeNowFormat());
         WebUI.threadSleep(1);
         //Truyền text vào xpath nên không cần check Text
         boolean checkHeaderTaskSummary = WebUI.checkExitsElement(headerTasksSummary);
@@ -171,11 +169,9 @@ public class TasksPage extends BasePage{
         //click button New Lead
         WebUI.clickElement(btnAddTasks);
         System.out.println("Click button Add Task");
-        CaptureHelper.takeScreenShot("clickBtnAddTask" + "_" + SystemHelper.getDateTimeNowFormat());
     }
 
     public void verifyBtnAddTask() {
-        CaptureHelper.takeScreenShot("verifyBtnAddTask" + "_" + SystemHelper.getDateTimeNowFormat());
         WebUI.threadSleep(2);
         //Truyền text vào xpath nên không cần check Text
         boolean checkTitleAddNewTask = WebUI.checkExitsElement(titleAddNewTask);
@@ -361,13 +357,11 @@ public class TasksPage extends BasePage{
     }
 
     public void verifyCheckboxSelected(By xpathCheckbox) {
-        CaptureHelper.takeScreenShot("verifyCheckboxSelected" + "_" + SystemHelper.getDateTimeNowFormat());
         boolean checked = WebUI.checkSeletedElement(xpathCheckbox);
         Assert.assertTrue(checked, "Checkbox chưa được tích sau khi click");
     }
 
     public void compareIframeValue(String expectedValue) {
-        CaptureHelper.takeScreenShot("compareIframeValue" + "_" + SystemHelper.getDateTimeNowFormat());
         WebUI.switchToFrame(idFrame);
         String actual = WebUI.getElementText(bodyIframe);
         WebUI.switchToDefaultContentFrame();
@@ -379,11 +373,9 @@ public class TasksPage extends BasePage{
         WebUI.moveToElement(firstRowItem);
         WebUI.clickElement(buttonEdit(taskName));
         WebUI.threadSleep(1);
-        CaptureHelper.takeScreenShot("clickBtnEdit" + "_" + SystemHelper.getDateTimeNowFormat());
     }
 
     public void verifyClickBtnEdit(String taskName){
-        CaptureHelper.takeScreenShot("verifyClickBtnEdit" + "_" + SystemHelper.getDateTimeNowFormat());
         boolean checkTitleEditTask = WebUI.checkExitsElement(titleEditTask(taskName));
         WebUI.threadSleep(1);
         Assert.assertTrue(checkTitleEditTask, "FAILED!!! Không mở được pop-up Edit Tasks");
@@ -524,11 +516,9 @@ public class TasksPage extends BasePage{
         //Hover chuột vào dòng đầu tiên
         WebUI.moveToElement(firstRowItem);
         WebUI.clickElement(buttonDelete(taskName));
-        CaptureHelper.takeScreenShot("clickBtnDeleteTask" + "_" + SystemHelper.getDateTimeNowFormat());
     }
 
     public void confirmDeleteTask(int flag) {
-        CaptureHelper.takeScreenShot("confirmDeleteTask" + "_" + SystemHelper.getDateTimeNowFormat());
         System.out.println("Confirm Delete Task");
         WebUI.threadSleep(2);
         Alert alert = DriverManager.getDriver().switchTo().alert();
@@ -543,7 +533,6 @@ public class TasksPage extends BasePage{
     }
 
     public void verifyDeleteSuccessMessage(int flag){
-        CaptureHelper.takeScreenShot("verifyDeleteSuccessMessage" + "_" + SystemHelper.getDateTimeNowFormat());
         if (flag == 1) {
             Assert.assertTrue(WebUI.checkExitsElement(getDeleteTaskSuccessMessage()), "Không hiển thị message Xóa thành công sau khi Xóa");
         }else {
@@ -555,7 +544,6 @@ public class TasksPage extends BasePage{
         WebUI.clearElement(inputSearch);
         WebUI.setTextElement(inputSearch, taskName);
         WebUI.threadSleep(1);
-        CaptureHelper.takeScreenShot("verifyAfterDeleteLead" + "_" + SystemHelper.getDateTimeNowFormat());
         if (flag == 1) {
             //xóa nhưng vẫn còn bản ghi
             Assert.assertFalse(WebUI.checkExitsElement(getRows(taskName)), "Xóa không thành công: vẫn còn bản ghi '" + taskName + "' trong bảng!");  // Test pass

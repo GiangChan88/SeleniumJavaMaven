@@ -4,7 +4,7 @@ import com.giangnth.helpers.ExcelHelper;
 import com.giangnth.models.LeadDTO;
 
 public class LeadDataFactory {
-
+    //Get 1 dòng data trong file excel được chỉ định
     public static LeadDTO getLeadDataFromExcel(int rowIndex) {
 
         ExcelHelper excel = new ExcelHelper();

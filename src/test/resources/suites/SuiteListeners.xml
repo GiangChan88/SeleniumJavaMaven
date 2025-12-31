@@ -1,0 +1,17 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+
+<suite name="CRM Test" verbose="1">
+<!--    Nếu chạy listener trong XML thì phải bỏ đi @Listeners(TestListener.class) trong BaseTest và ngược lại-->
+<!--    <listeners>-->
+<!--        <listener class-name="com.giangnth.listeners.TestListener"/>-->
+<!--    </listeners>-->
+
+    <test name="TestLogin" parallel="true" thread-count="3" >
+        <parameter name="browser" value="chrome"/>
+        <classes>
+            <class name="com.giangnth.testcases.TestCaseLogin"/>
+        </classes>
+    </test>
+
+
+</suite>

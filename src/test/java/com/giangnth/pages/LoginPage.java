@@ -1,7 +1,6 @@
 package com.giangnth.pages;
 
 import com.giangnth.common.BasePage;
-import com.giangnth.helpers.CaptureHelper;
 import com.giangnth.helpers.PropertiesHelper;
 import com.giangnth.helpers.SystemHelper;
 import com.giangnth.keywords.WebUI;
@@ -29,16 +28,13 @@ public class LoginPage extends BasePage {
     public void navigateToLoginPage() {
         WebUI.openURL(PropertiesHelper.getValue("url"));
         WebUI.waitForPageLoaded();
-        CaptureHelper.takeScreenShot("navigateToLoginPage" + "_" + SystemHelper.getDateTimeNowFormat());
     }
     public void enterEmail(String email) {
         WebUI.setTextElement(inputEmail, email);
-        CaptureHelper.takeScreenShot("enterEmail" + "_" + SystemHelper.getDateTimeNowFormat());
     }
 
     public void enterPassword(String password) {
         WebUI.setTextElement(inputPassword, password);
-        CaptureHelper.takeScreenShot("enterPassword" + "_" + SystemHelper.getDateTimeNowFormat());
     }
 
     public void clickLogin() {
@@ -46,7 +42,6 @@ public class LoginPage extends BasePage {
     }
 
     public void verifyHeaderLogin(){
-        CaptureHelper.takeScreenShot("verifyHeaderLogin" + "_" + SystemHelper.getDateTimeNowFormat());
         WebUI.threadSleep(1);
         boolean checkHeaderLogin = WebUI.checkExitsElement(headerLogin);
         Assert.assertTrue(checkHeaderLogin, "Check Header Login is not displayed");
@@ -74,7 +69,6 @@ public class LoginPage extends BasePage {
 
     //dashboard
     public void verifyLoginSuccess() {
-        CaptureHelper.takeScreenShot("verifyLoginSuccess" + "_" + SystemHelper.getDateTimeNowFormat());
         WebUI.threadSleep(1);
         boolean checkMenuDashboard = WebUI.checkExitsElement(menuDashboard);
 //        boolean checkMenuDashboard = driver.findElements(By.xpath("//ul[@id='side-menu']//span[@class = 'menu-text' and normalize-space() = 'Dashboard']")).size()>0;
@@ -82,21 +76,18 @@ public class LoginPage extends BasePage {
     }
 
     public void verifyLoginFailureWithEmailOrPasswordInvalid()  {
-        CaptureHelper.takeScreenShot("verifyLoginFailureWithEmailOrPasswordInvalid" + "_" + SystemHelper.getDateTimeNowFormat());
         WebUI.threadSleep(1);
         boolean isElementErrorMessage = WebUI.checkExitsElement(errorMessageInvalidEmailorPassword);
         Assert.assertTrue(isElementErrorMessage, "Error massage for invalid email not display");
     }
 
     public void verifyLoginFailureWithEmailNull()  {
-        CaptureHelper.takeScreenShot("verifyLoginFailureWithEmailNull" + "_" + SystemHelper.getDateTimeNowFormat());
         WebUI.threadSleep(1);
         boolean isElementErrorMessage = WebUI.checkExitsElement(errorMessageEmailRequired);
         Assert.assertTrue(isElementErrorMessage, "Error massage for required password not display");
     }
 
     public void verifyLoginFailureWithPasswordNull()  {
-        CaptureHelper.takeScreenShot("verifyLoginFailureWithPasswordNull" + "_" + SystemHelper.getDateTimeNowFormat());
         WebUI.threadSleep(1);
         boolean isElementErrorMessage = WebUI.checkExitsElement(errorMessagePasswordRequired);
         Assert.assertTrue(isElementErrorMessage, "Error massage for required password not display");
