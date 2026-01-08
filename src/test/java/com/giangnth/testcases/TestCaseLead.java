@@ -10,6 +10,9 @@ import com.giangnth.pages.LoginPage;
 import com.giangnth.keywords.WebUI;
 import com.giangnth.pages.LeadsPage;
 import com.giangnth.common.BaseTest;
+import io.qameta.allure.Description;
+import io.qameta.allure.Epic;
+import io.qameta.allure.Feature;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
@@ -17,6 +20,8 @@ import org.testng.annotations.Test;
 
 import java.util.List;
 
+@Epic("CRM version 1.0")
+@Feature("Lead feature")
 public class TestCaseLead extends BaseTest {
 
     private LoginPage loginPage;

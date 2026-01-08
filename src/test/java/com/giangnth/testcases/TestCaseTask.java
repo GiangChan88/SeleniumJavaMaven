@@ -10,8 +10,12 @@ import com.giangnth.pages.LoginPage;
 import com.giangnth.keywords.WebUI;
 import com.giangnth.pages.TasksPage;
 import com.giangnth.common.BaseTest;
+import io.qameta.allure.Epic;
+import io.qameta.allure.Feature;
 import org.testng.annotations.Test;
 
+@Epic("CRM version 1.0")
+@Feature("Task feature")
 public class TestCaseTask extends BaseTest {
 
     private LoginPage loginPage;

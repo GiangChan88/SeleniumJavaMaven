@@ -5,13 +5,19 @@ import com.giangnth.data.LoginDataFactory;
 import com.giangnth.helpers.CaptureHelper;
 import com.giangnth.helpers.ExcelHelper;
 import com.giangnth.models.LoginDTO;
+import io.qameta.allure.Epic;
+import io.qameta.allure.Feature;
+import io.qameta.allure.Link;
+import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 import com.giangnth.pages.LoginPage;
 
+@Epic("CRM version 1.0")
+@Feature("Login feature")
 public class TestCaseLogin extends BaseTest {
     private LoginPage loginPage;
 
-
+    @Link("https://jira.nodo.vn/projects/AUTOTEST/issues/AUTOTEST-290?filter=allopenissues")
     @Test(priority = 1)
     public void testLoginSuccess() {
         loginPage = new LoginPage();

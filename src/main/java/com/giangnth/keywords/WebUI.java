@@ -3,8 +3,10 @@ package com.giangnth.keywords;
 import com.aventstack.extentreports.Status;
 import com.giangnth.drivers.DriverManager;
 import com.giangnth.helpers.PropertiesHelper;
+import com.giangnth.report.AllureManager;
 import com.giangnth.report.ExtentTestManager;
 import com.giangnth.utils.LogUtils;
+import io.qameta.allure.Step;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.io.FileHandler;
@@ -243,10 +245,12 @@ public class WebUI {
         }
     }
 
+    @Step("Open url {0}")
     public static void openURL(String url) {
         DriverManager.getDriver().get(url);
         LogUtils.info("URL: " + url);
         ExtentTestManager.logMessage(Status.PASS, "Open URL: " + url);
+        AllureManager.saveTextLog("Open URL: " + url);
     }
 
     public static String getCurrentURL() {
@@ -265,10 +269,13 @@ public class WebUI {
     }
 
     //click dựa vào wait động điền giá trị
+    //@Step ở đây là bước chính (phải có để hiển thị bước phụ đính kèm trong report được xuất ra)
+    @Step("Click on element {0} with timeout {1} seconds")
     public static void clickElement(By by, int seconds) {
         waitForElementClick(by, seconds).click(); //hàm wait đã bao gồm tìm kiếm + chờ và trả ra webelement để click
         LogUtils.info("Click element: " + by);
         ExtentTestManager.logMessage(Status.PASS, "Click on element " + by);
+        AllureManager.saveTextLog("Click on element " + by);
     }
 
 //    public static void clickElement(WebDriver driver, By by, int seconds) {
@@ -279,10 +286,12 @@ public class WebUI {
 //    }
 
     //click dựa vào wait cố định 10s
+    @Step("Click on element {0}")
     public static void clickElement(By by) {
         waitForElementClick(by).click();
         LogUtils.info("Click element: " + by);
         ExtentTestManager.logMessage(Status.PASS, "Click on element " + by);
+        AllureManager.saveTextLog("Click on element " + by);
     }
 
     public static void clearElement(By by) {
@@ -291,6 +300,7 @@ public class WebUI {
     }
 
     //sendKey dựa vào wait linh động có thể điền giá trị
+    @Step("Set text {1} on element {0} with timeout {2} seconds")
     public static void setTextElement(By by, String text, int seconds) {
         threadSleep(STEP_TIME);
         waitForElementVisible(by, seconds).sendKeys(text);
@@ -299,6 +309,7 @@ public class WebUI {
     }
 
     //sendKey dựa vào wait cố định 10s
+    @Step("Set text {1} on element {0}")
     public static void setTextElement(By by, String text) {
         threadSleep(STEP_TIME);
         waitForElementVisible(by).sendKeys(text);
@@ -307,6 +318,7 @@ public class WebUI {
     }
 
     //lấy giá trị text
+    @Step("Get text of element {0}")
     public static String getElementText(By by) {
         waitForElementVisible(by);
         WebElement element = getWebElement(by);
@@ -315,10 +327,12 @@ public class WebUI {
         LogUtils.info("==> TEXT: " + text);
         ExtentTestManager.logMessage(Status.PASS, "Get text of element " + by);
         ExtentTestManager.logMessage(Status.INFO, "==> Text: " + getWebElement(by).getText());
+        AllureManager.saveTextLog("==> Text: " + text);
         return text;
     }
 
     //lấy giá trị attribute
+    @Step("Get attribute {1} of element {0}")
     public static String getElementAttribute(By by, String attribute) {
         waitForElementVisible(by);
         WebElement element = getWebElement(by);
@@ -327,6 +341,7 @@ public class WebUI {
         LogUtils.info("==> Attribute: " + textAttribute);
         ExtentTestManager.logMessage(Status.PASS, "Get attribute value of element " + by);
         ExtentTestManager.logMessage(Status.INFO, "==> Attribute value: " + getWebElement(by).getAttribute(attribute));
+        AllureManager.saveTextLog("==> Attribute: " + textAttribute);
         return textAttribute;
     }
 

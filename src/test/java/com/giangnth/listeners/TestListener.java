@@ -2,6 +2,7 @@ package com.giangnth.listeners;
 
 import com.aventstack.extentreports.Status;
 import com.giangnth.helpers.CaptureHelper;
+import com.giangnth.report.AllureManager;
 import com.giangnth.report.ExtentReportManager;
 import com.giangnth.report.ExtentTestManager;
 import com.giangnth.utils.LogUtils;
@@ -65,13 +66,15 @@ public class TestListener implements ITestListener {
         LogUtils.error("==> Lý do lỗi: " + result.getThrowable());
         //chụp ảnh khi case fail
         CaptureHelper.takeScreenShot(result.getName());
-        //create ticket on Jira
 
         //Extent Report
         ExtentTestManager.addScreenshot(result.getName());
         ExtentTestManager.logMessage(Status.FAIL, result.getThrowable().toString());
         ExtentTestManager.logMessage(Status.FAIL, result.getName() + " is failed.");
 
+        //Allure Report
+        AllureManager.saveTextLog(result.getName() + " is failed.");
+        AllureManager.saveScreenshotPNG();
         //CaptureHelper.stopRecord();
     }
 
